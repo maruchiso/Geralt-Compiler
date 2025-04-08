@@ -1,4 +1,5 @@
 let Wilk jaskółka
+let Wilk biały_miód
 input jaskółka
 set biały_miód = jaskółka Igni 3
 print jaskółka

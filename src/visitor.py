@@ -1,90 +1,78 @@
 from antlr4 import *
 from antlr.GeraltVisitor import GeraltVisitor
 from antlr.GeraltParser import GeraltParser
+from ast_nodes import * 
 
 class WitcherVisitor(GeraltVisitor):
     def visitProgram(self, ctx):
-        print("Medalion drży, to miejsce mocy!")
-        
-        # Visit each statement in program.
-        for child in ctx.statement():
-            self.visit(child)
-        
-        print("Zaraza, uspokój się Płotka")
-        
-        return None
+        statements = [self.visit(statement) for statement in ctx.statement()]
+        return ProgramNode(statements=statements)
     
     def visitDeclaration(self, ctx):
-        # Get type of variable (Wilk or Kot)
-        variable_type = ctx.type_().getText()
-        # Get name of variable
+        variable_type = self.visit(ctx.type_())
         variable_name = ctx.ID().getText()
-        print(f"Declared variable: {variable_name} of type {variable_type}")
         
-        return None
-    
+        #print(f"DEBUG Declaration: type = {variable_type}, name = {variable_name}")
+        return DeclarationNode(variable_type=variable_type, variable_name=variable_name)
+
     def visitAssign(self, ctx):
         variable_name = ctx.ID().getText()
         # Result of visit expression on right side
-        expr = self.visit(ctx.expr())
-        print(f"Assign to {variable_name} the value of: {expr}")
+        value = self.visit(ctx.expr())
         
-        return None
+        return AssignNode(variable_name=variable_name, value=value)
     
     def visitInput(self, ctx):
         variable_name = ctx.ID().getText()
-        print(f"Input value for variable: {variable_name}")
         
-        return None
+        return InputNode(variable_name=variable_name)
     
     def visitOutput(self, ctx):
         value = self.visit(ctx.expr())
-        print(f"Output value: {value}")
         
-        return None
+        return OutputNode(value=value)
     
     def visitDividing(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         
-        return f"({left} / {right})"
-    
+        return BinOpNode(left=left, operator='/', right=right)
     
     def visitVar(self, ctx):
-        return ctx.getText()
+        name = ctx.getText()
+
+        return VarNode(name=name)
     
     def visitSubtraction(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         
-        return f"({left} - {right})"
-    
-    def visitDividing(self, ctx):
-        left = self.visit(ctx.expr(0))
-        right = self.visit(ctx.expr(1))
-        
-        return f"({left} / {right})"
+        return BinOpNode(left=left, operator='-', right=right)
     
     def visitMultiplication(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         
-        return f"({left} * {right})"
+        return BinOpNode(lefr=left, operator='*', right=right)
     
     def visitFloat(self, ctx):
-        return ctx.getText()
+        value = ctx.getText()
+        
+        return NumberNode(float(value))
     
     def visitParenthesis(self, ctx):
-        return f"({self.visit(ctx.expr)})"
+        return self.visit(ctx.expr())
     
     def visitInt(self, ctx):
-        return ctx.getText()
+        value = ctx.getText()
+        
+        return NumberNode(int(value))
     
     def visitAddition(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         
-        return f"({left} + {right})"
+        return BinOpNode(left=left, operator='+', right=right)
     
     def visitType(self, ctx):
         return ctx.getText()
