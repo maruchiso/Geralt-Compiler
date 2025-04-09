@@ -14,6 +14,37 @@ class IRGenerator:
         block = self.main_func.append_basic_block(name='entry')
         self.builder = ir.IRBuilder(block=block)
         
+        # prinf, scanf declaration
+        # Declare pointer to string, but in LLVM string is like in C,
+        # pointer to char table
+        char_pointer_type = ir.IntType(8).as_pointer()
+        
+        # printf
+        # Here we declare as int printf(char*, ...)
+        printf_type = ir.FunctionType(return_type=ir.IntType(32), args=[char_pointer_type], var_arg=True)
+        self.printf = ir.Function(module=self.module, ftype=printf_type, name='printf')
+        
+        # scanf (same as printf)
+        scanf_type = ir.FunctionType(return_type=ir.IntType(32), args=[char_pointer_type], var_arg=True)
+        self.scanf = ir.Function(module=self.module, ftype=scanf_type, name='scanf')
+        
+        # global format of string for printf
+        printf_format = '%d\n\0' # print integer, \n new line and \0 end of string
+        printf_bytes = bytearray(printf_format.encode('utf8')) # python string to byte array in UTF-8
+        printf_const = ir.ArrayType(element=ir.IntType(8), count=len(printf_bytes)) # string is array of i8 = 1 byte
+        self.printf_format = ir.GlobalVariable(module=self.module, typ=printf_const, name='printf_format') # global variable 
+        self.printf_format.global_constant = True # change to constant
+        self.printf_format.initializer = ir.Constant(typ=printf_const, constant=printf_bytes) # initialize with default value = '%d\n\0'
+                                                                                              # const char printf_format[] = '%d\n\0';
+
+        # global format of string for scanf 
+        scanf_format = "%d\0"
+        scanf_bytes = bytearray(scanf_format.encode("utf8"))
+        scanf_const = ir.ArrayType(ir.IntType(8), len(scanf_bytes))
+        self.scanf_format = ir.GlobalVariable(self.module, scanf_const, name="scanf_fmt")
+        self.scanf_format.global_constant = True
+        self.scanf_format.initializer = ir.Constant(scanf_const, scanf_bytes)
+                        
     def generate(self, node):
         if isinstance(node, ProgramNode):
             # For the whole program, we generate code for each statement
@@ -33,11 +64,18 @@ class IRGenerator:
             self.builder.store(value=value, ptr=pointer)
             
         elif isinstance(node, InputNode):
-            pass
+            variable_pointer = self.symbol_table.get(node.variable_name)
+            if variable_pointer is None:
+                raise Exception(f"Undefined variable: {node.variable_name}")
+            
+            format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
+            self.builder.call(self.scanf, [format_pointer, variable_pointer])
         
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
-            print(f"; print {value}")
+            # convert pointer to byte array to pointer to first byte
+            format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+            self.builder.call(fn=self.printf, args=[format_pointer, value])
             
         elif isinstance(node, BinOpNode):
             left = self.generate(node.left)
@@ -60,6 +98,7 @@ class IRGenerator:
             if pointer is None:
                 raise Exception(f'Variable: {node.name} is undefined')
             return self.builder.load(ptr=pointer, name=node.name)
+        
         
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
