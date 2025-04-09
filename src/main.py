@@ -25,7 +25,6 @@ def main():
     lexer = GeraltLexer(file_stream)
     token_stream = CommonTokenStream(lexer)
     parser = GeraltParser(token_stream)
-    
     tree = parser.program()
 
     visitor = WitcherVisitor()
