@@ -1,5 +1,5 @@
-let Wilk jaskółka
-let Wilk biały_miód
+let Kot jaskółka
+let Kot biały_miód
 input jaskółka
-set biały_miód = jaskółka Igni 3
+set biały_miód = jaskółka Igni 3.0
 print biały_miód

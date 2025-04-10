@@ -54,7 +54,12 @@ class IRGenerator:
             self.builder.ret_void()
             
         elif isinstance(node, DeclarationNode):
-            variable_type = ir.IntType(32)
+            if node.variable_type == 'Wilk':
+                variable_type = ir.IntType(32)
+            elif node.variable_type == 'Kot':
+                variable_type = ir.FloatType()
+            else:
+                raise Exception(f'{node.variable_type} is unknown variable type.')
             pointer = self.builder.alloca(variable_type, name=node.variable_name)
             self.symbol_table[node.variable_name] = pointer
         
@@ -81,14 +86,32 @@ class IRGenerator:
             left = self.generate(node.left)
             right = self.generate(node.right)
             
-            if node.operator == '+':
-                return self.builder.add(left, right, 'add')
-            elif node.operator == '-':
-                return self.builder.sub(left, right, 'sub')
-            elif node.operator == '*':
-                return self.builder.mul(left, right, 'mul')
-            elif node.operator == '/':
-                return self.builder.sdiv(left, right, 'div')
+            if left.type != right.type:
+                if left.type == ir.IntType(32) and right.type == ir.FloatType():
+                    left = self.builder.sitofp(left, ir.FloatType(), name="int_to_float")
+                elif left.type == ir.FloatType() and right.type == ir.IntType(32):
+                    right = self.builder.sitofp(right, ir.FloatType(), name="int_to_float")
+                else:
+                    raise Exception(f"Unsupported types: {left.type} and {right.type}")
+        
+            if left.type == ir.FloatType():
+                if node.operator == '+':
+                    return self.builder.fadd(left, right, 'add')
+                elif node.operator == '-':
+                    return self.builder.fsub(left, right, 'sub')
+                elif node.operator == '*':
+                    return self.builder.fmul(left, right, 'mul')
+                elif node.operator == '/':
+                    return self.builder.fdiv(left, right, 'div')
+            else:
+                if node.operator == '+':
+                    return self.builder.add(left, right, 'add')
+                elif node.operator == '-':
+                    return self.builder.sub(left, right, 'sub')
+                elif node.operator == '*':
+                    return self.builder.mul(left, right, 'mul')
+                elif node.operator == '/':
+                    return self.builder.sdiv(left, right, 'div')
         
         elif isinstance(node, NumberNode):
             return ir.Constant(ir.IntType(32), node.value)
