@@ -1,3 +1,53 @@
-let Wilk jaskółka
-set jaskółka == 5
-print jaskółka
+let Wilk prawda
+let Wilk falsz
+set prawda = 1
+set falsz = 0
+print prawda
+print falsz
+print prawda AND falsz
+print prawda OR falsz
+print NEG falsz
+
+Komentarz int
+let Wilk miecz
+set miecz = 5
+print miecz
+
+Komentarz float
+let Kot eliksir
+set eliksir = 3.14
+print eliksir
+
+Komentarz float + float
+let Kot mikstura
+set mikstura = 1.5 Aard 2.5
+print mikstura
+
+Komentarz int + int
+let Wilk runa
+set runa = 10 Aard 20
+print runa
+
+Komentarz float * float
+let Kot czar
+set czar = 2.0 Quen 3.0
+print czar
+
+Komentarz int * int
+let Wilk tarcza
+set tarcza = 4 Quen 5
+print tarcza
+
+let Wilk liczby[3]
+set liczby[0] = 10
+set liczby[1] = 20
+set liczby[2] = 30
+print liczby[0]
+print liczby[1]
+print liczby[2]
+
+let Kot floata[2]
+set floata[0] = 1.5
+set floata[1] = 2.5
+print floata[0]
+print floata[1]
