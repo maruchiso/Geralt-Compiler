@@ -44,7 +44,24 @@ class IRGenerator:
         self.scanf_format = ir.GlobalVariable(self.module, scanf_const, name="scanf_fmt")
         self.scanf_format.global_constant = True
         self.scanf_format.initializer = ir.Constant(scanf_const, scanf_bytes)
-                        
+
+        # float
+        # global format of string for printf
+        printf_float_format = '%f\n\0'
+        printf_float_bytes = bytearray(printf_float_format.encode('utf8'))
+        printf_float_const = ir.ArrayType(element=ir.IntType(8), count=len(printf_float_bytes))
+        self.printf_float_format = ir.GlobalVariable(module=self.module, typ=printf_float_const, name='printf_float_format')
+        self.printf_float_format.global_constant = True # change to constant
+        self.printf_float_format.initializer = ir.Constant(typ=printf_float_const, constant=printf_float_bytes)
+
+        # global format of string for scanf 
+        scanf_float_format = "%f\0"
+        scanf_float_bytes = bytearray(scanf_float_format.encode("utf8"))
+        scanf_float_const = ir.ArrayType(ir.IntType(8), len(scanf_float_bytes))
+        self.scanf_float_format = ir.GlobalVariable(self.module, scanf_float_const, name="scanf_float_format")
+        self.scanf_float_format.global_constant = True
+        self.scanf_float_format.initializer = ir.Constant(scanf_float_const, scanf_float_bytes)
+        
     def generate(self, node):
         if isinstance(node, ProgramNode):
             # For the whole program, we generate code for each statement
@@ -73,26 +90,35 @@ class IRGenerator:
             if variable_pointer is None:
                 raise Exception(f"Undefined variable: {node.variable_name}")
             
-            format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
+            variable_type = variable_pointer.type.pointee
+
+            if isinstance(variable_type, ir.FloatType):
+                format_pointer = self.builder.bitcast(self.scanf_float_format, ir.IntType(8).as_pointer())
+            else:
+                format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
+
             self.builder.call(self.scanf, [format_pointer, variable_pointer])
         
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
+            value_type = value.type
             # convert pointer to byte array to pointer to first byte
-            format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+            if isinstance(value_type, ir.FloatType):
+                format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+                # Promuj float do double dla printf
+                value = self.builder.fpext(value, ir.DoubleType(), name="float_to_double")
+            else:
+                format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+
             self.builder.call(fn=self.printf, args=[format_pointer, value])
+
             
         elif isinstance(node, BinOpNode):
             left = self.generate(node.left)
             right = self.generate(node.right)
             
             if left.type != right.type:
-                if left.type == ir.IntType(32) and right.type == ir.FloatType():
-                    left = self.builder.sitofp(left, ir.FloatType(), name="int_to_float")
-                elif left.type == ir.FloatType() and right.type == ir.IntType(32):
-                    right = self.builder.sitofp(right, ir.FloatType(), name="int_to_float")
-                else:
-                    raise Exception(f"Unsupported types: {left.type} and {right.type}")
+                raise Exception(f"Type mismatch: {left.type} vs {right.type}")
         
             if left.type == ir.FloatType():
                 if node.operator == '+':
@@ -114,7 +140,12 @@ class IRGenerator:
                     return self.builder.sdiv(left, right, 'div')
         
         elif isinstance(node, NumberNode):
-            return ir.Constant(ir.IntType(32), node.value)
+            if isinstance(node.value, float):
+                return ir.Constant(ir.FloatType(), node.value)
+            elif isinstance(node.value, int):
+                return ir.Constant(ir.IntType(32), node.value)
+            else:
+                raise(f"{node.value} is unknown type.")
         
         elif isinstance(node, VarNode):
             pointer = self.symbol_table.get(node.name)

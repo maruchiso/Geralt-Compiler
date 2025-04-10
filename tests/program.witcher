@@ -1,5 +1,9 @@
-let Kot jaskółka
-let Kot biały_miód
-input jaskółka
-set biały_miód = jaskółka Igni 3.0
-print biały_miód
+Komentarz Test input-output (Wilk)
+let Wilk io_test
+input io_test
+print io_test
+
+Komentarz Test nawiasów
+let Wilk nawias_test
+set nawias_test = (10 Aard 5) Quen 2
+print nawias_test

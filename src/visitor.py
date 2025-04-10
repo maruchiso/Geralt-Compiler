@@ -53,7 +53,7 @@ class WitcherVisitor(GeraltVisitor):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         
-        return BinOpNode(lefr=left, operator='*', right=right)
+        return BinOpNode(left=left, operator='*', right=right)
     
     def visitFloat(self, ctx):
         value = ctx.getText()
