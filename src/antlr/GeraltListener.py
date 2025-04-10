@@ -53,6 +53,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#outputBool.
+    def enterOutputBool(self, ctx:GeraltParser.OutputBoolContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#outputBool.
+    def exitOutputBool(self, ctx:GeraltParser.OutputBoolContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#dividing.
     def enterDividing(self, ctx:GeraltParser.DividingContext):
         pass
@@ -122,6 +131,69 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#addition.
     def exitAddition(self, ctx:GeraltParser.AdditionContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#neg.
+    def enterNeg(self, ctx:GeraltParser.NegContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#neg.
+    def exitNeg(self, ctx:GeraltParser.NegContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#or.
+    def enterOr(self, ctx:GeraltParser.OrContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#or.
+    def exitOr(self, ctx:GeraltParser.OrContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#boolvar.
+    def enterBoolvar(self, ctx:GeraltParser.BoolvarContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#boolvar.
+    def exitBoolvar(self, ctx:GeraltParser.BoolvarContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#and.
+    def enterAnd(self, ctx:GeraltParser.AndContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#and.
+    def exitAnd(self, ctx:GeraltParser.AndContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#true.
+    def enterTrue(self, ctx:GeraltParser.TrueContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#true.
+    def exitTrue(self, ctx:GeraltParser.TrueContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#false.
+    def enterFalse(self, ctx:GeraltParser.FalseContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#false.
+    def exitFalse(self, ctx:GeraltParser.FalseContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#xor.
+    def enterXor(self, ctx:GeraltParser.XorContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#xor.
+    def exitXor(self, ctx:GeraltParser.XorContext):
         pass
 
 

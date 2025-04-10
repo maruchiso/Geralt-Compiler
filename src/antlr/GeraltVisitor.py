@@ -34,6 +34,11 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#outputBool.
+    def visitOutputBool(self, ctx:GeraltParser.OutputBoolContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#dividing.
     def visitDividing(self, ctx:GeraltParser.DividingContext):
         return self.visitChildren(ctx)
@@ -71,6 +76,41 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#addition.
     def visitAddition(self, ctx:GeraltParser.AdditionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#neg.
+    def visitNeg(self, ctx:GeraltParser.NegContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#or.
+    def visitOr(self, ctx:GeraltParser.OrContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#boolvar.
+    def visitBoolvar(self, ctx:GeraltParser.BoolvarContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#and.
+    def visitAnd(self, ctx:GeraltParser.AndContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#true.
+    def visitTrue(self, ctx:GeraltParser.TrueContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#false.
+    def visitFalse(self, ctx:GeraltParser.FalseContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#xor.
+    def visitXor(self, ctx:GeraltParser.XorContext):
         return self.visitChildren(ctx)
 
 

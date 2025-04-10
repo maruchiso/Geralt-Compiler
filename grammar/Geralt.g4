@@ -7,6 +7,7 @@ statement
     | 'set' ID '=' expr     # assign
     | 'input' ID            # input
     | 'print' expr          # output
+    | 'print' booleanExpr   # outputBool
     ;
 
 expr
@@ -19,6 +20,17 @@ expr
     | ID                    # var
     | '(' expr ')'          # parenthesis
     ;
+
+booleanExpr
+    : booleanExpr 'AND' booleanExpr     # and
+    | booleanExpr 'OR' booleanExpr      # or
+    | booleanExpr 'XOR' booleanExpr     # xor
+    | 'NEG' booleanExpr                 # neg
+    | 'true'                            # true
+    | 'false'                           # false
+    | ID                                # boolvar
+    ;
+
 
 type: 'Wilk' | 'Kot' ;
 

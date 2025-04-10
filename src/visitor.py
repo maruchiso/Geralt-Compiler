@@ -77,3 +77,36 @@ class WitcherVisitor(GeraltVisitor):
     def visitType(self, ctx):
         return ctx.getText()
     
+    def visitTrue(self, ctx):
+        return BooleanNode(value=True)
+
+    def visitFalse(self, ctx):
+        return BooleanNode(value=False)
+
+    def visitBoolvar(self, ctx):
+        name = ctx.getText()
+        return VarNode(name=name)
+
+    def visitAnd(self, ctx):
+        left = self.visit(ctx.booleanExpr(0))
+        right = self.visit(ctx.booleanExpr(1))
+        return BinOpBoolNode(left=left, operator='AND', right=right)
+
+    def visitOr(self, ctx):
+        left = self.visit(ctx.booleanExpr(0))
+        right = self.visit(ctx.booleanExpr(1))
+        return BinOpBoolNode(left=left, operator='OR', right=right)
+
+    def visitXor(self, ctx):
+        left = self.visit(ctx.booleanExpr(0))
+        right = self.visit(ctx.booleanExpr(1))
+        return BinOpBoolNode(left=left, operator='XOR', right=right)
+
+    def visitNeg(self, ctx):
+        operand = self.visit(ctx.booleanExpr())
+        return NegNode(operator='NEG', operand=operand)
+
+
+    def visitOutputBool(self, ctx):
+        value = self.visit(ctx.booleanExpr())
+        return OutputNode(value=value)

@@ -1,3 +1,9 @@
-let Wilk jaskółka
-set jaskółka == 5
-print jaskółka
+let Wilk prawda
+let Wilk falsz
+set prawda = 1
+set falsz = 0
+print prawda
+print falsz
+print prawda AND falsz
+print prawda OR falsz
+print NEG prawda

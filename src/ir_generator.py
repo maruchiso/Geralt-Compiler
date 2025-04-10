@@ -153,7 +153,23 @@ class IRGenerator:
                 raise Exception(f'Variable: {node.name} is undefined')
             return self.builder.load(ptr=pointer, name=node.name)
         
-        
+        elif isinstance(node, BinOpBoolNode):
+            left = self.generate(node.left)
+            right = self.generate(node.right)
+
+            if node.operator == 'AND':
+                return self.builder.and_(left, right, name='and')
+            elif node.operator == 'OR':
+                return self.builder.or_(left, right, name='or')
+            elif node.operator == 'XOR':
+                return self.builder.xor(left, right, name='xor')
+            else:
+                raise Exception(f'Unknown boolean operator: {node.operator}')
+
+        elif isinstance(node, NegNode):
+            value = self.generate(node.operand)
+            return self.builder.xor(value, ir.Constant(ir.IntType(1), 1), name='neg')
+ 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
     

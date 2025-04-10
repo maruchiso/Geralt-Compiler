@@ -36,3 +36,18 @@ class NumberNode(Node):
 class VarNode(Node):
     def __init__(self, name):
         self.name = name
+        
+class BooleanNode(Node):
+    def __init__(self, value):
+        self.value = value
+
+class BinOpBoolNode(Node):
+    def __init__(self, left, operator, right):
+        self.left = left
+        self.operator = operator
+        self.right = right
+
+class NegNode(Node):
+    def __init__(self, operator, operand):
+        self.operator = operator
+        self.operand = operand
