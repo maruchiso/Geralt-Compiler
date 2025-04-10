@@ -3,11 +3,11 @@ grammar Geralt;
 program: statement+ ;
 
 statement
-    : 'let' type ID         # declaration
-    | 'set' ID '=' expr     # assign
-    | 'input' ID            # input
-    | 'print' expr          # output
-    | 'print' booleanExpr   # outputBool
+    : 'let' type ID ('[' INT ']')?     # declaration
+    | 'set' ID ('[' INT ']')? '=' expr # assign
+    | 'input' ID ('[' INT ']')?        # input
+    | 'print' expr                     # output
+    | 'print' booleanExpr              # outputBool
     ;
 
 expr
@@ -39,3 +39,5 @@ INT: [0-9]+ ;
 FLOAT: [0-9]+ '.' [0-9]+ ;
 COMMENT: 'Komentarz' ~[\r\n]* -> skip ;
 WHITE_SPACE: [ \t\r\n]+ -> skip ;
+LBRACK: '[' ;
+RBRACK: ']' ;

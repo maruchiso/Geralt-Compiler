@@ -22,6 +22,8 @@ INT=21
 FLOAT=22
 COMMENT=23
 WHITE_SPACE=24
+LBRACK=25
+RBRACK=26
 'let'=1
 'set'=2
 '='=3
@@ -41,3 +43,5 @@ WHITE_SPACE=24
 'false'=17
 'Wilk'=18
 'Kot'=19
+'['=25
+']'=26

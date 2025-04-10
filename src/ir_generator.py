@@ -77,36 +77,54 @@ class IRGenerator:
                 variable_type = ir.FloatType()
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
-            pointer = self.builder.alloca(variable_type, name=node.variable_name)
+            if node.size == None:
+                pointer = self.builder.alloca(variable_type, name=node.variable_name)
+            else:
+                array_type = ir.ArrayType(variable_type, node.size)
+                pointer = self.builder.alloca(array_type, name=node.variable_name)
+                
             self.symbol_table[node.variable_name] = pointer
         
         elif isinstance(node, AssignNode):
             value = self.generate(node.value)
             pointer = self.symbol_table[node.variable_name]
-            self.builder.store(value=value, ptr=pointer)
-            
+            if node.index is not None:
+                zero = ir.Constant(ir.IntType(32), 0)
+                index = ir.Constant(ir.IntType(32), node.index)
+                element_pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+                self.builder.store(value, element_pointer)
+            else:
+                self.builder.store(value, pointer)
+                    
         elif isinstance(node, InputNode):
-            variable_pointer = self.symbol_table.get(node.variable_name)
-            if variable_pointer is None:
-                raise Exception(f"Undefined variable: {node.variable_name}")
-            
-            variable_type = variable_pointer.type.pointee
+            pointer = self.symbol_table[node.variable_name]
+
+            if node.index is not None:
+                zero = ir.Constant(ir.IntType(32), 0)
+                index = ir.Constant(ir.IntType(32), node.index)
+                pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+
+            variable_type = pointer.type.pointee
 
             if isinstance(variable_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.scanf_float_format, ir.IntType(8).as_pointer())
             else:
                 format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
 
-            self.builder.call(self.scanf, [format_pointer, variable_pointer])
+            self.builder.call(self.scanf, [format_pointer, pointer])
         
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
             value_type = value.type
+            
             # convert pointer to byte array to pointer to first byte
             if isinstance(value_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
-                # Promuj float do double dla printf
+                # float has to be double!
                 value = self.builder.fpext(value, ir.DoubleType(), name="float_to_double")
+            elif value_type == ir.IntType(1):
+                format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+                value = self.builder.zext(value, ir.IntType(32), name="bool_to_int")
             else:
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
 
@@ -157,6 +175,12 @@ class IRGenerator:
             left = self.generate(node.left)
             right = self.generate(node.right)
 
+            if left.type == ir.IntType(32):
+                left = self.builder.trunc(left, ir.IntType(1), name="left_trunc")
+
+            if right.type == ir.IntType(32):
+                right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
+
             if node.operator == 'AND':
                 return self.builder.and_(left, right, name='and')
             elif node.operator == 'OR':
@@ -168,6 +192,10 @@ class IRGenerator:
 
         elif isinstance(node, NegNode):
             value = self.generate(node.operand)
+
+            if value.type == ir.IntType(32):
+                value = self.builder.trunc(value, ir.IntType(1), name="bool")
+
             return self.builder.xor(value, ir.Constant(ir.IntType(1), 1), name='neg')
  
         else:

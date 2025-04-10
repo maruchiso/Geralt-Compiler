@@ -6,18 +6,21 @@ class ProgramNode(Node):
         self.statements = statements
         
 class DeclarationNode(Node):
-    def __init__(self, variable_type, variable_name):
+    def __init__(self, variable_type, variable_name, size=None):
         self.variable_type = variable_type
         self.variable_name = variable_name
+        self.size = size
         
 class AssignNode(Node):
-    def __init__(self, variable_name, value):
+    def __init__(self, variable_name, value, index=None):
         self.variable_name = variable_name
         self.value = value
+        self.index = index
         
 class InputNode(Node):
-    def __init__(self, variable_name):
+    def __init__(self, variable_name, index=None):
         self.variable_name = variable_name
+        self.index = index
         
 class OutputNode(Node):
     def __init__(self, value):
