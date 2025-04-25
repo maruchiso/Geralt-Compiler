@@ -173,6 +173,24 @@ class IRGenerator:
                 raise Exception(f'Variable: {node.name} is undefined')
             return self.builder.load(ptr=pointer, name=node.name)
         
+        # elif isinstance(node, BinOpBoolNode):
+        #     left = self.generate(node.left)
+        #     right = self.generate(node.right)
+
+        #     if left.type == ir.IntType(32):
+        #         left = self.builder.trunc(left, ir.IntType(1), name="left_trunc")
+
+        #     if right.type == ir.IntType(32):
+        #         right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
+
+        #     if node.operator == 'AND':
+        #         return self.builder.and_(left, right, name='and')
+        #     elif node.operator == 'OR':
+        #         return self.builder.or_(left, right, name='or')
+        #     elif node.operator == 'XOR':
+        #         return self.builder.xor(left, right, name='xor')
+        #     else:
+        #         raise Exception(f'Unknown boolean operator: {node.operator}')
         elif isinstance(node, BinOpBoolNode):
             left = self.generate(node.left)
             right = self.generate(node.right)
@@ -184,13 +202,42 @@ class IRGenerator:
                 right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
 
             if node.operator == 'AND':
-                return self.builder.and_(left, right, name='and')
+                and_right_block = self.builder.append_basic_block('and.right')
+                and_end_block = self.builder.append_basic_block('and.end')
+                
+                result = self.builder.alloca(ir.IntType(1), name='and_result')
+                self.builder.store(left, result)
+                
+                self.builder.cbranch(left, and_right_block, and_end_block)
+                
+                self.builder.position_at_start(and_right_block)
+                self.builder.store(right, result)
+                self.builder.branch(and_end_block)
+                
+                self.builder.position_at_start(and_end_block)
+                return self.builder.load(result, name='and')
+            
             elif node.operator == 'OR':
-                return self.builder.or_(left, right, name='or')
+                or_right_block = self.builder.append_basic_block('or.right')
+                or_end_block = self.builder.append_basic_block('or.end')
+                
+                result = self.builder.alloca(ir.IntType(1), name='or_result')
+                self.builder.store(left, result)
+                
+                self.builder.cbranch(left, or_end_block, or_right_block)
+                
+                self.builder.position_at_start(or_right_block)
+                self.builder.store(right, result)
+                self.builder.branch(or_end_block)
+                
+                self.builder.position_at_start(or_end_block)
+                return self.builder.load(result, name='or')
+
             elif node.operator == 'XOR':
                 return self.builder.xor(left, right, name='xor')
             else:
                 raise Exception(f'Unknown boolean operator: {node.operator}')
+
 
         elif isinstance(node, NegNode):
             value = self.generate(node.operand)

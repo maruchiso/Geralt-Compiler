@@ -6,4 +6,6 @@ let Gryf alive
 set alive = true
 print alive
 set alive = false
-print alive
+print prawda AND prawda
+print falsz OR prawda
+
