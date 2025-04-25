@@ -10,39 +10,40 @@ else:
 
 def serializedATN():
     return [
-        4,1,26,97,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,1,0,4,0,12,8,0,
+        4,1,27,99,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,1,0,4,0,12,8,0,
         11,0,12,0,13,1,1,1,1,1,1,1,1,1,1,1,1,3,1,22,8,1,1,1,1,1,1,1,1,1,
         1,1,3,1,29,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,38,8,1,1,1,1,1,1,
-        1,1,1,3,1,44,8,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,54,8,2,1,2,
-        1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,68,8,2,10,2,12,2,
-        71,9,2,1,3,1,3,1,3,1,3,1,3,1,3,3,3,79,8,3,1,3,1,3,1,3,1,3,1,3,1,
-        3,1,3,1,3,1,3,5,3,90,8,3,10,3,12,3,93,9,3,1,4,1,4,1,4,0,2,4,6,5,
-        0,2,4,6,8,0,1,1,0,18,19,112,0,11,1,0,0,0,2,43,1,0,0,0,4,53,1,0,0,
-        0,6,78,1,0,0,0,8,94,1,0,0,0,10,12,3,2,1,0,11,10,1,0,0,0,12,13,1,
-        0,0,0,13,11,1,0,0,0,13,14,1,0,0,0,14,1,1,0,0,0,15,16,5,1,0,0,16,
-        17,3,8,4,0,17,21,5,20,0,0,18,19,5,25,0,0,19,20,5,21,0,0,20,22,5,
-        26,0,0,21,18,1,0,0,0,21,22,1,0,0,0,22,44,1,0,0,0,23,24,5,2,0,0,24,
-        28,5,20,0,0,25,26,5,25,0,0,26,27,5,21,0,0,27,29,5,26,0,0,28,25,1,
-        0,0,0,28,29,1,0,0,0,29,30,1,0,0,0,30,31,5,3,0,0,31,44,3,4,2,0,32,
-        33,5,4,0,0,33,37,5,20,0,0,34,35,5,25,0,0,35,36,5,21,0,0,36,38,5,
-        26,0,0,37,34,1,0,0,0,37,38,1,0,0,0,38,44,1,0,0,0,39,40,5,5,0,0,40,
-        44,3,4,2,0,41,42,5,5,0,0,42,44,3,6,3,0,43,15,1,0,0,0,43,23,1,0,0,
-        0,43,32,1,0,0,0,43,39,1,0,0,0,43,41,1,0,0,0,44,3,1,0,0,0,45,46,6,
-        2,-1,0,46,54,5,21,0,0,47,54,5,22,0,0,48,54,5,20,0,0,49,50,5,10,0,
-        0,50,51,3,4,2,0,51,52,5,11,0,0,52,54,1,0,0,0,53,45,1,0,0,0,53,47,
-        1,0,0,0,53,48,1,0,0,0,53,49,1,0,0,0,54,69,1,0,0,0,55,56,10,8,0,0,
-        56,57,5,6,0,0,57,68,3,4,2,9,58,59,10,7,0,0,59,60,5,7,0,0,60,68,3,
-        4,2,8,61,62,10,6,0,0,62,63,5,8,0,0,63,68,3,4,2,7,64,65,10,5,0,0,
-        65,66,5,9,0,0,66,68,3,4,2,6,67,55,1,0,0,0,67,58,1,0,0,0,67,61,1,
-        0,0,0,67,64,1,0,0,0,68,71,1,0,0,0,69,67,1,0,0,0,69,70,1,0,0,0,70,
-        5,1,0,0,0,71,69,1,0,0,0,72,73,6,3,-1,0,73,74,5,15,0,0,74,79,3,6,
-        3,4,75,79,5,16,0,0,76,79,5,17,0,0,77,79,5,20,0,0,78,72,1,0,0,0,78,
-        75,1,0,0,0,78,76,1,0,0,0,78,77,1,0,0,0,79,91,1,0,0,0,80,81,10,7,
-        0,0,81,82,5,12,0,0,82,90,3,6,3,8,83,84,10,6,0,0,84,85,5,13,0,0,85,
-        90,3,6,3,7,86,87,10,5,0,0,87,88,5,14,0,0,88,90,3,6,3,6,89,80,1,0,
-        0,0,89,83,1,0,0,0,89,86,1,0,0,0,90,93,1,0,0,0,91,89,1,0,0,0,91,92,
-        1,0,0,0,92,7,1,0,0,0,93,91,1,0,0,0,94,95,7,0,0,0,95,9,1,0,0,0,11,
-        13,21,28,37,43,53,67,69,78,89,91
+        1,1,1,3,1,44,8,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,56,
+        8,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,70,8,2,10,
+        2,12,2,73,9,2,1,3,1,3,1,3,1,3,1,3,1,3,3,3,81,8,3,1,3,1,3,1,3,1,3,
+        1,3,1,3,1,3,1,3,1,3,5,3,92,8,3,10,3,12,3,95,9,3,1,4,1,4,1,4,0,2,
+        4,6,5,0,2,4,6,8,0,1,1,0,18,20,116,0,11,1,0,0,0,2,43,1,0,0,0,4,55,
+        1,0,0,0,6,80,1,0,0,0,8,96,1,0,0,0,10,12,3,2,1,0,11,10,1,0,0,0,12,
+        13,1,0,0,0,13,11,1,0,0,0,13,14,1,0,0,0,14,1,1,0,0,0,15,16,5,1,0,
+        0,16,17,3,8,4,0,17,21,5,21,0,0,18,19,5,26,0,0,19,20,5,22,0,0,20,
+        22,5,27,0,0,21,18,1,0,0,0,21,22,1,0,0,0,22,44,1,0,0,0,23,24,5,2,
+        0,0,24,28,5,21,0,0,25,26,5,26,0,0,26,27,5,22,0,0,27,29,5,27,0,0,
+        28,25,1,0,0,0,28,29,1,0,0,0,29,30,1,0,0,0,30,31,5,3,0,0,31,44,3,
+        4,2,0,32,33,5,4,0,0,33,37,5,21,0,0,34,35,5,26,0,0,35,36,5,22,0,0,
+        36,38,5,27,0,0,37,34,1,0,0,0,37,38,1,0,0,0,38,44,1,0,0,0,39,40,5,
+        5,0,0,40,44,3,4,2,0,41,42,5,5,0,0,42,44,3,6,3,0,43,15,1,0,0,0,43,
+        23,1,0,0,0,43,32,1,0,0,0,43,39,1,0,0,0,43,41,1,0,0,0,44,3,1,0,0,
+        0,45,46,6,2,-1,0,46,56,5,22,0,0,47,56,5,23,0,0,48,56,5,21,0,0,49,
+        56,5,10,0,0,50,56,5,11,0,0,51,52,5,12,0,0,52,53,3,4,2,0,53,54,5,
+        13,0,0,54,56,1,0,0,0,55,45,1,0,0,0,55,47,1,0,0,0,55,48,1,0,0,0,55,
+        49,1,0,0,0,55,50,1,0,0,0,55,51,1,0,0,0,56,71,1,0,0,0,57,58,10,10,
+        0,0,58,59,5,6,0,0,59,70,3,4,2,11,60,61,10,9,0,0,61,62,5,7,0,0,62,
+        70,3,4,2,10,63,64,10,8,0,0,64,65,5,8,0,0,65,70,3,4,2,9,66,67,10,
+        7,0,0,67,68,5,9,0,0,68,70,3,4,2,8,69,57,1,0,0,0,69,60,1,0,0,0,69,
+        63,1,0,0,0,69,66,1,0,0,0,70,73,1,0,0,0,71,69,1,0,0,0,71,72,1,0,0,
+        0,72,5,1,0,0,0,73,71,1,0,0,0,74,75,6,3,-1,0,75,76,5,17,0,0,76,81,
+        3,6,3,4,77,81,5,10,0,0,78,81,5,11,0,0,79,81,5,21,0,0,80,74,1,0,0,
+        0,80,77,1,0,0,0,80,78,1,0,0,0,80,79,1,0,0,0,81,93,1,0,0,0,82,83,
+        10,7,0,0,83,84,5,14,0,0,84,92,3,6,3,8,85,86,10,6,0,0,86,87,5,15,
+        0,0,87,92,3,6,3,7,88,89,10,5,0,0,89,90,5,16,0,0,90,92,3,6,3,6,91,
+        82,1,0,0,0,91,85,1,0,0,0,91,88,1,0,0,0,92,95,1,0,0,0,93,91,1,0,0,
+        0,93,94,1,0,0,0,94,7,1,0,0,0,95,93,1,0,0,0,96,97,7,0,0,0,97,9,1,
+        0,0,0,11,13,21,28,37,43,55,69,71,80,91,93
     ]
 
 class GeraltParser ( Parser ):
@@ -56,18 +57,19 @@ class GeraltParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ "<INVALID>", "'let'", "'set'", "'='", "'input'", "'print'", 
-                     "'Igni'", "'Aard'", "'Quen'", "'Yrden'", "'('", "')'", 
-                     "'AND'", "'OR'", "'XOR'", "'NEG'", "'true'", "'false'", 
-                     "'Wilk'", "'Kot'", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "'['", "']'" ]
+                     "'Igni'", "'Aard'", "'Quen'", "'Yrden'", "'true'", 
+                     "'false'", "'('", "')'", "'AND'", "'OR'", "'XOR'", 
+                     "'NEG'", "'Wilk'", "'Kot'", "'Gryf'", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'['", "']'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "ID", "INT", "FLOAT", "COMMENT", "WHITE_SPACE", "LBRACK", 
-                      "RBRACK" ]
+                      "<INVALID>", "ID", "INT", "FLOAT", "COMMENT", "WHITE_SPACE", 
+                      "LBRACK", "RBRACK" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -97,13 +99,14 @@ class GeraltParser ( Parser ):
     T__16=17
     T__17=18
     T__18=19
-    ID=20
-    INT=21
-    FLOAT=22
-    COMMENT=23
-    WHITE_SPACE=24
-    LBRACK=25
-    RBRACK=26
+    T__19=20
+    ID=21
+    INT=22
+    FLOAT=23
+    COMMENT=24
+    WHITE_SPACE=25
+    LBRACK=26
+    RBRACK=27
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -361,7 +364,7 @@ class GeraltParser ( Parser ):
                 self.state = 21
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==25:
+                if _la==26:
                     self.state = 18
                     self.match(GeraltParser.LBRACK)
                     self.state = 19
@@ -382,7 +385,7 @@ class GeraltParser ( Parser ):
                 self.state = 28
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==25:
+                if _la==26:
                     self.state = 25
                     self.match(GeraltParser.LBRACK)
                     self.state = 26
@@ -407,7 +410,7 @@ class GeraltParser ( Parser ):
                 self.state = 37
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==25:
+                if _la==26:
                     self.state = 34
                     self.match(GeraltParser.LBRACK)
                     self.state = 35
@@ -514,6 +517,28 @@ class GeraltParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
+    class ExprFalseContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a GeraltParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterExprFalse" ):
+                listener.enterExprFalse(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitExprFalse" ):
+                listener.exitExprFalse(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprFalse" ):
+                return visitor.visitExprFalse(self)
+            else:
+                return visitor.visitChildren(self)
+
+
     class SubtractionContext(ExprContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a GeraltParser.ExprContext
@@ -590,6 +615,28 @@ class GeraltParser ( Parser ):
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitFloat" ):
                 return visitor.visitFloat(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ExprTrueContext(ExprContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a GeraltParser.ExprContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterExprTrue" ):
+                listener.enterExprTrue(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitExprTrue" ):
+                listener.exitExprTrue(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprTrue" ):
+                return visitor.visitExprTrue(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -681,10 +728,10 @@ class GeraltParser ( Parser ):
         self.enterRecursionRule(localctx, 4, self.RULE_expr, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 53
+            self.state = 55
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [21]:
+            if token in [22]:
                 localctx = GeraltParser.IntContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -692,14 +739,14 @@ class GeraltParser ( Parser ):
                 self.state = 46
                 self.match(GeraltParser.INT)
                 pass
-            elif token in [22]:
+            elif token in [23]:
                 localctx = GeraltParser.FloatContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 47
                 self.match(GeraltParser.FLOAT)
                 pass
-            elif token in [20]:
+            elif token in [21]:
                 localctx = GeraltParser.VarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -707,21 +754,35 @@ class GeraltParser ( Parser ):
                 self.match(GeraltParser.ID)
                 pass
             elif token in [10]:
-                localctx = GeraltParser.ParenthesisContext(self, localctx)
+                localctx = GeraltParser.ExprTrueContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 49
                 self.match(GeraltParser.T__9)
+                pass
+            elif token in [11]:
+                localctx = GeraltParser.ExprFalseContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 50
-                self.expr(0)
-                self.state = 51
                 self.match(GeraltParser.T__10)
+                pass
+            elif token in [12]:
+                localctx = GeraltParser.ParenthesisContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
+                self.state = 51
+                self.match(GeraltParser.T__11)
+                self.state = 52
+                self.expr(0)
+                self.state = 53
+                self.match(GeraltParser.T__12)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 69
+            self.state = 71
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -729,63 +790,63 @@ class GeraltParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 67
+                    self.state = 69
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
                     if la_ == 1:
                         localctx = GeraltParser.SubtractionContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 55
-                        if not self.precpred(self._ctx, 8):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
-                        self.state = 56
-                        self.match(GeraltParser.T__5)
                         self.state = 57
-                        self.expr(9)
+                        if not self.precpred(self._ctx, 10):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 10)")
+                        self.state = 58
+                        self.match(GeraltParser.T__5)
+                        self.state = 59
+                        self.expr(11)
                         pass
 
                     elif la_ == 2:
                         localctx = GeraltParser.AdditionContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 58
-                        if not self.precpred(self._ctx, 7):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
-                        self.state = 59
-                        self.match(GeraltParser.T__6)
                         self.state = 60
-                        self.expr(8)
+                        if not self.precpred(self._ctx, 9):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
+                        self.state = 61
+                        self.match(GeraltParser.T__6)
+                        self.state = 62
+                        self.expr(10)
                         pass
 
                     elif la_ == 3:
                         localctx = GeraltParser.MultiplicationContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 61
-                        if not self.precpred(self._ctx, 6):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 62
-                        self.match(GeraltParser.T__7)
                         self.state = 63
-                        self.expr(7)
+                        if not self.precpred(self._ctx, 8):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                        self.state = 64
+                        self.match(GeraltParser.T__7)
+                        self.state = 65
+                        self.expr(9)
                         pass
 
                     elif la_ == 4:
                         localctx = GeraltParser.DividingContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 64
-                        if not self.precpred(self._ctx, 5):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 65
-                        self.match(GeraltParser.T__8)
                         self.state = 66
-                        self.expr(6)
+                        if not self.precpred(self._ctx, 7):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
+                        self.state = 67
+                        self.match(GeraltParser.T__8)
+                        self.state = 68
+                        self.expr(8)
                         pass
 
              
-                self.state = 71
+                self.state = 73
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
 
@@ -1001,45 +1062,45 @@ class GeraltParser ( Parser ):
         self.enterRecursionRule(localctx, 6, self.RULE_booleanExpr, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 78
+            self.state = 80
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [15]:
+            if token in [17]:
                 localctx = GeraltParser.NegContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 73
-                self.match(GeraltParser.T__14)
-                self.state = 74
+                self.state = 75
+                self.match(GeraltParser.T__16)
+                self.state = 76
                 self.booleanExpr(4)
                 pass
-            elif token in [16]:
+            elif token in [10]:
                 localctx = GeraltParser.TrueContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 75
-                self.match(GeraltParser.T__15)
+                self.state = 77
+                self.match(GeraltParser.T__9)
                 pass
-            elif token in [17]:
+            elif token in [11]:
                 localctx = GeraltParser.FalseContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 76
-                self.match(GeraltParser.T__16)
+                self.state = 78
+                self.match(GeraltParser.T__10)
                 pass
-            elif token in [20]:
+            elif token in [21]:
                 localctx = GeraltParser.BoolvarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 77
+                self.state = 79
                 self.match(GeraltParser.ID)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 91
+            self.state = 93
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1047,50 +1108,50 @@ class GeraltParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 89
+                    self.state = 91
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
                     if la_ == 1:
                         localctx = GeraltParser.AndContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 80
+                        self.state = 82
                         if not self.precpred(self._ctx, 7):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
-                        self.state = 81
-                        self.match(GeraltParser.T__11)
-                        self.state = 82
+                        self.state = 83
+                        self.match(GeraltParser.T__13)
+                        self.state = 84
                         self.booleanExpr(8)
                         pass
 
                     elif la_ == 2:
                         localctx = GeraltParser.OrContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 83
+                        self.state = 85
                         if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 84
-                        self.match(GeraltParser.T__12)
-                        self.state = 85
+                        self.state = 86
+                        self.match(GeraltParser.T__14)
+                        self.state = 87
                         self.booleanExpr(7)
                         pass
 
                     elif la_ == 3:
                         localctx = GeraltParser.XorContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 86
+                        self.state = 88
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 87
-                        self.match(GeraltParser.T__13)
-                        self.state = 88
+                        self.state = 89
+                        self.match(GeraltParser.T__15)
+                        self.state = 90
                         self.booleanExpr(6)
                         pass
 
              
-                self.state = 93
+                self.state = 95
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
 
@@ -1138,9 +1199,9 @@ class GeraltParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 94
+            self.state = 96
             _la = self._input.LA(1)
-            if not(_la==18 or _la==19):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 1835008) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1168,19 +1229,19 @@ class GeraltParser ( Parser ):
 
     def expr_sempred(self, localctx:ExprContext, predIndex:int):
             if predIndex == 0:
-                return self.precpred(self._ctx, 8)
+                return self.precpred(self._ctx, 10)
          
 
             if predIndex == 1:
-                return self.precpred(self._ctx, 7)
+                return self.precpred(self._ctx, 9)
          
 
             if predIndex == 2:
-                return self.precpred(self._ctx, 6)
+                return self.precpred(self._ctx, 8)
          
 
             if predIndex == 3:
-                return self.precpred(self._ctx, 5)
+                return self.precpred(self._ctx, 7)
          
 
     def booleanExpr_sempred(self, localctx:BooleanExprContext, predIndex:int):

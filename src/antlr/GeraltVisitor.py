@@ -49,6 +49,11 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#exprFalse.
+    def visitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#subtraction.
     def visitSubtraction(self, ctx:GeraltParser.SubtractionContext):
         return self.visitChildren(ctx)
@@ -61,6 +66,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#float.
     def visitFloat(self, ctx:GeraltParser.FloatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#exprTrue.
+    def visitExprTrue(self, ctx:GeraltParser.ExprTrueContext):
         return self.visitChildren(ctx)
 
 

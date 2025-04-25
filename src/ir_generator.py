@@ -75,6 +75,8 @@ class IRGenerator:
                 variable_type = ir.IntType(32)
             elif node.variable_type == 'Kot':
                 variable_type = ir.FloatType()
+            elif node.variable_type == 'Gryf':
+                variable_type = ir.IntType(1)
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
             if node.size == None:
@@ -197,6 +199,10 @@ class IRGenerator:
                 value = self.builder.trunc(value, ir.IntType(1), name="bool")
 
             return self.builder.xor(value, ir.Constant(ir.IntType(1), 1), name='neg')
+        
+        elif isinstance(node, BooleanNode):
+            return ir.Constant(ir.IntType(1), int(node.value))
+
  
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')

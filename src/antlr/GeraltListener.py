@@ -80,6 +80,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#exprFalse.
+    def enterExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#exprFalse.
+    def exitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#subtraction.
     def enterSubtraction(self, ctx:GeraltParser.SubtractionContext):
         pass
@@ -104,6 +113,15 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#float.
     def exitFloat(self, ctx:GeraltParser.FloatContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#exprTrue.
+    def enterExprTrue(self, ctx:GeraltParser.ExprTrueContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#exprTrue.
+    def exitExprTrue(self, ctx:GeraltParser.ExprTrueContext):
         pass
 
 

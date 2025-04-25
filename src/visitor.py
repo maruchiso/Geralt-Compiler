@@ -124,3 +124,15 @@ class WitcherVisitor(GeraltVisitor):
     def visitOutputBool(self, ctx):
         value = self.visit(ctx.booleanExpr())
         return OutputNode(value=value)
+
+    def visitExprTrue(self, ctx):
+        return BooleanNode(value=True)
+
+    def visitExprFalse(self, ctx):
+        return BooleanNode(value=False)
+
+    def visitBoolTrue(self, ctx):
+        return BooleanNode(value=True)
+
+    def visitBoolFalse(self, ctx):
+        return BooleanNode(value=False)

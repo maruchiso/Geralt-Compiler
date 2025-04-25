@@ -18,6 +18,8 @@ expr
     | INT                   # int
     | FLOAT                 # float
     | ID                    # var
+    | 'true'                # exprTrue
+    | 'false'               # exprFalse
     | '(' expr ')'          # parenthesis
     ;
 
@@ -32,7 +34,7 @@ booleanExpr
     ;
 
 
-type: 'Wilk' | 'Kot' ;
+type: 'Wilk' | 'Kot' | 'Gryf' ;
 
 ID: [a-zA-Z_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ][a-zA-Z0-9_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]* ;
 INT: [0-9]+ ;
