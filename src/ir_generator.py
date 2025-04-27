@@ -250,7 +250,98 @@ class IRGenerator:
         elif isinstance(node, BooleanNode):
             return ir.Constant(ir.IntType(1), int(node.value))
 
- 
+        elif isinstance(node, IfNode):
+            cond = self.generate(node.condition)
+            if cond.type == ir.IntType(32):
+                cond = self.builder.trunc(cond, ir.IntType(1))
+            
+            then_block = self.builder.append_basic_block('then')
+            else_block = self.builder.append_basic_block('else') if node.else_body else None
+            end_block = self.builder.append_basic_block('ifend')
+            
+            if else_block:
+                self.builder.cbranch(cond, then_block, else_block)
+            else:
+                self.builder.cbranch(cond, then_block, end_block)
+
+            # then
+            self.builder.position_at_start(then_block)
+            for stmt in node.then_body:
+                self.generate(stmt)
+            self.builder.branch(end_block)
+            
+            # else
+            self.builder.position_at_start(else_block)
+            if node.else_body:
+                for stmt in node.else_body:
+                    self.generate(stmt)
+                self.builder.branch(end_block)
+            
+            self.builder.position_at_start(end_block)
+
+        elif isinstance(node, WhileNode):
+            loop_condition_block = self.builder.append_basic_block('loop.cond')
+            loop_body_block = self.builder.append_basic_block('loop.body')
+            loop_end_block = self.builder.append_basic_block('loop.end')
+            
+            self.builder.branch(loop_condition_block)
+            
+            # condition
+            self.builder.position_at_start(loop_condition_block)
+            cond = self.generate(node.condition)
+            if cond.type == ir.IntType(32):
+                cond = self.builder.trunc(cond, ir.IntType(1))
+            self.builder.cbranch(cond, loop_body_block, loop_end_block)
+            
+            # body
+            self.builder.position_at_start(loop_body_block)
+            for stmt in node.body:
+                self.generate(stmt)
+            self.builder.branch(loop_condition_block)
+            
+            # end
+            self.builder.position_at_start(loop_end_block)
+            
+        elif isinstance(node, CompareNode):
+            left = self.generate(node.left)
+            right = self.generate(node.right)
+
+            if left.type != right.type:
+                raise Exception("Comparison operands must have the same type")
+
+            if node.op == '<':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('<', left, right)
+                else:
+                    return self.builder.icmp_signed('<', left, right)
+            elif node.op == '<=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('<=', left, right)
+                else:
+                    return self.builder.icmp_signed('<=', left, right)
+            elif node.op == '>':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('>', left, right)
+                else:
+                    return self.builder.icmp_signed('>', left, right)
+            elif node.op == '>=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('>=', left, right)
+                else:
+                    return self.builder.icmp_signed('>=', left, right)
+            elif node.op == '==':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('==', left, right)
+                else:
+                    return self.builder.icmp_signed('==', left, right)
+            elif node.op == '!=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('!=', left, right)
+                else:
+                    return self.builder.icmp_signed('!=', left, right)
+            else:
+                raise Exception(f"Unknown comparison operator {node.op}")
+
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
     

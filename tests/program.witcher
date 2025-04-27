@@ -1,11 +1,19 @@
-let Wilk prawda
-let Wilk falsz
-set prawda = 1
-set falsz = 0
-let Gryf alive
-set alive = true
-print alive
-set alive = false
-print prawda AND prawda
-print falsz OR prawda
+let Gryf a
+let Gryf b
 
+set a = true
+set b = true
+
+jeżeli a AND b :
+    print 21
+w_przeciwnym_wypadku:
+    print 420
+koniec
+
+let Wilk licznik
+set licznik = 0
+
+dopóki licznik <= 5:
+    print licznik
+    set licznik = licznik Aard 1
+koniec

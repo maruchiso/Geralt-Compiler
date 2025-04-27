@@ -62,6 +62,24 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#ifStatement.
+    def enterIfStatement(self, ctx:GeraltParser.IfStatementContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#ifStatement.
+    def exitIfStatement(self, ctx:GeraltParser.IfStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#whileStatement.
+    def enterWhileStatement(self, ctx:GeraltParser.WhileStatementContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#whileStatement.
+    def exitWhileStatement(self, ctx:GeraltParser.WhileStatementContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#dividing.
     def enterDividing(self, ctx:GeraltParser.DividingContext):
         pass
@@ -161,6 +179,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#compare.
+    def enterCompare(self, ctx:GeraltParser.CompareContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#compare.
+    def exitCompare(self, ctx:GeraltParser.CompareContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#or.
     def enterOr(self, ctx:GeraltParser.OrContext):
         pass
@@ -212,6 +239,87 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#xor.
     def exitXor(self, ctx:GeraltParser.XorContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#lessThan.
+    def enterLessThan(self, ctx:GeraltParser.LessThanContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#lessThan.
+    def exitLessThan(self, ctx:GeraltParser.LessThanContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#lessEqual.
+    def enterLessEqual(self, ctx:GeraltParser.LessEqualContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#lessEqual.
+    def exitLessEqual(self, ctx:GeraltParser.LessEqualContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#greaterThan.
+    def enterGreaterThan(self, ctx:GeraltParser.GreaterThanContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#greaterThan.
+    def exitGreaterThan(self, ctx:GeraltParser.GreaterThanContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#greaterEqual.
+    def enterGreaterEqual(self, ctx:GeraltParser.GreaterEqualContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#greaterEqual.
+    def exitGreaterEqual(self, ctx:GeraltParser.GreaterEqualContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#equal.
+    def enterEqual(self, ctx:GeraltParser.EqualContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#equal.
+    def exitEqual(self, ctx:GeraltParser.EqualContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#notEqual.
+    def enterNotEqual(self, ctx:GeraltParser.NotEqualContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#notEqual.
+    def exitNotEqual(self, ctx:GeraltParser.NotEqualContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#jezeliBlock.
+    def enterJezeliBlock(self, ctx:GeraltParser.JezeliBlockContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#jezeliBlock.
+    def exitJezeliBlock(self, ctx:GeraltParser.JezeliBlockContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#dopokiBlock.
+    def enterDopokiBlock(self, ctx:GeraltParser.DopokiBlockContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#dopokiBlock.
+    def exitDopokiBlock(self, ctx:GeraltParser.DopokiBlockContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#block.
+    def enterBlock(self, ctx:GeraltParser.BlockContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#block.
+    def exitBlock(self, ctx:GeraltParser.BlockContext):
         pass
 
 

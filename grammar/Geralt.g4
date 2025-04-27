@@ -8,6 +8,8 @@ statement
     | 'input' ID ('[' INT ']')?        # input
     | 'print' expr                     # output
     | 'print' booleanExpr              # outputBool
+    | jezeliBlock                      # ifStatement
+    | dopokiBlock                      # whileStatement
     ;
 
 expr
@@ -28,11 +30,34 @@ booleanExpr
     | booleanExpr 'OR' booleanExpr      # or
     | booleanExpr 'XOR' booleanExpr     # xor
     | 'NEG' booleanExpr                 # neg
+    | comparisonExpr                    # compare
     | 'true'                            # true
     | 'false'                           # false
     | ID                                # boolvar
     ;
 
+comparisonExpr
+    : expr '<' expr     # lessThan
+    | expr '<=' expr    # lessEqual
+    | expr '>' expr     # greaterThan
+    | expr '>=' expr    # greaterEqual
+    | expr '==' expr    # equal
+    | expr '!=' expr    # notEqual
+    ;
+    
+jezeliBlock
+    : 'jeżeli' booleanExpr ':' block
+      ('w_przeciwnym_wypadku' ':' block)?
+      'koniec'
+    ;
+
+dopokiBlock
+    : 'dopóki' booleanExpr ':' block 'koniec'
+    ;
+
+block
+    : statement+
+    ;
 
 type: 'Wilk' | 'Kot' | 'Gryf' ;
 

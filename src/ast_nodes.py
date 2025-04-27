@@ -54,3 +54,21 @@ class NegNode(Node):
     def __init__(self, operator, operand):
         self.operator = operator
         self.operand = operand
+
+class IfNode(Node):
+    def __init__(self, condition, then_body, else_body=None):
+        self.condition = condition
+        self.then_body = then_body
+        self.else_body = else_body
+
+class WhileNode(Node):
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+        
+class CompareNode(Node):
+    def __init__(self, left, op, right):
+        self.left = left
+        self.op = op
+        self.right = right
+
