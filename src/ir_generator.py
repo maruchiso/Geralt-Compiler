@@ -75,6 +75,8 @@ class IRGenerator:
                 variable_type = ir.IntType(32)
             elif node.variable_type == 'Kot':
                 variable_type = ir.FloatType()
+            elif node.variable_type == 'Gryf':
+                variable_type = ir.IntType(1)
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
             if node.size == None:
@@ -171,6 +173,24 @@ class IRGenerator:
                 raise Exception(f'Variable: {node.name} is undefined')
             return self.builder.load(ptr=pointer, name=node.name)
         
+        # elif isinstance(node, BinOpBoolNode):
+        #     left = self.generate(node.left)
+        #     right = self.generate(node.right)
+
+        #     if left.type == ir.IntType(32):
+        #         left = self.builder.trunc(left, ir.IntType(1), name="left_trunc")
+
+        #     if right.type == ir.IntType(32):
+        #         right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
+
+        #     if node.operator == 'AND':
+        #         return self.builder.and_(left, right, name='and')
+        #     elif node.operator == 'OR':
+        #         return self.builder.or_(left, right, name='or')
+        #     elif node.operator == 'XOR':
+        #         return self.builder.xor(left, right, name='xor')
+        #     else:
+        #         raise Exception(f'Unknown boolean operator: {node.operator}')
         elif isinstance(node, BinOpBoolNode):
             left = self.generate(node.left)
             right = self.generate(node.right)
@@ -182,13 +202,42 @@ class IRGenerator:
                 right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
 
             if node.operator == 'AND':
-                return self.builder.and_(left, right, name='and')
+                and_right_block = self.builder.append_basic_block('and.right')
+                and_end_block = self.builder.append_basic_block('and.end')
+                
+                result = self.builder.alloca(ir.IntType(1), name='and_result')
+                self.builder.store(left, result)
+                
+                self.builder.cbranch(left, and_right_block, and_end_block)
+                
+                self.builder.position_at_start(and_right_block)
+                self.builder.store(right, result)
+                self.builder.branch(and_end_block)
+                
+                self.builder.position_at_start(and_end_block)
+                return self.builder.load(result, name='and')
+            
             elif node.operator == 'OR':
-                return self.builder.or_(left, right, name='or')
+                or_right_block = self.builder.append_basic_block('or.right')
+                or_end_block = self.builder.append_basic_block('or.end')
+                
+                result = self.builder.alloca(ir.IntType(1), name='or_result')
+                self.builder.store(left, result)
+                
+                self.builder.cbranch(left, or_end_block, or_right_block)
+                
+                self.builder.position_at_start(or_right_block)
+                self.builder.store(right, result)
+                self.builder.branch(or_end_block)
+                
+                self.builder.position_at_start(or_end_block)
+                return self.builder.load(result, name='or')
+
             elif node.operator == 'XOR':
                 return self.builder.xor(left, right, name='xor')
             else:
                 raise Exception(f'Unknown boolean operator: {node.operator}')
+
 
         elif isinstance(node, NegNode):
             value = self.generate(node.operand)
@@ -197,7 +246,102 @@ class IRGenerator:
                 value = self.builder.trunc(value, ir.IntType(1), name="bool")
 
             return self.builder.xor(value, ir.Constant(ir.IntType(1), 1), name='neg')
- 
+        
+        elif isinstance(node, BooleanNode):
+            return ir.Constant(ir.IntType(1), int(node.value))
+
+        elif isinstance(node, IfNode):
+            cond = self.generate(node.condition)
+            if cond.type == ir.IntType(32):
+                cond = self.builder.trunc(cond, ir.IntType(1))
+            
+            then_block = self.builder.append_basic_block('then')
+            else_block = self.builder.append_basic_block('else') if node.else_body else None
+            end_block = self.builder.append_basic_block('ifend')
+            
+            if else_block:
+                self.builder.cbranch(cond, then_block, else_block)
+            else:
+                self.builder.cbranch(cond, then_block, end_block)
+
+            # then
+            self.builder.position_at_start(then_block)
+            for stmt in node.then_body:
+                self.generate(stmt)
+            self.builder.branch(end_block)
+            
+            # else
+            self.builder.position_at_start(else_block)
+            if node.else_body:
+                for stmt in node.else_body:
+                    self.generate(stmt)
+                self.builder.branch(end_block)
+            
+            self.builder.position_at_start(end_block)
+
+        elif isinstance(node, WhileNode):
+            loop_condition_block = self.builder.append_basic_block('loop.cond')
+            loop_body_block = self.builder.append_basic_block('loop.body')
+            loop_end_block = self.builder.append_basic_block('loop.end')
+            
+            self.builder.branch(loop_condition_block)
+            
+            # condition
+            self.builder.position_at_start(loop_condition_block)
+            cond = self.generate(node.condition)
+            if cond.type == ir.IntType(32):
+                cond = self.builder.trunc(cond, ir.IntType(1))
+            self.builder.cbranch(cond, loop_body_block, loop_end_block)
+            
+            # body
+            self.builder.position_at_start(loop_body_block)
+            for stmt in node.body:
+                self.generate(stmt)
+            self.builder.branch(loop_condition_block)
+            
+            # end
+            self.builder.position_at_start(loop_end_block)
+            
+        elif isinstance(node, CompareNode):
+            left = self.generate(node.left)
+            right = self.generate(node.right)
+
+            if left.type != right.type:
+                raise Exception("Comparison operands must have the same type")
+
+            if node.op == '<':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('<', left, right)
+                else:
+                    return self.builder.icmp_signed('<', left, right)
+            elif node.op == '<=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('<=', left, right)
+                else:
+                    return self.builder.icmp_signed('<=', left, right)
+            elif node.op == '>':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('>', left, right)
+                else:
+                    return self.builder.icmp_signed('>', left, right)
+            elif node.op == '>=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('>=', left, right)
+                else:
+                    return self.builder.icmp_signed('>=', left, right)
+            elif node.op == '==':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('==', left, right)
+                else:
+                    return self.builder.icmp_signed('==', left, right)
+            elif node.op == '!=':
+                if left.type == ir.FloatType():
+                    return self.builder.fcmp_ordered('!=', left, right)
+                else:
+                    return self.builder.icmp_signed('!=', left, right)
+            else:
+                raise Exception(f"Unknown comparison operator {node.op}")
+
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
     

@@ -124,3 +124,60 @@ class WitcherVisitor(GeraltVisitor):
     def visitOutputBool(self, ctx):
         value = self.visit(ctx.booleanExpr())
         return OutputNode(value=value)
+
+    def visitExprTrue(self, ctx):
+        return BooleanNode(value=True)
+
+    def visitExprFalse(self, ctx):
+        return BooleanNode(value=False)
+
+    def visitBoolTrue(self, ctx):
+        return BooleanNode(value=True)
+
+    def visitBoolFalse(self, ctx):
+        return BooleanNode(value=False)
+    
+    def visitJezeliBlock(self, ctx):
+        condition = self.visit(ctx.booleanExpr())
+        then_body = [self.visit(stmt) for stmt in ctx.block(0).statement()]
+
+        else_body = None
+        if ctx.block(1):  # jeśli jest w_przeciwnym_wypadku
+            else_body = [self.visit(stmt) for stmt in ctx.block(1).statement()]
+
+        return IfNode(condition=condition, then_body=then_body, else_body=else_body)
+
+    def visitDopokiBlock(self, ctx):
+        condition = self.visit(ctx.booleanExpr())
+        body = [self.visit(stmt) for stmt in ctx.block().statement()]
+        
+        return WhileNode(condition=condition, body=body)
+    def visitLessThan(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='<', right=right)
+
+    def visitLessEqual(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='<=', right=right)
+
+    def visitGreaterThan(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='>', right=right)
+
+    def visitGreaterEqual(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='>=', right=right)
+
+    def visitEqual(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='==', right=right)
+
+    def visitNotEqual(self, ctx):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        return CompareNode(left=left, op='!=', right=right)

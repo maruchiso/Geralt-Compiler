@@ -39,6 +39,16 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#ifStatement.
+    def visitIfStatement(self, ctx:GeraltParser.IfStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#whileStatement.
+    def visitWhileStatement(self, ctx:GeraltParser.WhileStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#dividing.
     def visitDividing(self, ctx:GeraltParser.DividingContext):
         return self.visitChildren(ctx)
@@ -46,6 +56,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#var.
     def visitVar(self, ctx:GeraltParser.VarContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#exprFalse.
+    def visitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
         return self.visitChildren(ctx)
 
 
@@ -61,6 +76,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#float.
     def visitFloat(self, ctx:GeraltParser.FloatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#exprTrue.
+    def visitExprTrue(self, ctx:GeraltParser.ExprTrueContext):
         return self.visitChildren(ctx)
 
 
@@ -81,6 +101,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#neg.
     def visitNeg(self, ctx:GeraltParser.NegContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#compare.
+    def visitCompare(self, ctx:GeraltParser.CompareContext):
         return self.visitChildren(ctx)
 
 
@@ -111,6 +136,51 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#xor.
     def visitXor(self, ctx:GeraltParser.XorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#lessThan.
+    def visitLessThan(self, ctx:GeraltParser.LessThanContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#lessEqual.
+    def visitLessEqual(self, ctx:GeraltParser.LessEqualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#greaterThan.
+    def visitGreaterThan(self, ctx:GeraltParser.GreaterThanContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#greaterEqual.
+    def visitGreaterEqual(self, ctx:GeraltParser.GreaterEqualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#equal.
+    def visitEqual(self, ctx:GeraltParser.EqualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#notEqual.
+    def visitNotEqual(self, ctx:GeraltParser.NotEqualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#jezeliBlock.
+    def visitJezeliBlock(self, ctx:GeraltParser.JezeliBlockContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#dopokiBlock.
+    def visitDopokiBlock(self, ctx:GeraltParser.DopokiBlockContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#block.
+    def visitBlock(self, ctx:GeraltParser.BlockContext):
         return self.visitChildren(ctx)
 
 
