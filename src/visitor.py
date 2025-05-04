@@ -181,3 +181,30 @@ class WitcherVisitor(GeraltVisitor):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         return CompareNode(left=left, op='!=', right=right)
+
+    def visitFunctionDecleration(self, ctx):
+        return_type = self.visit(ctx.type())  # Odwiedź regułę parsera 'type'
+        name = ctx.ID().getText()
+
+        params = []
+        if ctx.parameters():
+            for p in ctx.parameters().parameter():
+                p_type = self.visit(p.type())  # Odwiedź regułę parsera 'type'
+                p_name = p.ID().getText()
+                params.append((p_type, p_name))
+
+        body = [self.visit(stmt) for stmt in ctx.block().statement()]
+        return FunctionDeclNode(return_type, name, params, body)
+
+    def visitFunctionCallStatement(self, ctx):
+        name = ctx.ID().getText()
+        args = []
+        if ctx.arguments():
+            args = [self.visit(e) for e in ctx.arguments().expr()]
+        return FunctionCallNode(name, args)
+
+    def visitReturnStatement(self, ctx):
+        value = self.visit(ctx.expr())
+        return ReturnNode(value)
+
+    

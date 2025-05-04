@@ -14,6 +14,16 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#functionDecleration.
+    def visitFunctionDecleration(self, ctx:GeraltParser.FunctionDeclerationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionCallStatement.
+    def visitFunctionCallStatement(self, ctx:GeraltParser.FunctionCallStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#declaration.
     def visitDeclaration(self, ctx:GeraltParser.DeclarationContext):
         return self.visitChildren(ctx)
@@ -36,6 +46,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#outputBool.
     def visitOutputBool(self, ctx:GeraltParser.OutputBoolContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#returnStatement.
+    def visitReturnStatement(self, ctx:GeraltParser.ReturnStatementContext):
         return self.visitChildren(ctx)
 
 
@@ -181,6 +196,31 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#block.
     def visitBlock(self, ctx:GeraltParser.BlockContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionDecl.
+    def visitFunctionDecl(self, ctx:GeraltParser.FunctionDeclContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#parameters.
+    def visitParameters(self, ctx:GeraltParser.ParametersContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#parameter.
+    def visitParameter(self, ctx:GeraltParser.ParameterContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionCall.
+    def visitFunctionCall(self, ctx:GeraltParser.FunctionCallContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#arguments.
+    def visitArguments(self, ctx:GeraltParser.ArgumentsContext):
         return self.visitChildren(ctx)
 
 

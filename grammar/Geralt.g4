@@ -3,11 +3,14 @@ grammar Geralt;
 program: statement+ ;
 
 statement
-    : 'let' type ID ('[' INT ']')?     # declaration
+    : functionDecl                     # functionDecleration
+    | functionCall                     # functionCallStatement
+    | 'let' type ID ('[' INT ']')?     # declaration
     | 'set' ID ('[' INT ']')? '=' expr # assign
     | 'input' ID ('[' INT ']')?        # input
     | 'print' expr                     # output
     | 'print' booleanExpr              # outputBool
+    | 'return' expr                    # returnStatement
     | jezeliBlock                      # ifStatement
     | dopokiBlock                      # whileStatement
     ;
@@ -59,7 +62,31 @@ block
     : statement+
     ;
 
-type: 'Wilk' | 'Kot' | 'Gryf' ;
+functionDecl
+    : 'zaklęcie' type ID '(' parameters? ')' ':' block 'koniec'
+    ;
+
+parameters
+    : parameter (',' parameter)*
+    ;
+
+parameter
+    : type ID
+    ;
+
+functionCall
+    : ID '(' arguments? ')'
+    ;
+
+arguments
+    : expr (',' expr)*
+    ;
+
+type
+    : 'Wilk'
+    | 'Kot'
+    | 'Gryf'
+    ;
 
 ID: [a-zA-Z_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ][a-zA-Z0-9_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]* ;
 INT: [0-9]+ ;

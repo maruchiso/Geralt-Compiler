@@ -66,7 +66,12 @@ class IRGenerator:
         if isinstance(node, ProgramNode):
             # For the whole program, we generate code for each statement
             for statement in node.statements:
-                self.generate(statement)
+                if isinstance(statement, FunctionDeclNode):
+                    self._declare_function(statement)
+                    
+            for statement in node.statements:
+                if not isinstance(statement, FunctionDeclNode):
+                    self.generate(statement)
             # End main() function
             self.builder.ret_void()
             
@@ -342,9 +347,70 @@ class IRGenerator:
             else:
                 raise Exception(f"Unknown comparison operator {node.op}")
 
+        elif isinstance(node, FunctionDeclNode):
+            func = self.module.get_global(node.name)
+            block = func.append_basic_block(name='entry')
+            saved_builder = self.builder
+            self.builder = ir.IRBuilder(block)
+
+            # Save and reset symbol table for the function
+            saved_symbol_table = self.symbol_table
+            self.symbol_table = {}
+
+            for arg, (_, param_name) in zip(func.args, node.params):
+                arg.name = param_name
+                ptr = self.builder.alloca(arg.type, name=param_name)
+                self.builder.store(arg, ptr)
+                self.symbol_table[param_name] = ptr
+
+            for stmt in node.body:
+                self.generate(stmt)
+
+            if self.builder.block.terminator is None:
+                self.builder.ret(ir.Constant(func.function_type.return_type, 0))
+
+            self.builder = saved_builder
+            self.symbol_table = saved_symbol_table
+
+        elif isinstance(node, FunctionCallNode):
+            func = self.module.globals.get(node.name)
+            if func is None or not isinstance(func, ir.Function):
+                raise Exception(f"Function {node.name} is not defined")
+
+            args = [self.generate(arg) for arg in node.args]
+            return self.builder.call(func, args)
+
+        elif isinstance(node, ReturnNode):
+            value = self.generate(node.value)
+            self.builder.ret(value)
+
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
-    
+        
+    def _declare_function(self, node):
+        param_types = []
+        for param_type, _ in node.params:
+            if param_type == 'Wilk':
+                param_types.append(ir.IntType(32))
+            elif param_type == 'Kot':
+                param_types.append(ir.FloatType())
+            elif param_type == 'Gryf':
+                param_types.append(ir.IntType(1))
+            else:
+                raise Exception(f"Unknown param type {param_type}")
+
+        if node.return_type == 'Wilk':
+            return_type = ir.IntType(32)
+        elif node.return_type == 'Kot':
+            return_type = ir.FloatType()
+        elif node.return_type == 'Gryf':
+            return_type = ir.IntType(1)
+        else:
+            raise Exception(f"Unknown return type {node.return_type}")
+
+        func_type = ir.FunctionType(return_type, param_types)
+        ir.Function(self.module, func_type, name=node.name)
+
     def save(self, filename):
         with open(filename, 'w') as file:
             file.write(str(self.module))
