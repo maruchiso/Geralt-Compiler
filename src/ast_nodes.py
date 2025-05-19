@@ -87,3 +87,9 @@ class FunctionCallNode(Node):
 class ReturnNode(Node):
     def __init__(self, value):
         self.value = value
+
+class ArrayAccessNode(Node):
+    def __init__(self, name, indexes):
+        self.name = name
+        self.indexes = indexes
+

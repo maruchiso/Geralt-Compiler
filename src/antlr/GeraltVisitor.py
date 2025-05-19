@@ -14,13 +14,28 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#arrayDeclaration.
+    def visitArrayDeclaration(self, ctx:GeraltParser.ArrayDeclarationContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#declaration.
     def visitDeclaration(self, ctx:GeraltParser.DeclarationContext):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#arrayAssign.
+    def visitArrayAssign(self, ctx:GeraltParser.ArrayAssignContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#assign.
     def visitAssign(self, ctx:GeraltParser.AssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#arrayInput.
+    def visitArrayInput(self, ctx:GeraltParser.ArrayInputContext):
         return self.visitChildren(ctx)
 
 
@@ -79,6 +94,11 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#arrayAccess.
+    def visitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#multiplication.
     def visitMultiplication(self, ctx:GeraltParser.MultiplicationContext):
         return self.visitChildren(ctx)
@@ -106,6 +126,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#addition.
     def visitAddition(self, ctx:GeraltParser.AdditionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#indexes.
+    def visitIndexes(self, ctx:GeraltParser.IndexesContext):
         return self.visitChildren(ctx)
 
 

@@ -63,9 +63,6 @@ class IRGenerator:
         self.scanf_float_format.initializer = ir.Constant(scanf_float_const, scanf_float_bytes)
 
     def _declare_function(self, node: FunctionDeclNode):
-        print(f"Declaring function: {node.name}")
-        print(f"Return type: {node.return_type}")
-        print(f"Parameters: {node.params}")
         def map_type(typ):
             if typ == 'Wilk':
                 return ir.IntType(32)
@@ -90,15 +87,23 @@ class IRGenerator:
             # Step 1: Register all functions
             for stmt in node.statements:
                 if isinstance(stmt, FunctionDeclNode):
-                    print(f"Registering function: {stmt.name}")
                     self._declare_function(stmt)
 
             # Step 2: Generate function body and the rest of the program
             for stmt in node.statements:
+                if isinstance(stmt, FunctionDeclNode):
+                    self.generate(stmt)
+                    continue
+                
+                # Set new builder for new block, if current block is ended
+                block = self.main_func.basic_blocks[-1]
+                if block.terminator is not None:
+                    block = self.main_func.append_basic_block(name="count")
+                self.builder.position_at_end(block)
+                
                 self.generate(stmt)
-                self.builder.position_at_end(self.main_func.entry_basic_block)
 
-            # End main
+            # Step 3: End main
             if self.builder.block.terminator is None:
                 self.builder.ret_void()
             else:
@@ -135,6 +140,7 @@ class IRGenerator:
                     self.builder.ret(ir.Constant(func.function_type.return_type, 0))
 
         elif isinstance(node, DeclarationNode):
+            print(f"DEBUG IR: Declaring {node.variable_name} (size={node.size})")
             # Mapping types
             if node.variable_type == 'Wilk':
                 variable_type = ir.IntType(32)
@@ -151,30 +157,34 @@ class IRGenerator:
                 pointer = self.builder.alloca(variable_type, name=node.variable_name)
             else:
                 # Array
-                array_type = ir.ArrayType(variable_type, node.size)
+                array_type = variable_type
+            if isinstance(node.size, list):
+                array_type = variable_type
+                for dim in reversed(node.size):
+                    array_type = ir.ArrayType(array_type, dim)
                 pointer = self.builder.alloca(array_type, name=node.variable_name)
-
-            # Add variable to symbol_table
+            else:
+                pointer = self.builder.alloca(variable_type, name=node.variable_name)
             self.symbol_table[node.variable_name] = pointer
             
         elif isinstance(node, AssignNode):
+            print(f"DEBUG IR: Assigning to {node.variable_name}, index={node.index}")
             value = self.generate(node.value)
             pointer = self.symbol_table[node.variable_name]
+
             if node.index is not None:
-                zero = ir.Constant(ir.IntType(32), 0)
-                index = ir.Constant(ir.IntType(32), node.index)
-                element_pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+                pointer = self.symbol_table[node.variable_name]
+                element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
             else:
                 self.builder.store(value, pointer)
+
                     
         elif isinstance(node, InputNode):
             pointer = self.symbol_table[node.variable_name]
 
             if node.index is not None:
-                zero = ir.Constant(ir.IntType(32), 0)
-                index = ir.Constant(ir.IntType(32), node.index)
-                pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+                pointer = self.get_element_ptr(pointer, node.index)
 
             variable_type = pointer.type.pointee
 
@@ -311,24 +321,28 @@ class IRGenerator:
             else_block = self.builder.append_basic_block('else') if node.else_body else None
             end_block = self.builder.append_basic_block('ifend')
             
+            
             if else_block:
                 self.builder.cbranch(cond, then_block, else_block)
             else:
                 self.builder.cbranch(cond, then_block, end_block)
 
-            # then
+            # Then
             self.builder.position_at_start(then_block)
             for stmt in node.then_body:
                 self.generate(stmt)
-            self.builder.branch(end_block)
-            
-            # else
-            self.builder.position_at_start(else_block)
-            if node.else_body:
-                for stmt in node.else_body:
-                    self.generate(stmt)
+            if self.builder.block.terminator is None:
                 self.builder.branch(end_block)
             
+            # Else
+            if else_block:
+                self.builder.position_at_start(else_block)
+                for stmt in node.else_body:
+                    self.generate(stmt)
+                if self.builder.block.terminator is None:
+                    self.builder.branch(end_block)
+            
+            # Ifend
             self.builder.position_at_start(end_block)
 
         elif isinstance(node, WhileNode):
@@ -408,10 +422,25 @@ class IRGenerator:
                 self.builder.ret(value)
             else:
                 self.builder.ret_void()
+        
+        elif isinstance(node, ArrayAccessNode):
+            pointer = self.symbol_table[node.name]
+            element_pointer = self.get_element_ptr(pointer, node.indexes)
+            return self.builder.load(element_pointer, name=node.name)
+
 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
         
+    def get_element_ptr(self, pointer, index_nodes):
+        print(f"DEBUG GEP: pointer={pointer}, index_nodes={index_nodes}")
+        indices = [ir.Constant(ir.IntType(32), 0)]  # first 0 for base
+        for idx_node in index_nodes:
+            idx_value = self.generate(idx_node)
+            if idx_value.type != ir.IntType(32):
+                idx_value = self.builder.fptoui(idx_value, ir.IntType(32))
+            indices.append(idx_value)
+        return self.builder.gep(pointer, indices, inbounds=True)
 
     def save(self, filename):
         with open(filename, 'w') as file:

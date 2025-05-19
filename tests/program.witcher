@@ -1,26 +1,20 @@
+let Wilk matrix[2, 3]
 
-zaklęcie Wilk dodaj(Wilk a, Wilk b):
-    return a Aard b
+
+set matrix[0, 0] = 1
+set matrix[0, 1] = matrix[0, 0] Aard 5    
+set matrix[1, 2] = matrix[0, 1] Igni 2    
+
+
+print matrix[0, 0]  Komentarz 1 
+print matrix[0, 1]  Komentarz 1 + 5 = 6
+print matrix[1, 2]  Komentarz 6 - 2 = 4
+
+
+jeżeli matrix[0, 1] > matrix[1, 2]:
+    print false
+w_przeciwnym_wypadku:
+    print true
 koniec
 
-let Wilk wynik
-let Wilk a
-let Wilk b
-set a = 5
-set b = 7
-set wynik = dodaj(a, b)
-print wynik
-
-zaklęcie Gryf sprawdz(Gryf tak, Gryf nie):
-    return tak AND nie
-koniec
-
-let Gryf tak
-let Gryf nie
-set tak = true
-set nie = true
-
-let Gryf wynikboola
-set wynikboola = sprawdz(tak, nie)
-print wynikboola
-
+print 10

@@ -3,16 +3,18 @@ from antlr.GeraltVisitor import GeraltVisitor
 from antlr.GeraltParser import GeraltParser
 from ast_nodes import * 
 
-class WitcherVisitor(GeraltVisitor):
-    '''
+class WitcherVisitor(GeraltVisitor): 
     def visitProgram(self, ctx):
-        statements = [self.visit(statement) for statement in ctx.statement()]
-        return ProgramNode(statements=statements)
-    '''
-    def visitProgram(self, ctx):
-        statements = [self.visit(statement) for statement in ctx.statement()]
-        functions = [self.visit(func) for func in ctx.functionDecl()]
-        return ProgramNode(statements + functions)
+        print("DEBUG: visitProgram called")
+        nodes = []
+        for i, child in enumerate(ctx.children):
+            print(f"DEBUG: child {i} = {child.getText()}, class = {type(child).__name__}")
+            node = self.visit(child)
+            if node is not None:
+                nodes.append(node)
+            else:
+                print(f"visit() returned None for child {i}")
+        return ProgramNode(statements=nodes)
     
     def visitDeclaration(self, ctx):
         variable_type = ctx.type_().getText()
@@ -230,5 +232,41 @@ class WitcherVisitor(GeraltVisitor):
         value = self.visit(ctx.expr()) if ctx.expr() else None
         return ReturnNode(value)
 
+    def visitIndexes(self, ctx:GeraltParser.IndexesContext):
+        index_exprs = [self.visit(e) for e in ctx.expr()]
+        print(f"DEBUG: visitIndexes → {index_exprs}")
+        return index_exprs
 
-    
+    def visitArrayAccess(self, ctx):
+        name = ctx.ID().getText()
+        indexes = self.visit(ctx.indexes())
+        return ArrayAccessNode(name=name, indexes=indexes)
+
+    def visitArrayDeclaration(self, ctx:GeraltParser.ArrayDeclarationContext):
+        print("DEBUG: visitArrayDeclaration triggered")
+        variable_type = ctx.type_().getText()
+        variable_name = ctx.ID().getText()
+        dimensions = self.visit(ctx.indexes())
+        print(f"DEBUG: Declaring array {variable_name} of type {variable_type} with dims {dimensions}")
+        resolved_dims = []
+        for dim in dimensions:
+            if isinstance(dim, NumberNode):
+                resolved_dims.append(dim.value)
+            else:
+                raise Exception("Array dimensions must be constant integers")
+
+        return DeclarationNode(variable_type=variable_type, variable_name=variable_name, size=resolved_dims)
+
+    def visitArrayAssign(self, ctx:GeraltParser.ArrayAssignContext):
+        print("DEBUG: visitArrayAssign triggered")
+        name = ctx.ID().getText()
+        indexes = self.visit(ctx.indexes())
+        print(f"DEBUG: Assigning to array {name} with indexes {indexes}")
+        value = self.visit(ctx.expr())
+        return AssignNode(variable_name=name, value=value, index=indexes)
+
+    def visitArrayInput(self, ctx:GeraltParser.ArrayInputContext):
+        name = ctx.ID().getText()
+        indexes = self.visit(ctx.indexes())
+        return InputNode(variable_name=name, index=indexes)
+
