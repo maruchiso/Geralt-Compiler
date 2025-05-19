@@ -15,7 +15,7 @@ class WitcherVisitor(GeraltVisitor):
         return ProgramNode(statements + functions)
     
     def visitDeclaration(self, ctx):
-        variable_type = self.visit(ctx.type_())
+        variable_type = ctx.type_().getText()
         variable_name = ctx.ID().getText()
         if ctx.getToken(GeraltParser.INT, 0):
             size = int(ctx.getToken(GeraltParser.INT, 0).getText())
@@ -23,7 +23,7 @@ class WitcherVisitor(GeraltVisitor):
             size = None
 
             
-        #print(f"DEBUG Declaration: type = {variable_type}, name = {variable_name}")
+        #print(f"DEBUG Declaration: type_ = {variable_type}, name = {variable_name}")
         return DeclarationNode(variable_type=variable_type, variable_name=variable_name, size=size)
 
     def visitAssign(self, ctx):
@@ -94,7 +94,7 @@ class WitcherVisitor(GeraltVisitor):
         
         return BinOpNode(left=left, operator='+', right=right)
     
-    def visitType(self, ctx):
+    def visittype_(self, ctx):
         return ctx.getText()
     
     def visitTrue(self, ctx):
@@ -189,19 +189,19 @@ class WitcherVisitor(GeraltVisitor):
         return CompareNode(left=left, op='!=', right=right)
 
     def visitFunctionDecl(self, ctx):
-        print(f"Visiting function declaration: {ctx.ID().getText()}")
-        print(f"Type context: {ctx.type()}")
-        return_type = self.visit(ctx.type())
+        return_type_ = ctx.type_().getText()
         name = ctx.ID().getText()
         params = []
         if ctx.parameters():
             for p in ctx.parameters().parameter():
-                p_type = self.visit(p.type())
+                p_type_ = p.type_().getText()
                 p_name = p.ID().getText()
-                params.append((p_type, p_name))
+                params.append((p_type_, p_name))
 
         body = [self.visit(stmt) for stmt in ctx.block().statement()]
-        return FunctionDeclNode(return_type, name, params, body)
+        
+  
+        return FunctionDeclNode(return_type_, name, params, body)
 
     def visitFunctionCallStatement(self, ctx):
         name = ctx.ID().getText()

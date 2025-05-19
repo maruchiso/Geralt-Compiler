@@ -9,5 +9,18 @@ let Wilk b
 set a = 5
 set b = 7
 set wynik = dodaj(a, b)
+print wynik
 
+zaklęcie Gryf sprawdz(Gryf tak, Gryf nie):
+    return tak AND nie
+koniec
+
+let Gryf tak
+let Gryf nie
+set tak = true
+set nie = true
+
+let Gryf wynikboola
+set wynikboola = sprawdz(tak, nie)
+print wynikboola
 

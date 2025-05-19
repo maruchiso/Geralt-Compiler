@@ -16,7 +16,7 @@ Rozszerzenia
 
 ## Etap 2:
 * instrukcja warunkowe, pętla, done
-* możliwość tworzenia funkcji,
+* możliwość tworzenia funkcji, done 
 * obsługa zasięgu zmiennych (lokalne i globalne, w pełni funkcjonalne zmienne lokalne)
 
 Rozszerzenia
