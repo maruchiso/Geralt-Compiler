@@ -14,16 +14,6 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by GeraltParser#functionDecleration.
-    def visitFunctionDecleration(self, ctx:GeraltParser.FunctionDeclerationContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by GeraltParser#functionCallStatement.
-    def visitFunctionCallStatement(self, ctx:GeraltParser.FunctionCallStatementContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by GeraltParser#declaration.
     def visitDeclaration(self, ctx:GeraltParser.DeclarationContext):
         return self.visitChildren(ctx)
@@ -66,6 +56,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#dividing.
     def visitDividing(self, ctx:GeraltParser.DividingContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionCallNum.
+    def visitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
         return self.visitChildren(ctx)
 
 
@@ -121,6 +116,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#compare.
     def visitCompare(self, ctx:GeraltParser.CompareContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionCallBool.
+    def visitFunctionCallBool(self, ctx:GeraltParser.FunctionCallBoolContext):
         return self.visitChildren(ctx)
 
 

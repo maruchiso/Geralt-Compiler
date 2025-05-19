@@ -42,7 +42,7 @@ def main():
 
     visitor = WitcherVisitor()
     ast = visitor.visit(tree)
-
+    print_ast(ast)
     ir_generator = IRGenerator()
     ir_generator.generate(ast)
     ir_generator.save("output.ll")

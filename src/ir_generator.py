@@ -61,20 +61,92 @@ class IRGenerator:
         self.scanf_float_format = ir.GlobalVariable(self.module, scanf_float_const, name="scanf_float_format")
         self.scanf_float_format.global_constant = True
         self.scanf_float_format.initializer = ir.Constant(scanf_float_const, scanf_float_bytes)
+    '''decalre old
+    def _declare_function(self, node: FunctionDeclNode):
+        def map_type(typ):
+            if typ == 'Wilk':
+                return ir.IntType(32)
+            elif typ == 'Kot':
+                return ir.FloatType()
+            elif typ == 'Gryf':
+                return ir.IntType(1)
+            else:
+                raise Exception(f"Unknown type: {typ}")
+            
+        return_type = map_type(node.return_type)
+        arg_types = [map_type(t) for (t, _) in node.params]
         
+        # Create a function
+        func_type = ir.FunctionType(return_type=return_type, args=arg_types)
+        func = ir.Function(self.module, func_type, name=node.name)
+        
+        # Create entry block
+        block = func.append_basic_block(name='entry')
+        saved_builder = self.builder
+        self.builder = ir.IRBuilder(block)
+        
+        # Local variables
+        old_symbol_table = self.symbol_table
+        self.symbol_table = {}
+        
+        # Parameters
+        for arg, (_, param_name) in zip(func.args, node.params):
+            arg.name = param_name
+            ptr = self.builder.alloca(arg.type, name=param_name)
+            self.builder.store(arg, ptr)
+            self.symbol_table[param_name] = ptr
+        
+        # Body
+        for stmt in node.body:
+            self.generate(stmt)
+        
+        # Deafult return
+        if self.builder.block.terminator is None:
+            if isinstance(return_type, ir.VoidType):
+                self.builder.ret_void()
+            else:
+                self.builder.ret(ir.Constant(return_type, 0))
+
+        self.builder = saved_builder
+        self.symbol_table = old_symbol_table
+        '''      
+    def _declare_function(self, node: FunctionDeclNode):
+        print(f"Declared function: {node.name}")
+        def map_type(typ):
+            if typ == 'Wilk':
+                return ir.IntType(32)
+            elif typ == 'Kot':
+                return ir.FloatType()
+            elif typ == 'Gryf':
+                return ir.IntType(1)
+            else:
+                raise Exception(f"Unknown type: {typ}")
+
+        return_type = map_type(node.return_type)
+        arg_types = [map_type(t) for t, _ in node.params]
+
+        # Tworzenie funkcji i przypisanie jej do zmiennej
+        func_type = ir.FunctionType(return_type, arg_types)
+        func = ir.Function(self.module, func_type, name=node.name)
+
+        # Zwróć funkcję, aby była dostępna w module
+        return func
+
     def generate(self, node):
         if isinstance(node, ProgramNode):
-            # For the whole program, we generate code for each statement
-            for statement in node.statements:
-                if isinstance(statement, FunctionDeclNode):
-                    self._declare_function(statement)
-                    
-            for statement in node.statements:
-                if not isinstance(statement, FunctionDeclNode):
-                    self.generate(statement)
-            # End main() function
+            # Faza 1: Zarejestruj wszystkie funkcje
+            for stmt in node.statements:
+                if isinstance(stmt, FunctionDeclNode):
+                    self._declare_function(stmt)
+
+            # Faza 2: Wygeneruj ciała funkcji i resztę programu
+            for stmt in node.statements:
+                if not isinstance(stmt, FunctionDeclNode):
+                    self.generate(stmt)
+
+            # Zakończ main
             self.builder.ret_void()
-            
+                    
         elif isinstance(node, DeclarationNode):
             if node.variable_type == 'Wilk':
                 variable_type = ir.IntType(32)
@@ -353,7 +425,7 @@ class IRGenerator:
             saved_builder = self.builder
             self.builder = ir.IRBuilder(block)
 
-            # Save and reset symbol table for the function
+            # Zapisz i wyczyść symbol table dla lokalnych zmiennych
             saved_symbol_table = self.symbol_table
             self.symbol_table = {}
 
@@ -372,44 +444,27 @@ class IRGenerator:
             self.builder = saved_builder
             self.symbol_table = saved_symbol_table
 
+
         elif isinstance(node, FunctionCallNode):
-            func = self.module.globals.get(node.name)
+            func = self.module.get_global(node.name)
             if func is None or not isinstance(func, ir.Function):
                 raise Exception(f"Function {node.name} is not defined")
 
             args = [self.generate(arg) for arg in node.args]
             return self.builder.call(func, args)
 
+
         elif isinstance(node, ReturnNode):
-            value = self.generate(node.value)
-            self.builder.ret(value)
+            if node.value is not None:
+                value = self.generate(node.value)
+                self.builder.ret(value)
+            else:
+                self.builder.ret_void()
+
 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
         
-    def _declare_function(self, node):
-        param_types = []
-        for param_type, _ in node.params:
-            if param_type == 'Wilk':
-                param_types.append(ir.IntType(32))
-            elif param_type == 'Kot':
-                param_types.append(ir.FloatType())
-            elif param_type == 'Gryf':
-                param_types.append(ir.IntType(1))
-            else:
-                raise Exception(f"Unknown param type {param_type}")
-
-        if node.return_type == 'Wilk':
-            return_type = ir.IntType(32)
-        elif node.return_type == 'Kot':
-            return_type = ir.FloatType()
-        elif node.return_type == 'Gryf':
-            return_type = ir.IntType(1)
-        else:
-            raise Exception(f"Unknown return type {node.return_type}")
-
-        func_type = ir.FunctionType(return_type, param_types)
-        ir.Function(self.module, func_type, name=node.name)
 
     def save(self, filename):
         with open(filename, 'w') as file:

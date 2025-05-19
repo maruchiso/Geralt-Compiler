@@ -4,9 +4,15 @@ from antlr.GeraltParser import GeraltParser
 from ast_nodes import * 
 
 class WitcherVisitor(GeraltVisitor):
+    '''
     def visitProgram(self, ctx):
         statements = [self.visit(statement) for statement in ctx.statement()]
         return ProgramNode(statements=statements)
+    '''
+    def visitProgram(self, ctx):
+        statements = [self.visit(statement) for statement in ctx.statement()]
+        functions = [self.visit(func) for func in ctx.functionDecl()]
+        return ProgramNode(statements + functions)
     
     def visitDeclaration(self, ctx):
         variable_type = self.visit(ctx.type_())
@@ -182,14 +188,15 @@ class WitcherVisitor(GeraltVisitor):
         right = self.visit(ctx.expr(1))
         return CompareNode(left=left, op='!=', right=right)
 
-    def visitFunctionDecleration(self, ctx):
-        return_type = self.visit(ctx.type())  # Odwiedź regułę parsera 'type'
+    def visitFunctionDecl(self, ctx):
+        print(f"Visiting function declaration: {ctx.ID().getText()}")
+        print(f"Type context: {ctx.type()}")
+        return_type = self.visit(ctx.type())
         name = ctx.ID().getText()
-
         params = []
         if ctx.parameters():
             for p in ctx.parameters().parameter():
-                p_type = self.visit(p.type())  # Odwiedź regułę parsera 'type'
+                p_type = self.visit(p.type())
                 p_name = p.ID().getText()
                 params.append((p_type, p_name))
 
@@ -202,9 +209,26 @@ class WitcherVisitor(GeraltVisitor):
         if ctx.arguments():
             args = [self.visit(e) for e in ctx.arguments().expr()]
         return FunctionCallNode(name, args)
+    
+    def visitFunctionCallNum(self, ctx):
+        name = ctx.functionCall().ID().getText()
+        args = []
+        if ctx.functionCall().arguments():
+            for expr_ctx in ctx.functionCall().arguments().expr():
+                args.append(self.visit(expr_ctx))
+        return FunctionCallNode(name=name, args=args)
+    
+    def visitFunctionCallBool(self, ctx):
+        name = ctx.functionCall().ID().getText()
+        args = []
+        if ctx.functionCall().arguments():
+            for expr_ctx in ctx.functionCall().arguments().expr():
+                args.append(self.visit(expr_ctx))
+        return FunctionCallNode(name=name, args=args)
 
     def visitReturnStatement(self, ctx):
-        value = self.visit(ctx.expr())
+        value = self.visit(ctx.expr()) if ctx.expr() else None
         return ReturnNode(value)
+
 
     

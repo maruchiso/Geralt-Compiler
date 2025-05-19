@@ -1,16 +1,14 @@
 grammar Geralt;
 
-program: statement+ ;
+program: (functionDecl | statement)+ ;
 
 statement
-    : functionDecl                     # functionDecleration
-    | functionCall                     # functionCallStatement
-    | 'let' type ID ('[' INT ']')?     # declaration
+    : 'let' type ID ('[' INT ']')?     # declaration
     | 'set' ID ('[' INT ']')? '=' expr # assign
     | 'input' ID ('[' INT ']')?        # input
     | 'print' expr                     # output
     | 'print' booleanExpr              # outputBool
-    | 'return' expr                    # returnStatement
+    | 'return' expr?                   # returnStatement
     | jezeliBlock                      # ifStatement
     | dopokiBlock                      # whileStatement
     ;
@@ -23,6 +21,7 @@ expr
     | INT                   # int
     | FLOAT                 # float
     | ID                    # var
+    | functionCall          # functionCallNum
     | 'true'                # exprTrue
     | 'false'               # exprFalse
     | '(' expr ')'          # parenthesis
@@ -37,6 +36,7 @@ booleanExpr
     | 'true'                            # true
     | 'false'                           # false
     | ID                                # boolvar
+    | functionCall                      # functionCallBool
     ;
 
 comparisonExpr

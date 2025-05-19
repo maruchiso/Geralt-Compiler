@@ -1,27 +1,13 @@
-let Gryf a
-let Gryf b
-
-set a = true
-set b = true
-
-jeżeli a AND b :
-    print 21
-w_przeciwnym_wypadku:
-    print 420
-koniec
-
-let Wilk licznik
-set licznik = 0
-
-dopóki licznik <= 3:
-    print licznik
-    set licznik = licznik Aard 1
-koniec
 
 zaklęcie Wilk dodaj(Wilk a, Wilk b):
     return a Aard b
 koniec
 
 let Wilk wynik
-set wynik = dodaj(3, 4)
-print wynik
+let Wilk a
+let Wilk b
+set a = 5
+set b = 7
+set wynik = dodaj(a, b)
+
+
