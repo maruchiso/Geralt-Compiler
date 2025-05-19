@@ -1,0 +1,6 @@
+let Niedźwiedź tekst
+set tekst = "Geralt z Rivii"
+print tekst
+
+input tekst
+print tekst

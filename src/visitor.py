@@ -270,3 +270,6 @@ class WitcherVisitor(GeraltVisitor):
         indexes = self.visit(ctx.indexes())
         return InputNode(variable_name=name, index=indexes)
 
+    def visitString(self, ctx):
+        raw = ctx.getText()
+        return StringNode(value=raw[1:-1])
