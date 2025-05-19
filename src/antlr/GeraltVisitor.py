@@ -74,8 +74,8 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by GeraltParser#functionCallNum.
-    def visitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+    # Visit a parse tree produced by GeraltParser#string.
+    def visitString(self, ctx:GeraltParser.StringContext):
         return self.visitChildren(ctx)
 
 
@@ -84,23 +84,8 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by GeraltParser#exprFalse.
-    def visitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by GeraltParser#subtraction.
     def visitSubtraction(self, ctx:GeraltParser.SubtractionContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by GeraltParser#arrayAccess.
-    def visitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by GeraltParser#multiplication.
-    def visitMultiplication(self, ctx:GeraltParser.MultiplicationContext):
         return self.visitChildren(ctx)
 
 
@@ -121,6 +106,26 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#int.
     def visitInt(self, ctx:GeraltParser.IntContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#functionCallNum.
+    def visitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#exprFalse.
+    def visitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#arrayAccess.
+    def visitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#multiplication.
+    def visitMultiplication(self, ctx:GeraltParser.MultiplicationContext):
         return self.visitChildren(ctx)
 
 

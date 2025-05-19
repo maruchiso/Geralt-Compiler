@@ -12,9 +12,9 @@ print matrix[1, 2]  Komentarz 6 - 2 = 4
 
 
 jeżeli matrix[0, 1] > matrix[1, 2]:
-    print false
-w_przeciwnym_wypadku:
     print true
+w_przeciwnym_wypadku:
+    print false
 koniec
 
 print 10

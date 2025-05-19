@@ -61,6 +61,22 @@ class IRGenerator:
         self.scanf_float_format = ir.GlobalVariable(self.module, scanf_float_const, name="scanf_float_format")
         self.scanf_float_format.global_constant = True
         self.scanf_float_format.initializer = ir.Constant(scanf_float_const, scanf_float_bytes)
+        
+        # string printf
+        printf_str_format = "%s\n\0"
+        printf_str_bytes = bytearray(printf_str_format.encode('utf8'))
+        printf_str_const = ir.ArrayType(ir.IntType(8), len(printf_str_bytes))
+        self.printf_str_format = ir.GlobalVariable(self.module, printf_str_const, name="printf_str_format")
+        self.printf_str_format.global_constant = True
+        self.printf_str_format.initializer = ir.Constant(printf_str_const, printf_str_bytes)
+
+        # string scanf
+        scanf_str_format = "%s\0"
+        scanf_str_bytes = bytearray(scanf_str_format.encode("utf8"))
+        scanf_str_const = ir.ArrayType(ir.IntType(8), len(scanf_str_bytes))
+        self.scanf_str_format = ir.GlobalVariable(self.module, scanf_str_const, name="scanf_str_format")
+        self.scanf_str_format.global_constant = True
+        self.scanf_str_format.initializer = ir.Constant(scanf_str_const, scanf_str_bytes)
 
     def _declare_function(self, node: FunctionDeclNode):
         def map_type(typ):
@@ -148,6 +164,8 @@ class IRGenerator:
                 variable_type = ir.FloatType()
             elif node.variable_type == 'Gryf':
                 variable_type = ir.IntType(1)
+            elif node.variable_type == 'Niedźwiedź':
+                variable_type = ir.IntType(8).as_pointer()
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
 
@@ -190,7 +208,9 @@ class IRGenerator:
 
             if isinstance(variable_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.scanf_float_format, ir.IntType(8).as_pointer())
-            else:
+            elif isinstance(variable_type, ir.PointerType):
+                format_pointer = self.builder.bitcast(self.scanf_str+format, ir.IntType(8).as_pointer())
+            elif isinstance(variable_type, ir.IntType):
                 format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
 
             self.builder.call(self.scanf, [format_pointer, pointer])
@@ -198,19 +218,26 @@ class IRGenerator:
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
             value_type = value.type
-            
-            # convert pointer to byte array to pointer to first byte
+
             if isinstance(value_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
-                # float has to be double!
-                value = self.builder.fpext(value, ir.Doubletype(), name="float_to_double")
+                value = self.builder.fpext(value, ir.DoubleType(), name="float_to_double")
+
             elif value_type == ir.IntType(1):
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
                 value = self.builder.zext(value, ir.IntType(32), name="bool_to_int")
-            else:
+
+            elif value_type == ir.IntType(32):
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
 
+            elif isinstance(value_type, ir.PointerType) and value_type.pointee == ir.IntType(8):
+                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+
+            else:
+                raise Exception(f"Unsupported type for print: {value_type}")
+
             self.builder.call(fn=self.printf, args=[format_pointer, value])
+
 
             
         elif isinstance(node, BinOpNode):
@@ -427,7 +454,16 @@ class IRGenerator:
             pointer = self.symbol_table[node.name]
             element_pointer = self.get_element_ptr(pointer, node.indexes)
             return self.builder.load(element_pointer, name=node.name)
-
+        
+        elif isinstance(node, StringNode):
+            text = node.value + "\0" # End sign for strings
+            string_bytes = bytearray(text.encode("utf-8"))
+            const_type = ir.ArrayType(ir.IntType(8), len(string_bytes))
+            string_const = ir.GlobalVariable(self.module, const_type, name=f"str{len(self.symbol_table)}")
+            string_const.global_constant = True
+            string_const.initializer = ir.Constant(const_type, string_bytes)
+            return self.builder.bitcast(string_const, ir.IntType(8).as_pointer())
+        
 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')

@@ -93,3 +93,6 @@ class ArrayAccessNode(Node):
         self.name = name
         self.indexes = indexes
 
+class StringNode(Node):
+    def __init__(self, value):
+        self.value = value

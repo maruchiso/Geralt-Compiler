@@ -25,6 +25,7 @@ expr
     | FLOAT                 # float
     | ID indexes            # arrayAccess
     | ID                    # var
+    | STRING                # string
     | functionCall          # functionCallNum
     | 'true'                # exprTrue
     | 'false'               # exprFalse
@@ -94,6 +95,7 @@ type
     : 'Wilk'
     | 'Kot'
     | 'Gryf'
+    | 'Niedźwiedź'
     ;
 
 ID: [a-zA-Z_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ][a-zA-Z0-9_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]* ;
@@ -101,5 +103,4 @@ INT: [0-9]+ ;
 FLOAT: [0-9]+ '.' [0-9]+ ;
 COMMENT: 'Komentarz' ~[\r\n]* -> skip ;
 WHITE_SPACE: [ \t\r\n]+ -> skip ;
-LBRACK: '[' ;
-RBRACK: ']' ;
+STRING: '"' .*? '"';

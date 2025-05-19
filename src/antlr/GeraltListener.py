@@ -125,12 +125,12 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by GeraltParser#functionCallNum.
-    def enterFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+    # Enter a parse tree produced by GeraltParser#string.
+    def enterString(self, ctx:GeraltParser.StringContext):
         pass
 
-    # Exit a parse tree produced by GeraltParser#functionCallNum.
-    def exitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+    # Exit a parse tree produced by GeraltParser#string.
+    def exitString(self, ctx:GeraltParser.StringContext):
         pass
 
 
@@ -143,39 +143,12 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by GeraltParser#exprFalse.
-    def enterExprFalse(self, ctx:GeraltParser.ExprFalseContext):
-        pass
-
-    # Exit a parse tree produced by GeraltParser#exprFalse.
-    def exitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
-        pass
-
-
     # Enter a parse tree produced by GeraltParser#subtraction.
     def enterSubtraction(self, ctx:GeraltParser.SubtractionContext):
         pass
 
     # Exit a parse tree produced by GeraltParser#subtraction.
     def exitSubtraction(self, ctx:GeraltParser.SubtractionContext):
-        pass
-
-
-    # Enter a parse tree produced by GeraltParser#arrayAccess.
-    def enterArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
-        pass
-
-    # Exit a parse tree produced by GeraltParser#arrayAccess.
-    def exitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
-        pass
-
-
-    # Enter a parse tree produced by GeraltParser#multiplication.
-    def enterMultiplication(self, ctx:GeraltParser.MultiplicationContext):
-        pass
-
-    # Exit a parse tree produced by GeraltParser#multiplication.
-    def exitMultiplication(self, ctx:GeraltParser.MultiplicationContext):
         pass
 
 
@@ -212,6 +185,42 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#int.
     def exitInt(self, ctx:GeraltParser.IntContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#functionCallNum.
+    def enterFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#functionCallNum.
+    def exitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#exprFalse.
+    def enterExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#exprFalse.
+    def exitExprFalse(self, ctx:GeraltParser.ExprFalseContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#arrayAccess.
+    def enterArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arrayAccess.
+    def exitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#multiplication.
+    def enterMultiplication(self, ctx:GeraltParser.MultiplicationContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#multiplication.
+    def exitMultiplication(self, ctx:GeraltParser.MultiplicationContext):
         pass
 
 
