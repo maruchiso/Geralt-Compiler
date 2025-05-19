@@ -1,19 +1,20 @@
-let Gryf a
-let Gryf b
+let Wilk matrix[2, 3]
 
-set a = true
-set b = true
 
-jeżeli a AND b :
-    print 21
+set matrix[0, 0] = 1
+set matrix[0, 1] = matrix[0, 0] Aard 5    
+set matrix[1, 2] = matrix[0, 1] Igni 2    
+
+
+print matrix[0, 0]  Komentarz 1 
+print matrix[0, 1]  Komentarz 1 + 5 = 6
+print matrix[1, 2]  Komentarz 6 - 2 = 4
+
+
+jeżeli matrix[0, 1] > matrix[1, 2]:
+    print false
 w_przeciwnym_wypadku:
-    print 420
+    print true
 koniec
 
-let Wilk licznik
-set licznik = 0
-
-dopóki licznik <= 5:
-    print licznik
-    set licznik = licznik Aard 1
-koniec
+print 10

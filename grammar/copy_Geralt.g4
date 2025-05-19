@@ -3,17 +3,34 @@ grammar Geralt;
 program: (functionDecl | statement)+ ;
 
 statement
-    : 'let' type ID indexes            # arrayDeclaration
-    | 'let' type ID                    # declaration
-    | 'set' ID indexes '=' expr        # arrayAssign
-    | 'set' ID '=' expr                # assign
-    | 'input' ID indexes               # arrayInput
+    : 'let' type ID                    # declaration
+    | 'set' ID  '=' expr               # assign
     | 'input' ID                       # input
     | 'print' expr                     # output
     | 'print' booleanExpr              # outputBool
     | 'return' expr?                   # returnStatement
     | jezeliBlock                      # ifStatement
     | dopokiBlock                      # whileStatement
+    | tableDecl                        # tableDeclaration
+    | tableAssign                      # tableAssignment
+    | matrixDecl                       # matrixDeclaration
+    | matrixAssign                     # matrixAssignment
+    ;
+
+matrixDecl
+    : 'let' type '[' INT ']' '[' INT ']' ID
+    ;
+
+matrixAssign
+    : 'set' ID '[' expr ']' '[' expr ']' '=' expr
+    ;
+
+tableDecl
+    : 'let' type '[' INT ']' ID
+    ;
+
+tableAssign
+    : 'set' ID '[' expr ']' '=' expr
     ;
 
 expr
@@ -23,16 +40,13 @@ expr
     | expr 'Yrden' expr     # dividing
     | INT                   # int
     | FLOAT                 # float
-    | ID indexes            # arrayAccess
     | ID                    # var
     | functionCall          # functionCallNum
     | 'true'                # exprTrue
     | 'false'               # exprFalse
     | '(' expr ')'          # parenthesis
-    ;
-
-indexes
-    : '[' expr (',' expr)* ']' 
+    | ID '[' expr ']'       # arrayAccess
+    | ID '[' expr ']' '[' expr ']'   # matrixAccess
     ;
 
 booleanExpr

@@ -17,6 +17,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#arrayDeclaration.
+    def enterArrayDeclaration(self, ctx:GeraltParser.ArrayDeclarationContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arrayDeclaration.
+    def exitArrayDeclaration(self, ctx:GeraltParser.ArrayDeclarationContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#declaration.
     def enterDeclaration(self, ctx:GeraltParser.DeclarationContext):
         pass
@@ -26,12 +35,30 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#arrayAssign.
+    def enterArrayAssign(self, ctx:GeraltParser.ArrayAssignContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arrayAssign.
+    def exitArrayAssign(self, ctx:GeraltParser.ArrayAssignContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#assign.
     def enterAssign(self, ctx:GeraltParser.AssignContext):
         pass
 
     # Exit a parse tree produced by GeraltParser#assign.
     def exitAssign(self, ctx:GeraltParser.AssignContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#arrayInput.
+    def enterArrayInput(self, ctx:GeraltParser.ArrayInputContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arrayInput.
+    def exitArrayInput(self, ctx:GeraltParser.ArrayInputContext):
         pass
 
 
@@ -62,6 +89,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#returnStatement.
+    def enterReturnStatement(self, ctx:GeraltParser.ReturnStatementContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#returnStatement.
+    def exitReturnStatement(self, ctx:GeraltParser.ReturnStatementContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#ifStatement.
     def enterIfStatement(self, ctx:GeraltParser.IfStatementContext):
         pass
@@ -89,6 +125,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#functionCallNum.
+    def enterFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#functionCallNum.
+    def exitFunctionCallNum(self, ctx:GeraltParser.FunctionCallNumContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#var.
     def enterVar(self, ctx:GeraltParser.VarContext):
         pass
@@ -113,6 +158,15 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#subtraction.
     def exitSubtraction(self, ctx:GeraltParser.SubtractionContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#arrayAccess.
+    def enterArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arrayAccess.
+    def exitArrayAccess(self, ctx:GeraltParser.ArrayAccessContext):
         pass
 
 
@@ -170,6 +224,15 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#indexes.
+    def enterIndexes(self, ctx:GeraltParser.IndexesContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#indexes.
+    def exitIndexes(self, ctx:GeraltParser.IndexesContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#neg.
     def enterNeg(self, ctx:GeraltParser.NegContext):
         pass
@@ -185,6 +248,15 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#compare.
     def exitCompare(self, ctx:GeraltParser.CompareContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#functionCallBool.
+    def enterFunctionCallBool(self, ctx:GeraltParser.FunctionCallBoolContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#functionCallBool.
+    def exitFunctionCallBool(self, ctx:GeraltParser.FunctionCallBoolContext):
         pass
 
 
@@ -320,6 +392,51 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#block.
     def exitBlock(self, ctx:GeraltParser.BlockContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#functionDecl.
+    def enterFunctionDecl(self, ctx:GeraltParser.FunctionDeclContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#functionDecl.
+    def exitFunctionDecl(self, ctx:GeraltParser.FunctionDeclContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#parameters.
+    def enterParameters(self, ctx:GeraltParser.ParametersContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#parameters.
+    def exitParameters(self, ctx:GeraltParser.ParametersContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#parameter.
+    def enterParameter(self, ctx:GeraltParser.ParameterContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#parameter.
+    def exitParameter(self, ctx:GeraltParser.ParameterContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#functionCall.
+    def enterFunctionCall(self, ctx:GeraltParser.FunctionCallContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#functionCall.
+    def exitFunctionCall(self, ctx:GeraltParser.FunctionCallContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#arguments.
+    def enterArguments(self, ctx:GeraltParser.ArgumentsContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#arguments.
+    def exitArguments(self, ctx:GeraltParser.ArgumentsContext):
         pass
 
 

@@ -61,16 +61,87 @@ class IRGenerator:
         self.scanf_float_format = ir.GlobalVariable(self.module, scanf_float_const, name="scanf_float_format")
         self.scanf_float_format.global_constant = True
         self.scanf_float_format.initializer = ir.Constant(scanf_float_const, scanf_float_bytes)
-        
+
+    def _declare_function(self, node: FunctionDeclNode):
+        def map_type(typ):
+            if typ == 'Wilk':
+                return ir.IntType(32)
+            elif typ == 'Kot':
+                return ir.FloatType()
+            elif typ == 'Gryf':
+                return ir.IntType(1)
+            else:
+                raise Exception(f"Unknown type: {typ}")
+
+        return_type = map_type(node.return_type)
+        arg_types = [map_type(t) for t, _ in node.params]
+
+        # Create function and assign to variable
+        func_type = ir.FunctionType(return_type, arg_types)
+        func = ir.Function(self.module, func_type, name=node.name)
+
+        return func
+
     def generate(self, node):
         if isinstance(node, ProgramNode):
-            # For the whole program, we generate code for each statement
-            for statement in node.statements:
-                self.generate(statement)
-            # End main() function
-            self.builder.ret_void()
-            
+            # Step 1: Register all functions
+            for stmt in node.statements:
+                if isinstance(stmt, FunctionDeclNode):
+                    self._declare_function(stmt)
+
+            # Step 2: Generate function body and the rest of the program
+            for stmt in node.statements:
+                if isinstance(stmt, FunctionDeclNode):
+                    self.generate(stmt)
+                    continue
+                
+                # Set new builder for new block, if current block is ended
+                block = self.main_func.basic_blocks[-1]
+                if block.terminator is not None:
+                    block = self.main_func.append_basic_block(name="count")
+                self.builder.position_at_end(block)
+                
+                self.generate(stmt)
+
+            # Step 3: End main
+            if self.builder.block.terminator is None:
+                self.builder.ret_void()
+            else:
+                print("Main block already has a terminator.")
+
+        elif isinstance(node, FunctionDeclNode):
+            print(f"Generating function body: {node.name}")
+
+            # Get function from module
+            func = self.module.get_global(node.name)
+            if func is None or not isinstance(func, ir.Function):
+                raise Exception(f"Function {node.name} is not declared")
+
+            # Create entry point
+            block = func.append_basic_block(name="entry")
+            self.builder = ir.IRBuilder(block)
+
+            # Parameters assign
+            for arg, (_, param_name) in zip(func.args, node.params):
+                arg.name = param_name
+                ptr = self.builder.alloca(arg.type, name=param_name)
+                self.builder.store(arg, ptr)
+                self.symbol_table[param_name] = ptr
+
+            # Generate function body
+            for stmt in node.body:
+                self.generate(stmt)
+
+            # Default return
+            if self.builder.block.terminator is None:
+                if isinstance(func.function_type.return_type, ir.VoidType):
+                    self.builder.ret_void()
+                else:
+                    self.builder.ret(ir.Constant(func.function_type.return_type, 0))
+
         elif isinstance(node, DeclarationNode):
+            print(f"DEBUG IR: Declaring {node.variable_name} (size={node.size})")
+            # Mapping types
             if node.variable_type == 'Wilk':
                 variable_type = ir.IntType(32)
             elif node.variable_type == 'Kot':
@@ -79,32 +150,41 @@ class IRGenerator:
                 variable_type = ir.IntType(1)
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
-            if node.size == None:
+
+            # variable alloc
+            if node.size is None:
+                # Scalar
                 pointer = self.builder.alloca(variable_type, name=node.variable_name)
             else:
-                array_type = ir.ArrayType(variable_type, node.size)
+                # Array
+                array_type = variable_type
+            if isinstance(node.size, list):
+                array_type = variable_type
+                for dim in reversed(node.size):
+                    array_type = ir.ArrayType(array_type, dim)
                 pointer = self.builder.alloca(array_type, name=node.variable_name)
-                
+            else:
+                pointer = self.builder.alloca(variable_type, name=node.variable_name)
             self.symbol_table[node.variable_name] = pointer
-        
+            
         elif isinstance(node, AssignNode):
+            print(f"DEBUG IR: Assigning to {node.variable_name}, index={node.index}")
             value = self.generate(node.value)
             pointer = self.symbol_table[node.variable_name]
+
             if node.index is not None:
-                zero = ir.Constant(ir.IntType(32), 0)
-                index = ir.Constant(ir.IntType(32), node.index)
-                element_pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+                pointer = self.symbol_table[node.variable_name]
+                element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
             else:
                 self.builder.store(value, pointer)
+
                     
         elif isinstance(node, InputNode):
             pointer = self.symbol_table[node.variable_name]
 
             if node.index is not None:
-                zero = ir.Constant(ir.IntType(32), 0)
-                index = ir.Constant(ir.IntType(32), node.index)
-                pointer = self.builder.gep(pointer, [zero, index], inbounds=True)
+                pointer = self.get_element_ptr(pointer, node.index)
 
             variable_type = pointer.type.pointee
 
@@ -123,7 +203,7 @@ class IRGenerator:
             if isinstance(value_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
                 # float has to be double!
-                value = self.builder.fpext(value, ir.DoubleType(), name="float_to_double")
+                value = self.builder.fpext(value, ir.Doubletype(), name="float_to_double")
             elif value_type == ir.IntType(1):
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
                 value = self.builder.zext(value, ir.IntType(32), name="bool_to_int")
@@ -138,7 +218,7 @@ class IRGenerator:
             right = self.generate(node.right)
             
             if left.type != right.type:
-                raise Exception(f"Type mismatch: {left.type} vs {right.type}")
+                raise Exception(f"type mismatch: {left.type} vs {right.type}")
         
             if left.type == ir.FloatType():
                 if node.operator == '+':
@@ -173,24 +253,6 @@ class IRGenerator:
                 raise Exception(f'Variable: {node.name} is undefined')
             return self.builder.load(ptr=pointer, name=node.name)
         
-        # elif isinstance(node, BinOpBoolNode):
-        #     left = self.generate(node.left)
-        #     right = self.generate(node.right)
-
-        #     if left.type == ir.IntType(32):
-        #         left = self.builder.trunc(left, ir.IntType(1), name="left_trunc")
-
-        #     if right.type == ir.IntType(32):
-        #         right = self.builder.trunc(right, ir.IntType(1), name="right_trunc")
-
-        #     if node.operator == 'AND':
-        #         return self.builder.and_(left, right, name='and')
-        #     elif node.operator == 'OR':
-        #         return self.builder.or_(left, right, name='or')
-        #     elif node.operator == 'XOR':
-        #         return self.builder.xor(left, right, name='xor')
-        #     else:
-        #         raise Exception(f'Unknown boolean operator: {node.operator}')
         elif isinstance(node, BinOpBoolNode):
             left = self.generate(node.left)
             right = self.generate(node.right)
@@ -259,24 +321,28 @@ class IRGenerator:
             else_block = self.builder.append_basic_block('else') if node.else_body else None
             end_block = self.builder.append_basic_block('ifend')
             
+            
             if else_block:
                 self.builder.cbranch(cond, then_block, else_block)
             else:
                 self.builder.cbranch(cond, then_block, end_block)
 
-            # then
+            # Then
             self.builder.position_at_start(then_block)
             for stmt in node.then_body:
                 self.generate(stmt)
-            self.builder.branch(end_block)
-            
-            # else
-            self.builder.position_at_start(else_block)
-            if node.else_body:
-                for stmt in node.else_body:
-                    self.generate(stmt)
+            if self.builder.block.terminator is None:
                 self.builder.branch(end_block)
             
+            # Else
+            if else_block:
+                self.builder.position_at_start(else_block)
+                for stmt in node.else_body:
+                    self.generate(stmt)
+                if self.builder.block.terminator is None:
+                    self.builder.branch(end_block)
+            
+            # Ifend
             self.builder.position_at_start(end_block)
 
         elif isinstance(node, WhileNode):
@@ -342,9 +408,40 @@ class IRGenerator:
             else:
                 raise Exception(f"Unknown comparison operator {node.op}")
 
+        elif isinstance(node, FunctionCallNode):
+            func = self.module.get_global(node.name)
+            if func is None or not isinstance(func, ir.Function):
+                raise Exception(f"Function {node.name} is not defined")
+
+            args = [self.generate(arg) for arg in node.args]
+            return self.builder.call(func, args)
+
+        elif isinstance(node, ReturnNode):
+            if node.value:
+                value = self.generate(node.value)
+                self.builder.ret(value)
+            else:
+                self.builder.ret_void()
+        
+        elif isinstance(node, ArrayAccessNode):
+            pointer = self.symbol_table[node.name]
+            element_pointer = self.get_element_ptr(pointer, node.indexes)
+            return self.builder.load(element_pointer, name=node.name)
+
+
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
-    
+        
+    def get_element_ptr(self, pointer, index_nodes):
+        print(f"DEBUG GEP: pointer={pointer}, index_nodes={index_nodes}")
+        indices = [ir.Constant(ir.IntType(32), 0)]  # first 0 for base
+        for idx_node in index_nodes:
+            idx_value = self.generate(idx_node)
+            if idx_value.type != ir.IntType(32):
+                idx_value = self.builder.fptoui(idx_value, ir.IntType(32))
+            indices.append(idx_value)
+        return self.builder.gep(pointer, indices, inbounds=True)
+
     def save(self, filename):
         with open(filename, 'w') as file:
             file.write(str(self.module))

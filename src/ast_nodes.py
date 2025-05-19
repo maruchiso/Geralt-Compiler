@@ -72,3 +72,24 @@ class CompareNode(Node):
         self.op = op
         self.right = right
 
+class FunctionDeclNode(Node):
+    def __init__(self, return_type, name, params, body):
+        self.return_type = return_type
+        self.name = name
+        self.params = params
+        self.body = body
+
+class FunctionCallNode(Node):
+    def __init__(self, name, args):
+        self.name = name
+        self.args = args
+
+class ReturnNode(Node):
+    def __init__(self, value):
+        self.value = value
+
+class ArrayAccessNode(Node):
+    def __init__(self, name, indexes):
+        self.name = name
+        self.indexes = indexes
+
