@@ -69,6 +69,16 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#structAsign.
+    def visitStructAsign(self, ctx:GeraltParser.StructAsignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#structFieldPrint.
+    def visitStructFieldPrint(self, ctx:GeraltParser.StructFieldPrintContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#dividing.
     def visitDividing(self, ctx:GeraltParser.DividingContext):
         return self.visitChildren(ctx)
@@ -86,6 +96,11 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#subtraction.
     def visitSubtraction(self, ctx:GeraltParser.SubtractionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#structAccessExpr.
+    def visitStructAccessExpr(self, ctx:GeraltParser.StructAccessExprContext):
         return self.visitChildren(ctx)
 
 
@@ -211,6 +226,21 @@ class GeraltVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by GeraltParser#notEqual.
     def visitNotEqual(self, ctx:GeraltParser.NotEqualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#structDecl.
+    def visitStructDecl(self, ctx:GeraltParser.StructDeclContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#structFields.
+    def visitStructFields(self, ctx:GeraltParser.StructFieldsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#structFieldAccess.
+    def visitStructFieldAccess(self, ctx:GeraltParser.StructFieldAccessContext):
         return self.visitChildren(ctx)
 
 

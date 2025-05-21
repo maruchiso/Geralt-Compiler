@@ -96,3 +96,13 @@ class ArrayAccessNode(Node):
 class StringNode(Node):
     def __init__(self, value):
         self.value = value
+
+class StructDefNode(Node):
+    def __init__(self, name, fields):
+        self.name = name
+        self.fields = fields
+
+class StructAccessNode(Node):
+    def __init__(self, struct_var, field_name):
+        self.struct_var = struct_var  
+        self.field_name = field_name  

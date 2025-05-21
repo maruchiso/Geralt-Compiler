@@ -267,3 +267,37 @@ class WitcherVisitor(GeraltVisitor):
     def visitString(self, ctx):
         raw = ctx.getText()
         return StringNode(value=raw[1:-1])
+    
+    def visitStructDecl(self, ctx):
+        name = ctx.ID().getText()
+        fields = []
+
+        field_tokens = ctx.structFields().children
+        i = 0
+        while i < len(field_tokens):
+            # Skip whitespaces / newlines / etc.
+            if not hasattr(field_tokens[i], 'getText'):
+                i += 1
+                continue
+
+            typ = field_tokens[i].getText()
+            var = field_tokens[i + 1].getText()
+            fields.append((typ, var))
+            i += 2
+
+        print(f"VISITOR STRUCT: {name} with fields {fields}")
+        return StructDefNode(name, fields)
+
+
+    def visitStructFieldAccess(self, ctx):
+        struct_var = ctx.ID(0).getText()
+        field_name = ctx.ID(1).getText()
+        return StructAccessNode(struct_var, field_name)
+
+    def visitStructAsign(self, ctx):
+        access = ctx.structAccess()
+        struct_var = access.ID(0).getText()
+        field_name = access.ID(1).getText()
+        value = self.visit(ctx.expr())
+        return AssignNode(variable_name=StructAccessNode(struct_var, field_name), value=value)
+

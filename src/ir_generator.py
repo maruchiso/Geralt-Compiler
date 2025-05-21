@@ -8,6 +8,7 @@ class IRGenerator:
         self.builder = None # object to create instructions LLVM
         self.scopes = [{}] # to list scopes
         self.global_vars = {} # map for global variables
+        self.struct_types = {}
         
         # Declare main() function that will be 'entry' block for LLVM
         ftype = ir.FunctionType(ir.VoidType(), [])
@@ -119,6 +120,17 @@ class IRGenerator:
                 return scope[name]
         return None
 
+    def map_type(self, typename):
+        if typename == 'Wilk': return ir.IntType(32)
+        elif typename == 'Kot': return ir.FloatType()
+        elif typename == 'Mantikora': return ir.DoubleType()
+        elif typename == 'Gryf': return ir.IntType(1)
+        elif typename == 'Niedźwiedź': return ir.ArrayType(ir.IntType(8), 100)
+        elif typename in self.struct_types:
+            return self.struct_types[typename][0]  # struct type
+        else:
+            raise Exception(f"Unknown type: {typename}")
+
     def generate(self, node):
         if isinstance(node, ProgramNode):
             # Step 1: Register all functions
@@ -201,6 +213,14 @@ class IRGenerator:
             elif node.variable_type == 'Mantikora':
                 variable_type = ir.DoubleType()
                 
+            elif node.variable_type in self.struct_types:
+                struct_type, _ = self.struct_types[node.variable_type]
+                ptr = self.builder.alloca(struct_type, name=node.variable_name)
+                is_global_scope = len(self.scopes) == 1
+                self.define_variable(node.variable_name, ptr, global_scope=is_global_scope)
+                print(f"Debug: {node.variable_name} (struct) -> {ptr} is global: {is_global_scope}")
+                return 
+
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
 
@@ -223,18 +243,48 @@ class IRGenerator:
             print(f"Debug: {node.variable_name} -> {pointer} is global: {is_global_scope}")
             
         elif isinstance(node, AssignNode):
+            print("AssignNode variable_name =", type(node.variable_name))
             print(f"DEBUG IR: Assigning to {node.variable_name}, index={node.index}")
             value = self.generate(node.value)
+            print(f"DEBUG: Assign value for {node.variable_name} is {value}")
+
+            if isinstance(node.variable_name, StructAccessNode):
+                print(f"DEBUG: p.{node.variable_name.field_name} has value:{value}")
+                struct_ptr = self.lookup(node.variable_name.struct_var)
+                struct_name = self.get_type_name(struct_ptr)
+                struct_type, field_names = self.struct_types[struct_name]
+                index = field_names.index(node.variable_name.field_name)
+                gep = self.builder.gep(struct_ptr, [
+                    ir.Constant(ir.IntType(32), 0),
+                    ir.Constant(ir.IntType(32), index)
+                ], inbounds=True)
+                print("STRUCT FIELD TYPE =", gep.type.pointee)
+                print("VALUE TYPE =", value.type)
+                if gep.type.pointee == ir.ArrayType(ir.IntType(8), 100):
+                    dest_ptr = self.builder.gep(
+                        struct_ptr,
+                        [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)],
+                        inbounds=True
+                    )
+                    flat_ptr = self.builder.gep(dest_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    self.builder.call(self.strcpy, [flat_ptr, value])
+                else:
+                    self.builder.store(value, gep)
+
+                print(f"DEBUG: STORE to p.{node.variable_name.field_name} and value type: {value.type}")
+
+                return  
+
+            # other variables
+
             pointer = self.lookup(node.variable_name)
             if pointer is None:
                 raise Exception(f"Variable {node.variable_name} not found in any scope.")
-
 
             if node.index is not None:
                 element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
             else:
-                # Check it type is [100 x i8] - which is string (here Niedźwiedź)
                 pointee = pointer.type.pointee
                 if pointee != value.type:
                     if isinstance(pointee, ir.DoubleType) and isinstance(value.type, ir.FloatType):
@@ -243,11 +293,14 @@ class IRGenerator:
                         raise Exception(f"Incompatible types: cannot assign {value.type} to {pointee}")
 
                 if isinstance(pointee, ir.ArrayType) and pointee.element == ir.IntType(8):
-                    # get element ptr to array
-                    dest_ptr = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    dest_ptr = self.builder.gep(pointer, [
+                        ir.Constant(ir.IntType(32), 0),
+                        ir.Constant(ir.IntType(32), 0)
+                    ])
                     self.builder.call(self.strcpy, [dest_ptr, value])
                 else:
                     self.builder.store(value, pointer)
+
 
                     
         elif isinstance(node, InputNode):
@@ -293,12 +346,20 @@ class IRGenerator:
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
             
             elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee.element == ir.IntType(8):
-                # print tekst: [100 x i8]* → zrób GEP do i8*
+                # print tekst: [100 x i8]* GEP do i8*
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
                 value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
 
             elif isinstance(value_type, ir.DoubleType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+            
+            elif isinstance(value_type, ir.ArrayType) and value_type.element == ir.IntType(8):
+                # [100 x i8]: GEP to i8*
+                value_ptr = self.builder.alloca(value_type)
+                self.builder.store(value, value_ptr)
+                value = self.builder.gep(value_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+
             else:
                 raise Exception(f"Unsupported type for print: {value_type}")
 
@@ -338,12 +399,14 @@ class IRGenerator:
                     return self.builder.sdiv(left, right, 'div')
         
         elif isinstance(node, NumberNode):
-            if isinstance(node.value, float):
-                return ir.Constant(ir.FloatType(), node.value)
-            elif isinstance(node.value, int):
+            print(f"DEBUG: NumberNode {node.value}")
+            if isinstance(node.value, int):
                 return ir.Constant(ir.IntType(32), node.value)
+            elif isinstance(node.value, float):
+                return ir.Constant(ir.FloatType(), node.value)
             else:
-                raise(f"{node.value} is unknown type.")
+                raise Exception(f"Unknown number type: {node.value}")
+
         
         elif isinstance(node, VarNode):
             pointer = self.lookup(node.name)
@@ -553,6 +616,23 @@ class IRGenerator:
             
             return self.builder.bitcast(string_const, ir.IntType(8).as_pointer())
         
+        elif isinstance(node, StructDefNode):
+            field_types = []
+            field_names = []
+            for typ, name in node.fields:
+                llvm_type = self.map_type(typ)
+                field_types.append(llvm_type)
+                field_names.append(name)
+            struct_type = ir.LiteralStructType(field_types)
+            self.struct_types[node.name] = (struct_type, field_names)
+            print(f"REGISTER STRUCT {node.name} with fields {field_names}")
+
+        elif isinstance(node, StructAccessNode):
+            struct_ptr = self.lookup(node.struct_var)
+            struct_type, field_names = self.struct_types[self.get_type_name(struct_ptr)]
+            index = field_names.index(node.field_name)
+            gep = self.builder.gep(struct_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)], inbounds=True)
+            return self.builder.load(gep)
 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
@@ -566,6 +646,12 @@ class IRGenerator:
                 idx_value = self.builder.fptoui(idx_value, ir.IntType(32))
             indices.append(idx_value)
         return self.builder.gep(pointer, indices, inbounds=True)
+
+    def get_type_name(self, ptr):
+        for name, (struct_type, _) in self.struct_types.items():
+            if struct_type == ptr.type.pointee:
+                return name
+        raise Exception("Unknown struct type")
 
     def save(self, filename):
         with open(filename, 'w') as file:

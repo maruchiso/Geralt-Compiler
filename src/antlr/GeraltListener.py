@@ -116,6 +116,24 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#structAsign.
+    def enterStructAsign(self, ctx:GeraltParser.StructAsignContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structAsign.
+    def exitStructAsign(self, ctx:GeraltParser.StructAsignContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#structFieldPrint.
+    def enterStructFieldPrint(self, ctx:GeraltParser.StructFieldPrintContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structFieldPrint.
+    def exitStructFieldPrint(self, ctx:GeraltParser.StructFieldPrintContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#dividing.
     def enterDividing(self, ctx:GeraltParser.DividingContext):
         pass
@@ -149,6 +167,15 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#subtraction.
     def exitSubtraction(self, ctx:GeraltParser.SubtractionContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#structAccessExpr.
+    def enterStructAccessExpr(self, ctx:GeraltParser.StructAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structAccessExpr.
+    def exitStructAccessExpr(self, ctx:GeraltParser.StructAccessExprContext):
         pass
 
 
@@ -374,6 +401,33 @@ class GeraltListener(ParseTreeListener):
 
     # Exit a parse tree produced by GeraltParser#notEqual.
     def exitNotEqual(self, ctx:GeraltParser.NotEqualContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#structDecl.
+    def enterStructDecl(self, ctx:GeraltParser.StructDeclContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structDecl.
+    def exitStructDecl(self, ctx:GeraltParser.StructDeclContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#structFields.
+    def enterStructFields(self, ctx:GeraltParser.StructFieldsContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structFields.
+    def exitStructFields(self, ctx:GeraltParser.StructFieldsContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#structFieldAccess.
+    def enterStructFieldAccess(self, ctx:GeraltParser.StructFieldAccessContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#structFieldAccess.
+    def exitStructFieldAccess(self, ctx:GeraltParser.StructFieldAccessContext):
         pass
 
 
