@@ -96,6 +96,7 @@ type
     | 'Kot'
     | 'Gryf'
     | 'Niedźwiedź'
+    | 'Mantikora'
     ;
 
 ID: [a-zA-Z_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ][a-zA-Z0-9_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]* ;

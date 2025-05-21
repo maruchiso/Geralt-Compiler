@@ -1,0 +1,16 @@
+let Kot test_32_1
+let Kot test_32_2
+set test_32_1 = 1.33
+set test_32_2 = 0.26
+let Kot wynik32
+set wynik32 = test_32_1 Quen test_32_2
+
+let Mantikora test_64_1
+let Mantikora test_64_2
+set test_64_1 = 1.33
+set test_64_2 = 0.26
+let Mantikora wynik64
+set wynik64 = test_64_1 Quen test_64_2
+
+print wynik32
+print wynik64

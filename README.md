@@ -2,22 +2,22 @@
 Programming language inspired by the world of the Witcher.
 
 ## Etap 1
-~~* obsługa dwóch typów zmiennych: całkowite, rzeczywiste, done ~~
-~~ * podstawowa obsługa standardowego wejścia-wyjścia (np. polecenia read i print), done ~~
-~~ * obsługa podstawowych operacji artmetycznych, done ~~
-~~ * wskazywanie błędów podczas analizy leksykalno-składniowej done ~~
+~~* obsługa dwóch typów zmiennych: całkowite, rzeczywiste~~
+~~ * podstawowa obsługa standardowego wejścia-wyjścia (np. polecenia read i print)~~
+~~ * obsługa podstawowych operacji artmetycznych~~
+~~ * wskazywanie błędów podczas analizy leksykalno-składniowej done~~
 
 Rozszerzenia
 ~~ * obsługa zmiennych tablicowych (3 pkt) done~~
-~~* obsługa macierzy liczb (+2 pkt) done ~~
+~~* obsługa macierzy liczb (+2 pkt) done~~
 ~~* obsługa wartości logicznych (2pkt za AND, OR, XOR, NEG, 5 pkt. jeżeli zaimplementowane zostanie short-circuit boolean evaluation) done~~
 * obsługa liczb o różnej precyzji (np. Float32, Float64) (5 pkt)
 ~~* obsługa typu ciąg znaków (string) (3 pkt) done~~
 
 ## Etap 2:
-~~* instrukcja warunkowe, pętla, done~~
-~~* możliwość tworzenia funkcji, done~~
-* obsługa zasięgu zmiennych (lokalne i globalne, w pełni funkcjonalne zmienne lokalne)
+~~* instrukcja warunkowe, pętla~~
+~~* możliwość tworzenia funkcji~~
+~~* obsługa zasięgu zmiennych (lokalne i globalne, w pełni funkcjonalne zmienne lokalne)~~
 
 Rozszerzenia
 * obsługa struktur (5 pkt)
@@ -25,4 +25,5 @@ Rozszerzenia
 * dynamiczne typowanie (5 pkt)
 * funkcje-generatory (np. iteratory) (5 pkt)
 
-updated branch = string2
+
+antlr4 -Dlanguage=Python3 Geralt.g4 -visitor -o ../src/antlr

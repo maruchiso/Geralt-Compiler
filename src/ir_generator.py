@@ -48,7 +48,7 @@ class IRGenerator:
 
         # float
         # global format of string for printf
-        printf_float_format = '%f\n\0'
+        printf_float_format = '%.30f\n\0'
         printf_float_bytes = bytearray(printf_float_format.encode('utf8'))
         printf_float_const = ir.ArrayType(element=ir.IntType(8), count=len(printf_float_bytes))
         self.printf_float_format = ir.GlobalVariable(module=self.module, typ=printf_float_const, name='printf_float_format')
@@ -186,14 +186,21 @@ class IRGenerator:
             # Mapping types
             if node.variable_type == 'Wilk':
                 variable_type = ir.IntType(32)
+                
             elif node.variable_type == 'Kot':
                 variable_type = ir.FloatType()
+                
             elif node.variable_type == 'Gryf':
                 variable_type = ir.IntType(1)
+                
             elif node.variable_type == 'Niedźwiedź':
                 #variable_type = ir.IntType(8).as_pointer()
                 # Because pointer cause errors with Input so i changed it to buffor with 100 characters
                 variable_type = ir.ArrayType(ir.IntType(8), 100)
+                
+            elif node.variable_type == 'Mantikora':
+                variable_type = ir.DoubleType()
+                
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
 
@@ -229,6 +236,12 @@ class IRGenerator:
             else:
                 # Check it type is [100 x i8] - which is string (here Niedźwiedź)
                 pointee = pointer.type.pointee
+                if pointee != value.type:
+                    if isinstance(pointee, ir.DoubleType) and isinstance(value.type, ir.FloatType):
+                        value = self.builder.fpext(value, ir.DoubleType(), name="float32_to_float64")
+                    else:
+                        raise Exception(f"Incompatible types: cannot assign {value.type} to {pointee}")
+
                 if isinstance(pointee, ir.ArrayType) and pointee.element == ir.IntType(8):
                     # get element ptr to array
                     dest_ptr = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
@@ -284,7 +297,8 @@ class IRGenerator:
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
                 value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
 
-
+            elif isinstance(value_type, ir.DoubleType):
+                format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
             else:
                 raise Exception(f"Unsupported type for print: {value_type}")
 
@@ -295,11 +309,16 @@ class IRGenerator:
         elif isinstance(node, BinOpNode):
             left = self.generate(node.left)
             right = self.generate(node.right)
-            
-            if left.type != right.type:
-                raise Exception(f"type mismatch: {left.type} vs {right.type}")
-        
-            if left.type == ir.FloatType():
+
+            # promote to double
+            if isinstance(left.type, ir.DoubleType) or isinstance(right.type, ir.DoubleType):
+                if isinstance(left.type, ir.FloatType):
+                    left = self.builder.fpext(left, ir.DoubleType(), name="left_f32_to_f64")
+                if isinstance(right.type, ir.FloatType):
+                    right = self.builder.fpext(right, ir.DoubleType(), name="right_f32_to_f64")
+
+                
+            if left.type == ir.FloatType() or left.type == ir.DoubleType():
                 if node.operator == '+':
                     return self.builder.fadd(left, right, 'add')
                 elif node.operator == '-':
