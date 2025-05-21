@@ -15,7 +15,7 @@ Rozszerzenia
 ~~* obsługa typu ciąg znaków (string) (3 pkt) done~~
 
 ## Etap 2:
-* instrukcja warunkowe, pętla, done
+~~* instrukcja warunkowe, pętla, done~~
 ~~* możliwość tworzenia funkcji, done~~
 * obsługa zasięgu zmiennych (lokalne i globalne, w pełni funkcjonalne zmienne lokalne)
 
