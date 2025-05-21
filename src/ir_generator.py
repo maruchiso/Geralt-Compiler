@@ -248,11 +248,6 @@ class IRGenerator:
             elif isinstance(value_type, ir.PointerType) and value_type.pointee == ir.IntType(8):
                 # classic i8* (StringNode)
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
-                
-            elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee == ir.IntType(8):
-                # i8[100]* -> GEP for i8*
-                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
-                value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
             
             elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee.element == ir.IntType(8):
                 # print tekst: [100 x i8]* → zrób GEP do i8*
