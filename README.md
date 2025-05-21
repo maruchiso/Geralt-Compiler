@@ -24,3 +24,5 @@ Rozszerzenia
 * obsługa klas (5 pkt)
 * dynamiczne typowanie (5 pkt)
 * funkcje-generatory (np. iteratory) (5 pkt)
+
+updated branch = string2

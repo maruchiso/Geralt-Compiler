@@ -6,7 +6,8 @@ class IRGenerator:
     def __init__(self):
         self.module = ir.Module(name='geralt_module') # container for LLVM module
         self.builder = None # object to create instructions LLVM
-        self.symbol_table = {} # dict fo tracking varaibles and their adresses
+        self.scopes = [{}] # to list scopes
+        self.global_vars = {} # map for global variables
         
         # Declare main() function that will be 'entry' block for LLVM
         ftype = ir.FunctionType(ir.VoidType(), [])
@@ -82,6 +83,9 @@ class IRGenerator:
         strcpy_type = ir.FunctionType(ir.IntType(8).as_pointer(), [ir.IntType(8).as_pointer(), ir.IntType(8).as_pointer()])
         self.strcpy = ir.Function(self.module, strcpy_type, name="strcpy")
         
+        self.string_counter = 0
+        self.string_constans = {}
+        
     def _declare_function(self, node: FunctionDeclNode):
         def map_type(typ):
             if typ == 'Wilk':
@@ -101,6 +105,19 @@ class IRGenerator:
         func = ir.Function(self.module, func_type, name=node.name)
 
         return func
+    
+    def define_variable(self, name, ptr, global_scope=False):
+        if global_scope:
+            self.global_vars[name] = ptr
+            self.scopes[0][name] = ptr
+        else:
+            self.scopes[-1][name] = ptr
+    
+    def lookup(self, name):
+        for scope in reversed(self.scopes):
+            if name in scope:
+                return scope[name]
+        return None
 
     def generate(self, node):
         if isinstance(node, ProgramNode):
@@ -140,13 +157,15 @@ class IRGenerator:
             # Create entry point
             block = func.append_basic_block(name="entry")
             self.builder = ir.IRBuilder(block)
+            # Add scope to scopes list
+            self.scopes.append({})
 
             # Parameters assign
             for arg, (_, param_name) in zip(func.args, node.params):
                 arg.name = param_name
                 ptr = self.builder.alloca(arg.type, name=param_name)
                 self.builder.store(arg, ptr)
-                self.symbol_table[param_name] = ptr
+                print(f"DEBUG: {param_name} -> {ptr}")
 
             # Generate function body
             for stmt in node.body:
@@ -158,6 +177,9 @@ class IRGenerator:
                     self.builder.ret_void()
                 else:
                     self.builder.ret(ir.Constant(func.function_type.return_type, 0))
+            
+            # Close scope -> Delete from scopes
+            self.scopes.pop()
 
         elif isinstance(node, DeclarationNode):
             print(f"DEBUG IR: Declaring {node.variable_name} (size={node.size})")
@@ -189,12 +211,17 @@ class IRGenerator:
                 pointer = self.builder.alloca(array_type, name=node.variable_name)
             else:
                 pointer = self.builder.alloca(variable_type, name=node.variable_name)
-            self.symbol_table[node.variable_name] = pointer
+            is_global_scope = len(self.scopes) == 1
+            self.define_variable(node.variable_name, pointer, global_scope=is_global_scope)
+            print(f"Debug: {node.variable_name} -> {pointer} is global: {is_global_scope}")
             
         elif isinstance(node, AssignNode):
             print(f"DEBUG IR: Assigning to {node.variable_name}, index={node.index}")
             value = self.generate(node.value)
-            pointer = self.symbol_table[node.variable_name]
+            pointer = self.lookup(node.variable_name)
+            if pointer is None:
+                raise Exception(f"Variable {node.variable_name} not found in any scope.")
+
 
             if node.index is not None:
                 element_pointer = self.get_element_ptr(pointer, node.index)
@@ -211,7 +238,10 @@ class IRGenerator:
 
                     
         elif isinstance(node, InputNode):
-            pointer = self.symbol_table[node.variable_name]
+            pointer = self.lookup(node.variable_name)
+            if pointer is None:
+                raise Exception(f"Variable {node.variable_name} not found in any scope.")
+
 
             if node.index is not None:
                 pointer = self.get_element_ptr(pointer, node.index)
@@ -297,9 +327,9 @@ class IRGenerator:
                 raise(f"{node.value} is unknown type.")
         
         elif isinstance(node, VarNode):
-            pointer = self.symbol_table.get(node.name)
+            pointer = self.lookup(node.name)
             if pointer is None:
-                raise Exception(f'Variable: {node.name} is undefined')
+                raise Exception(f"Variable {node.name} not found in any scope.")
 
             pointee = pointer.type.pointee
 
@@ -481,7 +511,10 @@ class IRGenerator:
                 self.builder.ret_void()
         
         elif isinstance(node, ArrayAccessNode):
-            pointer = self.symbol_table[node.name]
+            pointer = self.lookup(node.variable_name)
+            if pointer is None:
+                raise Exception(f"Variable {node.variable_name} not found in any scope.")
+
             element_pointer = self.get_element_ptr(pointer, node.indexes)
             return self.builder.load(element_pointer, name=node.name)
         
@@ -489,9 +522,16 @@ class IRGenerator:
             text = node.value + "\0" # End sign for strings
             string_bytes = bytearray(text.encode("utf-8"))
             const_type = ir.ArrayType(ir.IntType(8), len(string_bytes))
-            string_const = ir.GlobalVariable(self.module, const_type, name=f"str{len(self.symbol_table)}")
-            string_const.global_constant = True
-            string_const.initializer = ir.Constant(const_type, string_bytes)
+            
+            if text in self.string_constans:
+                string_const = self.string_constans[text]
+            else:
+                name = f"str{self.string_counter}"
+                self.string_counter += 1
+                string_const = ir.GlobalVariable(self.module, const_type, name=name)
+                string_const.global_constant = True
+                string_const.initializer = ir.Constant(const_type, string_bytes)
+            
             return self.builder.bitcast(string_const, ir.IntType(8).as_pointer())
         
 

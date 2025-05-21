@@ -4,3 +4,7 @@ print tekst
 
 input tekst
 print tekst
+
+let Niedźwiedź tekst2
+set tekst2 = "Letho z Gulety"
+print tekst2

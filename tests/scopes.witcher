@@ -1,0 +1,13 @@
+let Wilk a
+set a = 5
+
+zaklęcie Wilk test():
+    let Wilk a
+    set a = 42
+    print a
+    return 1
+koniec
+
+let Wilk wywołanie_funkcji
+set wywołanie_funkcji = test()
+print a
