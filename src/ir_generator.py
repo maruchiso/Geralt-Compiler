@@ -78,6 +78,10 @@ class IRGenerator:
         self.scanf_str_format.global_constant = True
         self.scanf_str_format.initializer = ir.Constant(scanf_str_const, scanf_str_bytes)
 
+        # string copy
+        strcpy_type = ir.FunctionType(ir.IntType(8).as_pointer(), [ir.IntType(8).as_pointer(), ir.IntType(8).as_pointer()])
+        self.strcpy = ir.Function(self.module, strcpy_type, name="strcpy")
+        
     def _declare_function(self, node: FunctionDeclNode):
         def map_type(typ):
             if typ == 'Wilk':
@@ -165,7 +169,9 @@ class IRGenerator:
             elif node.variable_type == 'Gryf':
                 variable_type = ir.IntType(1)
             elif node.variable_type == 'Niedźwiedź':
-                variable_type = ir.IntType(8).as_pointer()
+                #variable_type = ir.IntType(8).as_pointer()
+                # Because pointer cause errors with Input so i changed it to buffor with 100 characters
+                variable_type = ir.ArrayType(ir.IntType(8), 100)
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
 
@@ -191,11 +197,17 @@ class IRGenerator:
             pointer = self.symbol_table[node.variable_name]
 
             if node.index is not None:
-                pointer = self.symbol_table[node.variable_name]
                 element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
             else:
-                self.builder.store(value, pointer)
+                # Check it type is [100 x i8] - which is string (here Niedźwiedź)
+                pointee = pointer.type.pointee
+                if isinstance(pointee, ir.ArrayType) and pointee.element == ir.IntType(8):
+                    # get element ptr to array
+                    dest_ptr = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    self.builder.call(self.strcpy, [dest_ptr, value])
+                else:
+                    self.builder.store(value, pointer)
 
                     
         elif isinstance(node, InputNode):
@@ -208,12 +220,15 @@ class IRGenerator:
 
             if isinstance(variable_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.scanf_float_format, ir.IntType(8).as_pointer())
-            elif isinstance(variable_type, ir.PointerType):
-                format_pointer = self.builder.bitcast(self.scanf_str+format, ir.IntType(8).as_pointer())
+                input_pointer = format_pointer
+                
+            elif isinstance(variable_type, ir.ArrayType):
+                format_pointer = self.builder.bitcast(self.scanf_str_format, ir.IntType(8).as_pointer())
+                input_pointer = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
             elif isinstance(variable_type, ir.IntType):
                 format_pointer = self.builder.bitcast(self.scanf_format, ir.IntType(8).as_pointer())
 
-            self.builder.call(self.scanf, [format_pointer, pointer])
+            self.builder.call(self.scanf, [format_pointer, input_pointer])
         
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
@@ -231,7 +246,19 @@ class IRGenerator:
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
 
             elif isinstance(value_type, ir.PointerType) and value_type.pointee == ir.IntType(8):
+                # classic i8* (StringNode)
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                
+            elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee == ir.IntType(8):
+                # i8[100]* -> GEP for i8*
+                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+            
+            elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee.element == ir.IntType(8):
+                # print tekst: [100 x i8]* → zrób GEP do i8*
+                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+
 
             else:
                 raise Exception(f"Unsupported type for print: {value_type}")
@@ -278,7 +305,15 @@ class IRGenerator:
             pointer = self.symbol_table.get(node.name)
             if pointer is None:
                 raise Exception(f'Variable: {node.name} is undefined')
+
+            pointee = pointer.type.pointee
+
+            if isinstance(pointee, ir.ArrayType) and pointee.element == ir.IntType(8):
+                # if Niedźwiedź then reutrn pointer to first elem in array
+                return pointer  # without load because load returns whole array
+
             return self.builder.load(ptr=pointer, name=node.name)
+
         
         elif isinstance(node, BinOpBoolNode):
             left = self.generate(node.left)

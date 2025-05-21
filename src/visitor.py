@@ -42,12 +42,7 @@ class WitcherVisitor(GeraltVisitor):
     
     def visitInput(self, ctx):
         variable_name = ctx.ID().getText()
-        if ctx.INT():
-            index = int(ctx.INT().getText())
-        else:
-            index = None
-            
-        return InputNode(variable_name=variable_name, index=index)
+        return InputNode(variable_name=variable_name)
     
     def visitOutput(self, ctx):
         value = self.visit(ctx.expr())
@@ -62,7 +57,6 @@ class WitcherVisitor(GeraltVisitor):
     
     def visitVar(self, ctx):
         name = ctx.getText()
-
         return VarNode(name=name)
     
     def visitSubtraction(self, ctx):
