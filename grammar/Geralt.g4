@@ -61,17 +61,21 @@ comparisonExpr
     ;
 
 classDecl
-    : 'klasa' ID ':' classField+ 'koniec'    // np. klasa Student: ...
+    : 'klasa' ID ':' classBody 'koniec'
     ;
 
-classField
-    : 'publiczne' type ID                     # publicField
-    | 'prywatne' type ID                      # privateField
+classBody
+    : classMember*
+    ;
+
+classMember
+    : visibility type ID                      
+    | functionDecl                            
     ;
 
 visibility
-    : 'publiczny'
-    | 'prywatny'
+    : 'publiczne'
+    | 'prywatne'
     ;
     
 structDecl

@@ -50,7 +50,7 @@ class IRGenerator:
 
         # float
         # global format of string for printf
-        printf_float_format = '%.30f\n\0'
+        printf_float_format = '%.10f\n\0'
         printf_float_bytes = bytearray(printf_float_format.encode('utf8'))
         printf_float_const = ir.ArrayType(element=ir.IntType(8), count=len(printf_float_bytes))
         self.printf_float_format = ir.GlobalVariable(module=self.module, typ=printf_float_const, name='printf_float_format')
@@ -224,7 +224,7 @@ class IRGenerator:
                     ])
             
             elif node.variable_type in self.class_types:
-                class_type, _ = self.class_types[node.variable_type]
+                class_type, _, _ = self.class_types[node.variable_type]
                 ptr = self.builder.alloca(class_type, name=node.variable_name)
                 is_global_scope = len(self.scopes) == 1
                 self.define_variable(node.variable_name, ptr, global_scope=is_global_scope)
@@ -239,7 +239,12 @@ class IRGenerator:
                 self.define_variable(node.variable_name, ptr, global_scope=is_global_scope)
                 print(f"Debug: {node.variable_name} (struct) -> {ptr} is global: {is_global_scope}")
                 return 
-
+            elif node.variable_type in self.class_types:
+                class_type, _, _ = self.class_types[node.variable_type]
+                pointer = self.builder.alloca(class_type, name=node.variable_name)
+                is_global_scope = len(self.scopes) == 1
+                self.define_variable(node.variable_name, pointer, global_scope=is_global_scope)
+                return
             else:
                 raise Exception(f'{node.variable_type} is unknown variable type.')
 
@@ -294,35 +299,22 @@ class IRGenerator:
 
                 return  
             
-            if isinstance(node.variable_name, ClassAccessNode):
-                class_ptr = self.lookup(node.variable_name.class_var)
+            elif isinstance(node, ClassAccessNode):
+                class_ptr = self.lookup(node.class_var)
                 class_name = self.get_type_name(class_ptr)
                 class_type, field_names, visibility_map = self.class_types[class_name]
 
-                field = node.variable_name.field_name
-                if visibility_map[field] == "prywatny":
-                    raise Exception(f"Cannot assign to private field '{field}' of class '{class_name}'.")
+                if visibility_map[node.field_name] == "prywatny":
+                    raise Exception(f"Cannot access private field '{node.field_name}' of class '{class_name}'.")
 
-                index = field_names.index(field)
-                gep = self.builder.gep(class_ptr, [
-                    ir.Constant(ir.IntType(32), 0),
-                    ir.Constant(ir.IntType(32), index)
-                ], inbounds=True)
+                index = field_names.index(node.field_name)
+                gep = self.builder.gep(class_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)])
 
                 pointee = gep.type.pointee
-
-                if pointee == ir.ArrayType(ir.IntType(8), 100):
-                    dest_ptr = self.builder.gep(
-                        class_ptr,
-                        [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)],
-                        inbounds=True
-                    )
-                    flat_ptr = self.builder.gep(dest_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
-                    self.builder.call(self.strcpy, [flat_ptr, value])
+                if isinstance(pointee, ir.ArrayType):
+                    return gep
                 else:
-                    self.builder.store(value, gep)
-
-                return
+                    return self.builder.load(gep)
 
             # other variables
             pointer = self.lookup(node.variable_name)
@@ -686,9 +678,9 @@ class IRGenerator:
                 self.builder.ret_void()
         
         elif isinstance(node, ArrayAccessNode):
-            pointer = self.lookup(node.variable_name)
+            pointer = self.lookup(node.name)
             if pointer is None:
-                raise Exception(f"Variable {node.variable_name} not found in any scope.")
+                raise Exception(f"Variable {node.name} not found in any scope.")
 
             element_pointer = self.get_element_ptr(pointer, node.indexes)
             return self.builder.load(element_pointer, name=node.name)
@@ -728,28 +720,30 @@ class IRGenerator:
             return self.builder.load(gep)
 
         elif isinstance(node, ClassDefNode):
-            print(f"REGISTER CLASS {node.name} with fields {[name for (_, name, _) in node.fields]}")
-            
             field_types = []
             field_names = []
-            for field_type, field_name, _visibility in node.fields:
-                if field_type == 'Wilk':
-                    field_types.append(ir.IntType(32))
-                elif field_type == 'Kot':
-                    field_types.append(ir.FloatType())
-                elif field_type == 'Gryf':
-                    field_types.append(ir.IntType(1))
-                elif field_type == 'Niedźwiedź':
-                    field_types.append(ir.ArrayType(ir.IntType(8), 100))
-                elif field_type == 'Mantikora':
-                    field_types.append(ir.DoubleType())
+            visibility = {}
+
+            for field in node.members:
+                if field.var_type == 'Wilk':
+                    llvm_type = ir.IntType(32)
+                elif field.var_type == 'Kot':
+                    llvm_type = ir.FloatType()
+                elif field.var_type == 'Gryf':
+                    llvm_type = ir.IntType(1)
+                elif field.var_type == 'Niedźwiedź':
+                    llvm_type = ir.ArrayType(ir.IntType(8), 100)
+                elif field.var_type == 'Mantikora':
+                    llvm_type = ir.DoubleType()
                 else:
-                    raise Exception(f"Unknown type in class: {field_type}")
+                    raise Exception(f"Unknown class field type: {field.var_type}")
 
-                field_names.append(field_name)
+                field_names.append(field.name)
+                field_types.append(llvm_type)
+                visibility[field.name] = field.visibility
 
-            class_type = ir.LiteralStructType(field_types)
-            self.class_types[node.name] = (class_type, field_names)
+            struct_type = ir.LiteralStructType(field_types)
+            self.class_types[node.name] = (struct_type, field_names, visibility)
 
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
@@ -765,10 +759,17 @@ class IRGenerator:
         return self.builder.gep(pointer, indices, inbounds=True)
 
     def get_type_name(self, ptr):
+        # structs
         for name, (struct_type, _) in self.struct_types.items():
             if struct_type == ptr.type.pointee:
                 return name
-        raise Exception("Unknown struct type")
+
+        # classes
+        for name, (class_type, _, _) in self.class_types.items():
+            if class_type == ptr.type.pointee:
+                return name
+
+        raise Exception("Unknown struct or class type")
 
     def save(self, filename):
         with open(filename, 'w') as file:

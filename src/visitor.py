@@ -4,6 +4,10 @@ from antlr.GeraltParser import GeraltParser
 from ast_nodes import * 
 
 class WitcherVisitor(GeraltVisitor): 
+    def __init__(self):
+        self.known_classes = set()
+        super().__init__()
+        
     def visitProgram(self, ctx):
         print("DEBUG: visitProgram called")
         nodes = []
@@ -290,9 +294,14 @@ class WitcherVisitor(GeraltVisitor):
 
 
     def visitStructFieldAccess(self, ctx):
-        struct_var = ctx.ID(0).getText()
+        var_name = ctx.ID(0).getText()
         field_name = ctx.ID(1).getText()
-        return StructAccessNode(struct_var, field_name)
+        
+        if var_name in self.known_classes: 
+            return ClassAccessNode(class_var=var_name, field_name=field_name)
+        else:
+            return StructAccessNode(struct_var=var_name, field_name=field_name)
+
 
     def visitStructAsign(self, ctx):
         access = ctx.structAccess()
@@ -303,18 +312,22 @@ class WitcherVisitor(GeraltVisitor):
 
     def visitClassDecl(self, ctx):
         class_name = ctx.ID().getText()
+        self.known_classes.add(class_name)  
+
         fields = []
+        for field_ctx in ctx.classField():
+            fields.append(self.visit(field_ctx))
+        
+        return ClassDefNode(name=class_name, members=fields)
 
-        for field in ctx.classFields().field():
-            visibility = field.visibility().getText()
-            type_name = field.type_().getText()
-            field_name = field.ID().getText()
-            fields.append(ClassFieldNode(visibility, type_name, field_name))
 
-        return ClassDefNode(class_name, fields)
-    
-    def visitClassAccess(self, ctx):
-        class_var = ctx.ID(0).getText()
-        field_name = ctx.ID(1).getText()
-        return ClassAccessNode(class_var, field_name)
+    def visitPublicField(self, ctx):
+        var_type = ctx.type_().getText()
+        name = ctx.ID().getText()
+        return ClassFieldNode(var_type=var_type, name=name, visibility="publiczny")
+
+    def visitPrivateField(self, ctx):
+        var_type = ctx.type_().getText()
+        name = ctx.ID().getText()
+        return ClassFieldNode(var_type=var_type, name=name, visibility="prywatny")
 

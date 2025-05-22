@@ -108,23 +108,17 @@ class StructAccessNode(Node):
         self.field_name = field_name  
 
 class ClassDefNode:
-    def __init__(self, name, fields):
+    def __init__(self, name, members):
         self.name = name                  
-        self.fields = fields              
-
-    def __repr__(self):
-        return f"<Class {self.name}: {self.fields}>"
+        self.members = members            
 
 class ClassFieldNode:
-    def __init__(self, visibility, type_name, field_name):
+    def __init__(self, visibility, var_type, name):
         self.visibility = visibility      
-        self.type_name = type_name       
-        self.field_name = field_name     
+        self.var_type = var_type          
+        self.name = name                  
 
-    def __repr__(self):
-        return f"({self.visibility} {self.type_name} {self.field_name})"
-
-class ClassAccessNode(Node):
+class ClassAccessNode:
     def __init__(self, class_var, field_name):
-        self.class_var = class_var
-        self.field_name = field_name
+        self.class_var = class_var        
+        self.field_name = field_name      
