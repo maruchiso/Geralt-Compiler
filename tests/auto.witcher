@@ -1,0 +1,11 @@
+klasa Student:
+    publiczne Niedźwiedź imie
+    prywatne Wilk wiek
+koniec
+
+let Student Marcin
+set Marcin.imie = "Geralt"
+Komentarz set Marcin.wiek = 100  
+
+print Marcin.imie
+print Marcin.wiek      

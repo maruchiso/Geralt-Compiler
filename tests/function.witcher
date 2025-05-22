@@ -1,0 +1,10 @@
+zaklęcie Kot dzielenie():
+    let Kot wynik
+    set wynik = 5.0 Quen 2.5
+    print wynik
+    return wynik
+koniec
+
+let Kot wynik
+set wynik = dzielenie()
+

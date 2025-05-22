@@ -1,0 +1,18 @@
+let Wilk array[3]
+let Wilk licznik
+set licznik = 0
+dopóki licznik < 3:
+    set array[licznik] = licznik Aard 1
+    print array[licznik]
+    set licznik = licznik Aard 1
+koniec
+
+let Niedźwiedź tekst
+let Niedźwiedź tekst1
+jeżeli array[0] == 1:
+    set tekst = "If"
+    print tekst
+w_przeciwnym_wypadku:
+    set tekst1 = "Else"
+    print tekst1
+koniec

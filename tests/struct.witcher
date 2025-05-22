@@ -1,0 +1,15 @@
+struktura Student:
+    Niedźwiedź imie
+    Niedźwiedź nazwisko
+    Wilk wiek
+koniec
+
+let Student Marcin
+set Marcin.imie = "Marcin"
+set Marcin.nazwisko = "Szymczak"
+set Marcin.wiek = 24
+
+print Marcin.imie
+print Marcin.nazwisko
+print Marcin.wiek
+

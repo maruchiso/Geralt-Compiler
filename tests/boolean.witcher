@@ -1,0 +1,9 @@
+let Gryf prawda
+let Gryf fałsz
+set prawda = true
+set fałsz = false
+
+print true AND false
+print true OR false
+print true XOR true
+print NEG false

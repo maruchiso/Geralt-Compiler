@@ -1,15 +1,25 @@
-let Wilk matrix[2, 3]
+Komentarz short Circuit
+let Gryf prawda
+let Gryf fałsz
+set prawda = true
+set fałsz = false
 
+print true AND false
+print true OR false
+print true XOR true
+print NEG false
+
+
+Komentarz arrays i matrix
+let Wilk matrix[2, 3]
 
 set matrix[0, 0] = 1
 set matrix[0, 1] = matrix[0, 0] Aard 5    
 set matrix[1, 2] = matrix[0, 1] Igni 2    
 
-
 print matrix[0, 0]  Komentarz 1 
 print matrix[0, 1]  Komentarz 1 + 5 = 6
 print matrix[1, 2]  Komentarz 6 - 2 = 4
-
 
 jeżeli matrix[0, 1] > matrix[1, 2]:
     print true
@@ -17,4 +27,111 @@ w_przeciwnym_wypadku:
     print false
 koniec
 
-print 10
+let Kot array[3]
+
+set array[0] = 1.75
+set array[1] = 1.75 Quen 2.0
+set array[2] = array[1] Aard 5.25
+
+print array[0]
+print array[1]
+print array[2]
+
+
+Komentarz Float32 i Float64
+let Kot test_32_1
+let Kot test_32_2
+set test_32_1 = 1.33
+set test_32_2 = 0.26
+let Kot wynik32
+set wynik32 = test_32_1 Quen test_32_2
+
+let Mantikora test_64_1
+let Mantikora test_64_2
+set test_64_1 = 1.33
+set test_64_2 = 0.26
+let Mantikora wynik64
+set wynik64 = test_64_1 Quen test_64_2
+
+print wynik32
+print wynik64
+
+
+Komentarz string
+let Niedźwiedź tekst
+set tekst = "Geralt z Rivii"
+print tekst
+
+input tekst
+print tekst
+
+let Niedźwiedź tekst2
+set tekst2 = "Letho z Gulety"
+print tekst2
+
+
+Komentarz Etap 2
+Komentarz if, else, loop
+let Wilk array[3]
+let Wilk licznik
+set licznik = 0
+dopóki licznik < 3:
+    set array[licznik] = licznik Aard 1
+    print array[licznik]
+    set licznik = licznik Aard 1
+koniec
+
+let Niedźwiedź tekst
+let Niedźwiedź tekst1
+jeżeli array[0] == 1:
+    set tekst = "If"
+    print tekst
+w_przeciwnym_wypadku:
+    set tekst1 = "Else"
+    print tekst1
+koniec
+
+
+Komentarz funkcje
+zaklęcie Kot dzielenie():
+    let Kot wynik
+    set wynik = 5.0 Quen 2.5
+    print wynik
+    return wynik
+koniec
+
+let Kot wynik_funkcji
+set wynik_funkcji = dzielenie()
+
+
+Komentarz zasięg zmiennych
+let Wilk a
+set a = 5
+
+zaklęcie Wilk test():
+    let Wilk a
+    set a = 42
+    print a
+    return 1
+koniec
+
+let Wilk wywołanie_funkcji
+set wywołanie_funkcji = test()
+print a
+
+
+Komentarz struct
+struktura Student:
+    Niedźwiedź imie
+    Niedźwiedź nazwisko
+    Wilk wiek
+koniec
+
+let Student Marcin
+set Marcin.imie = "Marcin"
+set Marcin.nazwisko = "Szymczak"
+set Marcin.wiek = 24
+
+print Marcin.imie
+print Marcin.nazwisko
+print Marcin.wiek

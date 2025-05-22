@@ -1,6 +1,6 @@
 grammar Geralt;
 
-program: (functionDecl | statement)+ ;
+program: (structDecl | classDecl | functionDecl | statement)+ ;
 
 statement
     : 'let' type ID indexes            # arrayDeclaration
@@ -14,6 +14,8 @@ statement
     | 'return' expr?                   # returnStatement
     | jezeliBlock                      # ifStatement
     | dopokiBlock                      # whileStatement
+    | 'set' structAccess '=' expr      # structAsign
+    | 'print' structAccess             # structFieldPrint
     ;
 
 expr
@@ -30,6 +32,7 @@ expr
     | 'true'                # exprTrue
     | 'false'               # exprFalse
     | '(' expr ')'          # parenthesis
+    | structAccess          # structAccessExpr
     ;
 
 indexes
@@ -56,7 +59,37 @@ comparisonExpr
     | expr '==' expr    # equal
     | expr '!=' expr    # notEqual
     ;
+
+classDecl
+    : 'klasa' ID ':' classBody 'koniec'
+    ;
+
+classBody
+    : classMember*
+    ;
+
+classMember
+    : visibility type ID                      
+    | functionDecl                            
+    ;
+
+visibility
+    : 'publiczne'
+    | 'prywatne'
+    ;
     
+structDecl
+    : 'struktura' ID ':' structFields 'koniec'
+    ;
+
+structFields
+    : (type ID)+
+    ;
+
+structAccess
+    : ID '.' ID         # structFieldAccess
+    ;
+
 jezeliBlock
     : 'jeżeli' booleanExpr ':' block
       ('w_przeciwnym_wypadku' ':' block)?
@@ -96,6 +129,8 @@ type
     | 'Kot'
     | 'Gryf'
     | 'Niedźwiedź'
+    | 'Mantikora'
+    | ID
     ;
 
 ID: [a-zA-Z_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ][a-zA-Z0-9_ęóąśłżźćńĘÓĄŚŁŻŹĆŃ]* ;

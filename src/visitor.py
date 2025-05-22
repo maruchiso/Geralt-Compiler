@@ -4,6 +4,10 @@ from antlr.GeraltParser import GeraltParser
 from ast_nodes import * 
 
 class WitcherVisitor(GeraltVisitor): 
+    def __init__(self):
+        self.known_classes = set()
+        super().__init__()
+        
     def visitProgram(self, ctx):
         print("DEBUG: visitProgram called")
         nodes = []
@@ -42,12 +46,7 @@ class WitcherVisitor(GeraltVisitor):
     
     def visitInput(self, ctx):
         variable_name = ctx.ID().getText()
-        if ctx.INT():
-            index = int(ctx.INT().getText())
-        else:
-            index = None
-            
-        return InputNode(variable_name=variable_name, index=index)
+        return InputNode(variable_name=variable_name)
     
     def visitOutput(self, ctx):
         value = self.visit(ctx.expr())
@@ -62,7 +61,6 @@ class WitcherVisitor(GeraltVisitor):
     
     def visitVar(self, ctx):
         name = ctx.getText()
-
         return VarNode(name=name)
     
     def visitSubtraction(self, ctx):
@@ -273,3 +271,63 @@ class WitcherVisitor(GeraltVisitor):
     def visitString(self, ctx):
         raw = ctx.getText()
         return StringNode(value=raw[1:-1])
+    
+    def visitStructDecl(self, ctx):
+        name = ctx.ID().getText()
+        fields = []
+
+        field_tokens = ctx.structFields().children
+        i = 0
+        while i < len(field_tokens):
+            # Skip whitespaces / newlines / etc.
+            if not hasattr(field_tokens[i], 'getText'):
+                i += 1
+                continue
+
+            typ = field_tokens[i].getText()
+            var = field_tokens[i + 1].getText()
+            fields.append((typ, var))
+            i += 2
+
+        print(f"VISITOR STRUCT: {name} with fields {fields}")
+        return StructDefNode(name, fields)
+
+
+    def visitStructFieldAccess(self, ctx):
+        var_name = ctx.ID(0).getText()
+        field_name = ctx.ID(1).getText()
+        
+        if var_name in self.known_classes: 
+            return ClassAccessNode(class_var=var_name, field_name=field_name)
+        else:
+            return StructAccessNode(struct_var=var_name, field_name=field_name)
+
+
+    def visitStructAsign(self, ctx):
+        access = ctx.structAccess()
+        struct_var = access.ID(0).getText()
+        field_name = access.ID(1).getText()
+        value = self.visit(ctx.expr())
+        return AssignNode(variable_name=StructAccessNode(struct_var, field_name), value=value)
+
+    def visitClassDecl(self, ctx):
+        class_name = ctx.ID().getText()
+        self.known_classes.add(class_name)  
+
+        fields = []
+        for field_ctx in ctx.classField():
+            fields.append(self.visit(field_ctx))
+        
+        return ClassDefNode(name=class_name, members=fields)
+
+
+    def visitPublicField(self, ctx):
+        var_type = ctx.type_().getText()
+        name = ctx.ID().getText()
+        return ClassFieldNode(var_type=var_type, name=name, visibility="publiczny")
+
+    def visitPrivateField(self, ctx):
+        var_type = ctx.type_().getText()
+        name = ctx.ID().getText()
+        return ClassFieldNode(var_type=var_type, name=name, visibility="prywatny")
+
