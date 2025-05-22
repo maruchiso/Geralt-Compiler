@@ -333,7 +333,15 @@ class IRGenerator:
                 self.builder.store(value, element_pointer)
             else:
                 pointee = pointer.type.pointee
-                if pointee != value.type:
+                # string
+                if isinstance(pointee, ir.ArrayType) and pointee.element == ir.IntType(8) and isinstance(value.type, ir.PointerType) and value.type.pointee == ir.IntType(8):
+                    dest_ptr = self.builder.gep(pointer, [
+                        ir.Constant(ir.IntType(32), 0),
+                        ir.Constant(ir.IntType(32), 0)
+                    ])
+                    self.builder.call(self.strcpy, [dest_ptr, value])
+                    
+                elif pointee != value.type:
                     if isinstance(pointee, ir.DoubleType) and isinstance(value.type, ir.FloatType):
                         value = self.builder.fpext(value, ir.DoubleType(), name="float32_to_float64")
                     else:
