@@ -1,6 +1,6 @@
 grammar Geralt;
 
-program: (structDecl | functionDecl | statement)+ ;
+program: (structDecl | classDecl | functionDecl | statement)+ ;
 
 statement
     : 'let' type ID indexes            # arrayDeclaration
@@ -60,6 +60,20 @@ comparisonExpr
     | expr '!=' expr    # notEqual
     ;
 
+classDecl
+    : 'klasa' ID ':' classField+ 'koniec'    // np. klasa Student: ...
+    ;
+
+classField
+    : 'publiczne' type ID                     # publicField
+    | 'prywatne' type ID                      # privateField
+    ;
+
+visibility
+    : 'publiczny'
+    | 'prywatny'
+    ;
+    
 structDecl
     : 'struktura' ID ':' structFields 'koniec'
     ;

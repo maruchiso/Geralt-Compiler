@@ -301,3 +301,20 @@ class WitcherVisitor(GeraltVisitor):
         value = self.visit(ctx.expr())
         return AssignNode(variable_name=StructAccessNode(struct_var, field_name), value=value)
 
+    def visitClassDecl(self, ctx):
+        class_name = ctx.ID().getText()
+        fields = []
+
+        for field in ctx.classFields().field():
+            visibility = field.visibility().getText()
+            type_name = field.type_().getText()
+            field_name = field.ID().getText()
+            fields.append(ClassFieldNode(visibility, type_name, field_name))
+
+        return ClassDefNode(class_name, fields)
+    
+    def visitClassAccess(self, ctx):
+        class_var = ctx.ID(0).getText()
+        field_name = ctx.ID(1).getText()
+        return ClassAccessNode(class_var, field_name)
+

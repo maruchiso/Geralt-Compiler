@@ -9,6 +9,7 @@ class IRGenerator:
         self.scopes = [{}] # to list scopes
         self.global_vars = {} # map for global variables
         self.struct_types = {}
+        self.class_types = {}
         
         # Declare main() function that will be 'entry' block for LLVM
         ftype = ir.FunctionType(ir.VoidType(), [])
@@ -126,8 +127,11 @@ class IRGenerator:
         elif typename == 'Mantikora': return ir.DoubleType()
         elif typename == 'Gryf': return ir.IntType(1)
         elif typename == 'Niedźwiedź': return ir.ArrayType(ir.IntType(8), 100)
+        elif typename == 'Wiedźmin':
+            # typ: struct { i8 type_tag; [8 x i8] payload }
+            return ir.LiteralStructType([ir.IntType(8), ir.ArrayType(ir.IntType(8), 8)])
         elif typename in self.struct_types:
-            return self.struct_types[typename][0]  # struct type
+            return self.struct_types[typename][0]
         else:
             raise Exception(f"Unknown type: {typename}")
 
@@ -213,6 +217,21 @@ class IRGenerator:
             elif node.variable_type == 'Mantikora':
                 variable_type = ir.DoubleType()
                 
+            elif node.variable_type == 'Wiedźmin':
+                variable_type = ir.LiteralStructType([
+                    ir.IntType(8),                        
+                    ir.ArrayType(ir.IntType(8), 8)        
+                    ])
+            
+            elif node.variable_type in self.class_types:
+                class_type, _ = self.class_types[node.variable_type]
+                ptr = self.builder.alloca(class_type, name=node.variable_name)
+                is_global_scope = len(self.scopes) == 1
+                self.define_variable(node.variable_name, ptr, global_scope=is_global_scope)
+                print(f"Debug: {node.variable_name} (class) -> {ptr} is global: {is_global_scope}")
+                return
+
+                
             elif node.variable_type in self.struct_types:
                 struct_type, _ = self.struct_types[node.variable_type]
                 ptr = self.builder.alloca(struct_type, name=node.variable_name)
@@ -274,13 +293,41 @@ class IRGenerator:
                 print(f"DEBUG: STORE to p.{node.variable_name.field_name} and value type: {value.type}")
 
                 return  
+            
+            if isinstance(node.variable_name, ClassAccessNode):
+                class_ptr = self.lookup(node.variable_name.class_var)
+                class_name = self.get_type_name(class_ptr)
+                class_type, field_names, visibility_map = self.class_types[class_name]
+
+                field = node.variable_name.field_name
+                if visibility_map[field] == "prywatny":
+                    raise Exception(f"Cannot assign to private field '{field}' of class '{class_name}'.")
+
+                index = field_names.index(field)
+                gep = self.builder.gep(class_ptr, [
+                    ir.Constant(ir.IntType(32), 0),
+                    ir.Constant(ir.IntType(32), index)
+                ], inbounds=True)
+
+                pointee = gep.type.pointee
+
+                if pointee == ir.ArrayType(ir.IntType(8), 100):
+                    dest_ptr = self.builder.gep(
+                        class_ptr,
+                        [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)],
+                        inbounds=True
+                    )
+                    flat_ptr = self.builder.gep(dest_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    self.builder.call(self.strcpy, [flat_ptr, value])
+                else:
+                    self.builder.store(value, gep)
+
+                return
 
             # other variables
-
             pointer = self.lookup(node.variable_name)
             if pointer is None:
                 raise Exception(f"Variable {node.variable_name} not found in any scope.")
-
             if node.index is not None:
                 element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
@@ -330,6 +377,7 @@ class IRGenerator:
             value = self.generate(node.value)
             value_type = value.type
 
+    
             if isinstance(value_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
                 value = self.builder.fpext(value, ir.DoubleType(), name="float_to_double")
@@ -342,23 +390,60 @@ class IRGenerator:
                 format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
 
             elif isinstance(value_type, ir.PointerType) and value_type.pointee == ir.IntType(8):
-                # classic i8* (StringNode)
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
-            
+
             elif isinstance(value_type, ir.PointerType) and isinstance(value_type.pointee, ir.ArrayType) and value_type.pointee.element == ir.IntType(8):
-                # print tekst: [100 x i8]* GEP do i8*
-                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
                 value = self.builder.gep(value, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
 
             elif isinstance(value_type, ir.DoubleType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
-            
+
             elif isinstance(value_type, ir.ArrayType) and value_type.element == ir.IntType(8):
-                # [100 x i8]: GEP to i8*
                 value_ptr = self.builder.alloca(value_type)
                 self.builder.store(value, value_ptr)
                 value = self.builder.gep(value_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
                 format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+            
+            elif isinstance(node.value, ClassAccessNode):
+                class_ptr = self.lookup(node.value.class_var)
+                class_name = self.get_type_name(class_ptr)
+                class_type, field_names, visibility_map = self.class_types[class_name]
+
+                field = node.value.field_name
+                if visibility_map[field] == "prywatny":
+                    raise Exception(f"Cannot access private field '{field}' of class '{class_name}'.")
+
+                index = field_names.index(field)
+                gep = self.builder.gep(class_ptr, [
+                    ir.Constant(ir.IntType(32), 0),
+                    ir.Constant(ir.IntType(32), index)
+                ], inbounds=True)
+
+                pointee = gep.type.pointee
+
+                if pointee == ir.ArrayType(ir.IntType(8), 100):
+                    val = self.builder.gep(gep, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    fmt = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                    self.builder.call(self.printf, [fmt, val])
+                elif isinstance(pointee, ir.IntType) and pointee.width == 32:
+                    val = self.builder.load(gep)
+                    fmt = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+                    self.builder.call(self.printf, [fmt, val])
+                elif isinstance(pointee, ir.FloatType):
+                    val = self.builder.load(gep)
+                    val = self.builder.fpext(val, ir.DoubleType())
+                    fmt = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+                    self.builder.call(self.printf, [fmt, val])
+                elif isinstance(pointee, ir.DoubleType):
+                    val = self.builder.load(gep)
+                    fmt = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+                    self.builder.call(self.printf, [fmt, val])
+                else:
+                    raise Exception(f"Unsupported class field type: {pointee}")
+                return
+
+
 
             else:
                 raise Exception(f"Unsupported type for print: {value_type}")
@@ -634,6 +719,30 @@ class IRGenerator:
             gep = self.builder.gep(struct_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), index)], inbounds=True)
             return self.builder.load(gep)
 
+        elif isinstance(node, ClassDefNode):
+            print(f"REGISTER CLASS {node.name} with fields {[name for (_, name, _) in node.fields]}")
+            
+            field_types = []
+            field_names = []
+            for field_type, field_name, _visibility in node.fields:
+                if field_type == 'Wilk':
+                    field_types.append(ir.IntType(32))
+                elif field_type == 'Kot':
+                    field_types.append(ir.FloatType())
+                elif field_type == 'Gryf':
+                    field_types.append(ir.IntType(1))
+                elif field_type == 'Niedźwiedź':
+                    field_types.append(ir.ArrayType(ir.IntType(8), 100))
+                elif field_type == 'Mantikora':
+                    field_types.append(ir.DoubleType())
+                else:
+                    raise Exception(f"Unknown type in class: {field_type}")
+
+                field_names.append(field_name)
+
+            class_type = ir.LiteralStructType(field_types)
+            self.class_types[node.name] = (class_type, field_names)
+
         else:
             raise NotImplementedError(f'Node type: {type(node)} is not implemented.')
         
@@ -656,3 +765,61 @@ class IRGenerator:
     def save(self, filename):
         with open(filename, 'w') as file:
             file.write(str(self.module))
+            
+    def emit_dynamic_print(self, value):
+        value_type = value.type
+        tmp_ptr = self.builder.alloca(value_type)
+        self.builder.store(value, tmp_ptr)
+
+        tag_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+        tag_val = self.builder.load(tag_ptr)
+
+        # Bloki końcowe
+        int_block = self.builder.append_basic_block("dyn_int")
+        float_block = self.builder.append_basic_block("dyn_float")
+        str_block = self.builder.append_basic_block("dyn_str")
+        end_block = self.builder.append_basic_block("dyn_end")
+
+        # Rozgałęzienie po typie
+        is_int = self.builder.icmp_unsigned('==', tag_val, ir.Constant(ir.IntType(8), 0))
+        is_float = self.builder.icmp_unsigned('==', tag_val, ir.Constant(ir.IntType(8), 1))
+
+        with self.builder.if_else(is_int) as (then, otherwise):
+            with then:
+                self.builder.branch(int_block)
+            with otherwise:
+                with self.builder.if_else(is_float) as (then_float, then_str):
+                    with then_float:
+                        self.builder.branch(float_block)
+                    with then_str:
+                        self.builder.branch(str_block)
+
+        # INT
+        self.builder.position_at_start(int_block)
+        payload_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 1)])
+        raw = self.builder.bitcast(payload_ptr, ir.IntType(32).as_pointer())
+        val = self.builder.load(raw)
+        fmt = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+        self.builder.call(self.printf, [fmt, val])
+        self.builder.branch(end_block)
+
+        # FLOAT
+        self.builder.position_at_start(float_block)
+        payload_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 1)])
+        raw = self.builder.bitcast(payload_ptr, ir.FloatType().as_pointer())
+        val = self.builder.load(raw)
+        dbl = self.builder.fpext(val, ir.DoubleType())
+        fmt = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+        self.builder.call(self.printf, [fmt, dbl])
+        self.builder.branch(end_block)
+
+        # STRING
+        self.builder.position_at_start(str_block)
+        payload_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 1)])
+        str_ptr = self.builder.bitcast(payload_ptr, ir.IntType(8).as_pointer())
+        fmt = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+        self.builder.call(self.printf, [fmt, str_ptr])
+        self.builder.branch(end_block)
+
+        # KONIEC
+        self.builder.position_at_start(end_block)

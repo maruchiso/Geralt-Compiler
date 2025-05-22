@@ -404,6 +404,33 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by GeraltParser#classDecl.
+    def enterClassDecl(self, ctx:GeraltParser.ClassDeclContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#classDecl.
+    def exitClassDecl(self, ctx:GeraltParser.ClassDeclContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#publicField.
+    def enterPublicField(self, ctx:GeraltParser.PublicFieldContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#publicField.
+    def exitPublicField(self, ctx:GeraltParser.PublicFieldContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#privateField.
+    def enterPrivateField(self, ctx:GeraltParser.PrivateFieldContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#privateField.
+    def exitPrivateField(self, ctx:GeraltParser.PrivateFieldContext):
+        pass
+
+
     # Enter a parse tree produced by GeraltParser#structDecl.
     def enterStructDecl(self, ctx:GeraltParser.StructDeclContext):
         pass

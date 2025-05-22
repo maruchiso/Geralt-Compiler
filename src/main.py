@@ -26,7 +26,7 @@ class GeraltErrorListener(ErrorListener):
         raise SyntaxError(f"Syntax error at line {line}:{column} -> {msg}")
 
 def main():
-    program = "struct"
+    program = "auto"
     file_stream = FileStream('tests/'+ program + '.witcher', encoding='utf-8')
     
     lexer = GeraltLexer(file_stream)

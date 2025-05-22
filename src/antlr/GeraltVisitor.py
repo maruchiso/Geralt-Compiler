@@ -229,6 +229,21 @@ class GeraltVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by GeraltParser#classDecl.
+    def visitClassDecl(self, ctx:GeraltParser.ClassDeclContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#publicField.
+    def visitPublicField(self, ctx:GeraltParser.PublicFieldContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by GeraltParser#privateField.
+    def visitPrivateField(self, ctx:GeraltParser.PrivateFieldContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by GeraltParser#structDecl.
     def visitStructDecl(self, ctx:GeraltParser.StructDeclContext):
         return self.visitChildren(ctx)
