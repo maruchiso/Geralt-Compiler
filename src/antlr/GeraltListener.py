@@ -413,21 +413,30 @@ class GeraltListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by GeraltParser#publicField.
-    def enterPublicField(self, ctx:GeraltParser.PublicFieldContext):
+    # Enter a parse tree produced by GeraltParser#classBody.
+    def enterClassBody(self, ctx:GeraltParser.ClassBodyContext):
         pass
 
-    # Exit a parse tree produced by GeraltParser#publicField.
-    def exitPublicField(self, ctx:GeraltParser.PublicFieldContext):
+    # Exit a parse tree produced by GeraltParser#classBody.
+    def exitClassBody(self, ctx:GeraltParser.ClassBodyContext):
         pass
 
 
-    # Enter a parse tree produced by GeraltParser#privateField.
-    def enterPrivateField(self, ctx:GeraltParser.PrivateFieldContext):
+    # Enter a parse tree produced by GeraltParser#classMember.
+    def enterClassMember(self, ctx:GeraltParser.ClassMemberContext):
         pass
 
-    # Exit a parse tree produced by GeraltParser#privateField.
-    def exitPrivateField(self, ctx:GeraltParser.PrivateFieldContext):
+    # Exit a parse tree produced by GeraltParser#classMember.
+    def exitClassMember(self, ctx:GeraltParser.ClassMemberContext):
+        pass
+
+
+    # Enter a parse tree produced by GeraltParser#visibility.
+    def enterVisibility(self, ctx:GeraltParser.VisibilityContext):
+        pass
+
+    # Exit a parse tree produced by GeraltParser#visibility.
+    def exitVisibility(self, ctx:GeraltParser.VisibilityContext):
         pass
 
 

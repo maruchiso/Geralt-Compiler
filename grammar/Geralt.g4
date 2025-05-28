@@ -130,6 +130,7 @@ type
     | 'Gryf'
     | 'Niedźwiedź'
     | 'Mantikora'
+    | 'auto'
     | ID
     ;
 

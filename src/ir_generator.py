@@ -217,11 +217,11 @@ class IRGenerator:
             elif node.variable_type == 'Mantikora':
                 variable_type = ir.DoubleType()
                 
-            elif node.variable_type == 'Wiedźmin':
-                variable_type = ir.LiteralStructType([
-                    ir.IntType(8),                        
-                    ir.ArrayType(ir.IntType(8), 8)        
-                    ])
+            elif node.variable_type == "auto":
+                struct_ty = ir.LiteralStructType([ir.IntType(8), ir.ArrayType(ir.IntType(8), 8)])
+                ptr = self.builder.alloca(struct_ty, name=node.variable_name)
+                self.define_variable(node.variable_name, ptr)
+                return
             
             elif node.variable_type in self.class_types:
                 class_type, _, _ = self.class_types[node.variable_type]
@@ -320,6 +320,41 @@ class IRGenerator:
             pointer = self.lookup(node.variable_name)
             if pointer is None:
                 raise Exception(f"Variable {node.variable_name} not found in any scope.")
+
+            if isinstance(pointer.type.pointee, ir.LiteralStructType) and \
+            len(pointer.type.pointee.elements) == 2 and \
+            isinstance(pointer.type.pointee.elements[0], ir.IntType) and \
+            pointer.type.pointee.elements[0].width == 8:
+                
+                # To wygląda na naszą dynamiczną zmienną typu `auto`
+                tag_ptr = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                payload_ptr = self.builder.gep(pointer, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 1)])
+
+                value = self.generate(node.value)
+
+                if isinstance(value.type, ir.IntType) and value.type.width == 32:
+                    tag_val = ir.Constant(ir.IntType(8), 0)
+                    casted = self.builder.bitcast(payload_ptr, value.type.as_pointer())
+                    self.builder.store(value, casted)
+
+                elif isinstance(value.type, ir.FloatType):
+                    tag_val = ir.Constant(ir.IntType(8), 1)
+                    casted = self.builder.bitcast(payload_ptr, value.type.as_pointer())
+                    self.builder.store(value, casted)
+
+                elif isinstance(value.type, ir.PointerType) and value.type.pointee == ir.IntType(8):
+                    tag_val = ir.Constant(ir.IntType(8), 2)
+                    casted = self.builder.bitcast(payload_ptr, value.type)
+                    dest_ptr = self.builder.bitcast(payload_ptr, ir.IntType(8).as_pointer())
+                    src_ptr = self.builder.bitcast(value, ir.IntType(8).as_pointer())
+                    self.builder.call(self.strcpy, [dest_ptr, src_ptr])
+
+                else:
+                    raise Exception(f"Unsupported value type for auto: {value.type}")
+
+                self.builder.store(tag_val, tag_ptr)
+                return
+                        
             if node.index is not None:
                 element_pointer = self.get_element_ptr(pointer, node.index)
                 self.builder.store(value, element_pointer)
@@ -376,7 +411,28 @@ class IRGenerator:
         elif isinstance(node, OutputNode):
             value = self.generate(node.value)
             value_type = value.type
+            if isinstance(node.value, str) and node.value.name in self.named_variables:
+                ptr = self.lookup(node.value.name)
+                pointee_type = ptr.type.pointee
 
+                if isinstance(pointee_type, ir.IntType) and pointee_type.width == 32:
+                    format_pointer = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+                    value = self.builder.load(ptr)
+                elif isinstance(pointee_type, ir.FloatType):
+                    format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+                    value = self.builder.load(ptr)
+                    value = self.builder.fpext(value, ir.DoubleType())
+                elif isinstance(pointee_type, ir.PointerType) and pointee_type.pointee == ir.IntType(8):
+                    format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                    value = self.builder.load(ptr)
+                elif isinstance(pointee_type, ir.ArrayType) and pointee_type.element == ir.IntType(8):
+                    value = self.builder.gep(ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                    format_pointer = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                else:
+                    raise Exception(f"Unsupported auto-type for print: {pointee_type}")
+
+                self.builder.call(fn=self.printf, args=[format_pointer, value])
+                return
     
             if isinstance(value_type, ir.FloatType):
                 format_pointer = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
@@ -441,6 +497,65 @@ class IRGenerator:
                     self.builder.call(self.printf, [fmt, val])
                 else:
                     raise Exception(f"Unsupported class field type: {pointee}")
+                return
+
+
+            elif isinstance(value_type, ir.LiteralStructType) and \
+                len(value_type.elements) == 2 and \
+                isinstance(value_type.elements[0], ir.IntType) and value_type.elements[0].width == 8:
+
+                tmp_ptr = self.builder.alloca(value_type)
+                self.builder.store(value, tmp_ptr)
+
+                tag_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 0)])
+                tag_val = self.builder.load(tag_ptr)
+
+                payload_ptr = self.builder.gep(tmp_ptr, [ir.Constant(ir.IntType(32), 0), ir.Constant(ir.IntType(32), 1)])
+
+                # Bloki
+                int_block = self.builder.append_basic_block("auto_int")
+                check_float_block = self.builder.append_basic_block("auto_check_float")
+                float_block = self.builder.append_basic_block("auto_float")
+                str_block = self.builder.append_basic_block("auto_str")
+                end_block = self.builder.append_basic_block("auto_end")
+
+                # Warunki
+                is_int = self.builder.icmp_unsigned('==', tag_val, ir.Constant(ir.IntType(8), 0))
+                is_float = self.builder.icmp_unsigned('==', tag_val, ir.Constant(ir.IntType(8), 1))
+
+                # Główna decyzja: int albo sprawdzaj dalej
+                self.builder.cbranch(is_int, int_block, check_float_block)
+
+                # FLOAT CHECK
+                self.builder.position_at_start(check_float_block)
+                self.builder.cbranch(is_float, float_block, str_block)
+
+                # INT block
+                self.builder.position_at_start(int_block)
+                int_ptr = self.builder.bitcast(payload_ptr, ir.IntType(32).as_pointer())
+                int_val = self.builder.load(int_ptr)
+                fmt = self.builder.bitcast(self.printf_format, ir.IntType(8).as_pointer())
+                self.builder.call(self.printf, [fmt, int_val])
+                self.builder.branch(end_block)
+
+                # FLOAT block
+                self.builder.position_at_start(float_block)
+                float_ptr = self.builder.bitcast(payload_ptr, ir.FloatType().as_pointer())
+                float_val = self.builder.load(float_ptr)
+                float_val = self.builder.fpext(float_val, ir.DoubleType())
+                fmt = self.builder.bitcast(self.printf_float_format, ir.IntType(8).as_pointer())
+                self.builder.call(self.printf, [fmt, float_val])
+                self.builder.branch(end_block)
+
+                # STRING block
+                self.builder.position_at_start(str_block)
+                str_ptr = self.builder.bitcast(payload_ptr, ir.IntType(8).as_pointer())
+                fmt = self.builder.bitcast(self.printf_str_format, ir.IntType(8).as_pointer())
+                self.builder.call(self.printf, [fmt, str_ptr])
+                self.builder.branch(end_block)
+
+                # END block
+                self.builder.position_at_start(end_block)
                 return
 
 

@@ -10,107 +10,109 @@ else:
 
 def serializedATN():
     return [
-        4,1,49,286,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,50,291,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
-        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,1,0,
-        1,0,1,0,1,0,4,0,45,8,0,11,0,12,0,46,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
+        7,20,2,21,7,21,1,0,1,0,1,0,1,0,4,0,49,8,0,11,0,12,0,50,1,1,1,1,1,
         1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-        1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,79,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-        1,1,1,1,1,3,1,90,8,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
-        1,2,1,2,1,2,1,2,3,2,107,8,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
-        1,2,1,2,1,2,5,2,121,8,2,10,2,12,2,124,9,2,1,3,1,3,1,3,1,3,5,3,130,
-        8,3,10,3,12,3,133,9,3,1,3,1,3,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3,
-        4,145,8,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,5,4,156,8,4,10,4,12,
-        4,159,9,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,
-        5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,185,8,5,1,6,1,6,1,
-        6,1,6,4,6,191,8,6,11,6,12,6,192,1,6,1,6,1,7,1,7,1,7,1,7,1,7,1,7,
-        1,7,1,7,3,7,205,8,7,1,8,1,8,1,8,1,8,1,8,1,8,1,9,1,9,1,9,4,9,216,
-        8,9,11,9,12,9,217,1,10,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,
-        11,1,11,3,11,231,8,11,1,11,1,11,1,12,1,12,1,12,1,12,1,12,1,12,1,
-        13,4,13,242,8,13,11,13,12,13,243,1,14,1,14,1,14,1,14,1,14,3,14,251,
-        8,14,1,14,1,14,1,14,1,14,1,14,1,15,1,15,1,15,5,15,261,8,15,10,15,
-        12,15,264,9,15,1,16,1,16,1,16,1,17,1,17,1,17,3,17,272,8,17,1,17,
-        1,17,1,18,1,18,1,18,5,18,279,8,18,10,18,12,18,282,9,18,1,19,1,19,
-        1,19,0,2,4,8,20,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
-        36,38,0,1,1,0,39,44,318,0,44,1,0,0,0,2,89,1,0,0,0,4,106,1,0,0,0,
-        6,125,1,0,0,0,8,144,1,0,0,0,10,184,1,0,0,0,12,186,1,0,0,0,14,204,
-        1,0,0,0,16,206,1,0,0,0,18,215,1,0,0,0,20,219,1,0,0,0,22,223,1,0,
-        0,0,24,234,1,0,0,0,26,241,1,0,0,0,28,245,1,0,0,0,30,257,1,0,0,0,
-        32,265,1,0,0,0,34,268,1,0,0,0,36,275,1,0,0,0,38,283,1,0,0,0,40,45,
-        3,16,8,0,41,45,3,12,6,0,42,45,3,28,14,0,43,45,3,2,1,0,44,40,1,0,
-        0,0,44,41,1,0,0,0,44,42,1,0,0,0,44,43,1,0,0,0,45,46,1,0,0,0,46,44,
-        1,0,0,0,46,47,1,0,0,0,47,1,1,0,0,0,48,49,5,1,0,0,49,50,3,38,19,0,
-        50,51,5,44,0,0,51,52,3,6,3,0,52,90,1,0,0,0,53,54,5,1,0,0,54,55,3,
-        38,19,0,55,56,5,44,0,0,56,90,1,0,0,0,57,58,5,2,0,0,58,59,5,44,0,
-        0,59,60,3,6,3,0,60,61,5,3,0,0,61,62,3,4,2,0,62,90,1,0,0,0,63,64,
-        5,2,0,0,64,65,5,44,0,0,65,66,5,3,0,0,66,90,3,4,2,0,67,68,5,4,0,0,
-        68,69,5,44,0,0,69,90,3,6,3,0,70,71,5,4,0,0,71,90,5,44,0,0,72,73,
-        5,5,0,0,73,90,3,4,2,0,74,75,5,5,0,0,75,90,3,8,4,0,76,78,5,6,0,0,
-        77,79,3,4,2,0,78,77,1,0,0,0,78,79,1,0,0,0,79,90,1,0,0,0,80,90,3,
-        22,11,0,81,90,3,24,12,0,82,83,5,2,0,0,83,84,3,20,10,0,84,85,5,3,
-        0,0,85,86,3,4,2,0,86,90,1,0,0,0,87,88,5,5,0,0,88,90,3,20,10,0,89,
-        48,1,0,0,0,89,53,1,0,0,0,89,57,1,0,0,0,89,63,1,0,0,0,89,67,1,0,0,
-        0,89,70,1,0,0,0,89,72,1,0,0,0,89,74,1,0,0,0,89,76,1,0,0,0,89,80,
-        1,0,0,0,89,81,1,0,0,0,89,82,1,0,0,0,89,87,1,0,0,0,90,3,1,0,0,0,91,
-        92,6,2,-1,0,92,107,5,45,0,0,93,107,5,46,0,0,94,95,5,44,0,0,95,107,
-        3,6,3,0,96,107,5,44,0,0,97,107,5,49,0,0,98,107,3,34,17,0,99,107,
-        5,11,0,0,100,107,5,12,0,0,101,102,5,13,0,0,102,103,3,4,2,0,103,104,
-        5,14,0,0,104,107,1,0,0,0,105,107,3,20,10,0,106,91,1,0,0,0,106,93,
-        1,0,0,0,106,94,1,0,0,0,106,96,1,0,0,0,106,97,1,0,0,0,106,98,1,0,
-        0,0,106,99,1,0,0,0,106,100,1,0,0,0,106,101,1,0,0,0,106,105,1,0,0,
-        0,107,122,1,0,0,0,108,109,10,14,0,0,109,110,5,7,0,0,110,121,3,4,
-        2,15,111,112,10,13,0,0,112,113,5,8,0,0,113,121,3,4,2,14,114,115,
-        10,12,0,0,115,116,5,9,0,0,116,121,3,4,2,13,117,118,10,11,0,0,118,
-        119,5,10,0,0,119,121,3,4,2,12,120,108,1,0,0,0,120,111,1,0,0,0,120,
-        114,1,0,0,0,120,117,1,0,0,0,121,124,1,0,0,0,122,120,1,0,0,0,122,
-        123,1,0,0,0,123,5,1,0,0,0,124,122,1,0,0,0,125,126,5,15,0,0,126,131,
-        3,4,2,0,127,128,5,16,0,0,128,130,3,4,2,0,129,127,1,0,0,0,130,133,
-        1,0,0,0,131,129,1,0,0,0,131,132,1,0,0,0,132,134,1,0,0,0,133,131,
-        1,0,0,0,134,135,5,17,0,0,135,7,1,0,0,0,136,137,6,4,-1,0,137,138,
-        5,21,0,0,138,145,3,8,4,6,139,145,3,10,5,0,140,145,5,11,0,0,141,145,
-        5,12,0,0,142,145,5,44,0,0,143,145,3,34,17,0,144,136,1,0,0,0,144,
-        139,1,0,0,0,144,140,1,0,0,0,144,141,1,0,0,0,144,142,1,0,0,0,144,
-        143,1,0,0,0,145,157,1,0,0,0,146,147,10,9,0,0,147,148,5,18,0,0,148,
-        156,3,8,4,10,149,150,10,8,0,0,150,151,5,19,0,0,151,156,3,8,4,9,152,
-        153,10,7,0,0,153,154,5,20,0,0,154,156,3,8,4,8,155,146,1,0,0,0,155,
-        149,1,0,0,0,155,152,1,0,0,0,156,159,1,0,0,0,157,155,1,0,0,0,157,
-        158,1,0,0,0,158,9,1,0,0,0,159,157,1,0,0,0,160,161,3,4,2,0,161,162,
-        5,22,0,0,162,163,3,4,2,0,163,185,1,0,0,0,164,165,3,4,2,0,165,166,
-        5,23,0,0,166,167,3,4,2,0,167,185,1,0,0,0,168,169,3,4,2,0,169,170,
-        5,24,0,0,170,171,3,4,2,0,171,185,1,0,0,0,172,173,3,4,2,0,173,174,
-        5,25,0,0,174,175,3,4,2,0,175,185,1,0,0,0,176,177,3,4,2,0,177,178,
-        5,26,0,0,178,179,3,4,2,0,179,185,1,0,0,0,180,181,3,4,2,0,181,182,
-        5,27,0,0,182,183,3,4,2,0,183,185,1,0,0,0,184,160,1,0,0,0,184,164,
-        1,0,0,0,184,168,1,0,0,0,184,172,1,0,0,0,184,176,1,0,0,0,184,180,
-        1,0,0,0,185,11,1,0,0,0,186,187,5,28,0,0,187,188,5,44,0,0,188,190,
-        5,29,0,0,189,191,3,14,7,0,190,189,1,0,0,0,191,192,1,0,0,0,192,190,
-        1,0,0,0,192,193,1,0,0,0,193,194,1,0,0,0,194,195,5,30,0,0,195,13,
-        1,0,0,0,196,197,5,31,0,0,197,198,3,38,19,0,198,199,5,44,0,0,199,
-        205,1,0,0,0,200,201,5,32,0,0,201,202,3,38,19,0,202,203,5,44,0,0,
-        203,205,1,0,0,0,204,196,1,0,0,0,204,200,1,0,0,0,205,15,1,0,0,0,206,
-        207,5,33,0,0,207,208,5,44,0,0,208,209,5,29,0,0,209,210,3,18,9,0,
-        210,211,5,30,0,0,211,17,1,0,0,0,212,213,3,38,19,0,213,214,5,44,0,
-        0,214,216,1,0,0,0,215,212,1,0,0,0,216,217,1,0,0,0,217,215,1,0,0,
-        0,217,218,1,0,0,0,218,19,1,0,0,0,219,220,5,44,0,0,220,221,5,34,0,
-        0,221,222,5,44,0,0,222,21,1,0,0,0,223,224,5,35,0,0,224,225,3,8,4,
-        0,225,226,5,29,0,0,226,230,3,26,13,0,227,228,5,36,0,0,228,229,5,
-        29,0,0,229,231,3,26,13,0,230,227,1,0,0,0,230,231,1,0,0,0,231,232,
-        1,0,0,0,232,233,5,30,0,0,233,23,1,0,0,0,234,235,5,37,0,0,235,236,
-        3,8,4,0,236,237,5,29,0,0,237,238,3,26,13,0,238,239,5,30,0,0,239,
-        25,1,0,0,0,240,242,3,2,1,0,241,240,1,0,0,0,242,243,1,0,0,0,243,241,
-        1,0,0,0,243,244,1,0,0,0,244,27,1,0,0,0,245,246,5,38,0,0,246,247,
-        3,38,19,0,247,248,5,44,0,0,248,250,5,13,0,0,249,251,3,30,15,0,250,
-        249,1,0,0,0,250,251,1,0,0,0,251,252,1,0,0,0,252,253,5,14,0,0,253,
-        254,5,29,0,0,254,255,3,26,13,0,255,256,5,30,0,0,256,29,1,0,0,0,257,
-        262,3,32,16,0,258,259,5,16,0,0,259,261,3,32,16,0,260,258,1,0,0,0,
-        261,264,1,0,0,0,262,260,1,0,0,0,262,263,1,0,0,0,263,31,1,0,0,0,264,
-        262,1,0,0,0,265,266,3,38,19,0,266,267,5,44,0,0,267,33,1,0,0,0,268,
-        269,5,44,0,0,269,271,5,13,0,0,270,272,3,36,18,0,271,270,1,0,0,0,
-        271,272,1,0,0,0,272,273,1,0,0,0,273,274,5,14,0,0,274,35,1,0,0,0,
-        275,280,3,4,2,0,276,277,5,16,0,0,277,279,3,4,2,0,278,276,1,0,0,0,
-        279,282,1,0,0,0,280,278,1,0,0,0,280,281,1,0,0,0,281,37,1,0,0,0,282,
-        280,1,0,0,0,283,284,7,0,0,0,284,39,1,0,0,0,21,44,46,78,89,106,120,
-        122,131,144,155,157,184,192,204,217,230,243,250,262,271,280
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,83,8,1,1,1,1,1,
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,94,8,1,1,2,1,2,1,2,1,2,1,2,1,2,1,
+        2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,111,8,2,1,2,1,2,1,2,1,2,1,
+        2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,125,8,2,10,2,12,2,128,9,2,1,3,
+        1,3,1,3,1,3,5,3,134,8,3,10,3,12,3,137,9,3,1,3,1,3,1,4,1,4,1,4,1,
+        4,1,4,1,4,1,4,1,4,3,4,149,8,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,
+        4,5,4,160,8,4,10,4,12,4,163,9,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,
+        1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,
+        3,5,189,8,5,1,6,1,6,1,6,1,6,1,6,1,6,1,7,5,7,198,8,7,10,7,12,7,201,
+        9,7,1,8,1,8,1,8,1,8,1,8,3,8,208,8,8,1,9,1,9,1,10,1,10,1,10,1,10,
+        1,10,1,10,1,11,1,11,1,11,4,11,221,8,11,11,11,12,11,222,1,12,1,12,
+        1,12,1,12,1,13,1,13,1,13,1,13,1,13,1,13,1,13,3,13,236,8,13,1,13,
+        1,13,1,14,1,14,1,14,1,14,1,14,1,14,1,15,4,15,247,8,15,11,15,12,15,
+        248,1,16,1,16,1,16,1,16,1,16,3,16,256,8,16,1,16,1,16,1,16,1,16,1,
+        16,1,17,1,17,1,17,5,17,266,8,17,10,17,12,17,269,9,17,1,18,1,18,1,
+        18,1,19,1,19,1,19,3,19,277,8,19,1,19,1,19,1,20,1,20,1,20,5,20,284,
+        8,20,10,20,12,20,287,9,20,1,21,1,21,1,21,0,2,4,8,22,0,2,4,6,8,10,
+        12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,2,1,0,31,32,1,
+        0,39,45,321,0,48,1,0,0,0,2,93,1,0,0,0,4,110,1,0,0,0,6,129,1,0,0,
+        0,8,148,1,0,0,0,10,188,1,0,0,0,12,190,1,0,0,0,14,199,1,0,0,0,16,
+        207,1,0,0,0,18,209,1,0,0,0,20,211,1,0,0,0,22,220,1,0,0,0,24,224,
+        1,0,0,0,26,228,1,0,0,0,28,239,1,0,0,0,30,246,1,0,0,0,32,250,1,0,
+        0,0,34,262,1,0,0,0,36,270,1,0,0,0,38,273,1,0,0,0,40,280,1,0,0,0,
+        42,288,1,0,0,0,44,49,3,20,10,0,45,49,3,12,6,0,46,49,3,32,16,0,47,
+        49,3,2,1,0,48,44,1,0,0,0,48,45,1,0,0,0,48,46,1,0,0,0,48,47,1,0,0,
+        0,49,50,1,0,0,0,50,48,1,0,0,0,50,51,1,0,0,0,51,1,1,0,0,0,52,53,5,
+        1,0,0,53,54,3,42,21,0,54,55,5,45,0,0,55,56,3,6,3,0,56,94,1,0,0,0,
+        57,58,5,1,0,0,58,59,3,42,21,0,59,60,5,45,0,0,60,94,1,0,0,0,61,62,
+        5,2,0,0,62,63,5,45,0,0,63,64,3,6,3,0,64,65,5,3,0,0,65,66,3,4,2,0,
+        66,94,1,0,0,0,67,68,5,2,0,0,68,69,5,45,0,0,69,70,5,3,0,0,70,94,3,
+        4,2,0,71,72,5,4,0,0,72,73,5,45,0,0,73,94,3,6,3,0,74,75,5,4,0,0,75,
+        94,5,45,0,0,76,77,5,5,0,0,77,94,3,4,2,0,78,79,5,5,0,0,79,94,3,8,
+        4,0,80,82,5,6,0,0,81,83,3,4,2,0,82,81,1,0,0,0,82,83,1,0,0,0,83,94,
+        1,0,0,0,84,94,3,26,13,0,85,94,3,28,14,0,86,87,5,2,0,0,87,88,3,24,
+        12,0,88,89,5,3,0,0,89,90,3,4,2,0,90,94,1,0,0,0,91,92,5,5,0,0,92,
+        94,3,24,12,0,93,52,1,0,0,0,93,57,1,0,0,0,93,61,1,0,0,0,93,67,1,0,
+        0,0,93,71,1,0,0,0,93,74,1,0,0,0,93,76,1,0,0,0,93,78,1,0,0,0,93,80,
+        1,0,0,0,93,84,1,0,0,0,93,85,1,0,0,0,93,86,1,0,0,0,93,91,1,0,0,0,
+        94,3,1,0,0,0,95,96,6,2,-1,0,96,111,5,46,0,0,97,111,5,47,0,0,98,99,
+        5,45,0,0,99,111,3,6,3,0,100,111,5,45,0,0,101,111,5,50,0,0,102,111,
+        3,38,19,0,103,111,5,11,0,0,104,111,5,12,0,0,105,106,5,13,0,0,106,
+        107,3,4,2,0,107,108,5,14,0,0,108,111,1,0,0,0,109,111,3,24,12,0,110,
+        95,1,0,0,0,110,97,1,0,0,0,110,98,1,0,0,0,110,100,1,0,0,0,110,101,
+        1,0,0,0,110,102,1,0,0,0,110,103,1,0,0,0,110,104,1,0,0,0,110,105,
+        1,0,0,0,110,109,1,0,0,0,111,126,1,0,0,0,112,113,10,14,0,0,113,114,
+        5,7,0,0,114,125,3,4,2,15,115,116,10,13,0,0,116,117,5,8,0,0,117,125,
+        3,4,2,14,118,119,10,12,0,0,119,120,5,9,0,0,120,125,3,4,2,13,121,
+        122,10,11,0,0,122,123,5,10,0,0,123,125,3,4,2,12,124,112,1,0,0,0,
+        124,115,1,0,0,0,124,118,1,0,0,0,124,121,1,0,0,0,125,128,1,0,0,0,
+        126,124,1,0,0,0,126,127,1,0,0,0,127,5,1,0,0,0,128,126,1,0,0,0,129,
+        130,5,15,0,0,130,135,3,4,2,0,131,132,5,16,0,0,132,134,3,4,2,0,133,
+        131,1,0,0,0,134,137,1,0,0,0,135,133,1,0,0,0,135,136,1,0,0,0,136,
+        138,1,0,0,0,137,135,1,0,0,0,138,139,5,17,0,0,139,7,1,0,0,0,140,141,
+        6,4,-1,0,141,142,5,21,0,0,142,149,3,8,4,6,143,149,3,10,5,0,144,149,
+        5,11,0,0,145,149,5,12,0,0,146,149,5,45,0,0,147,149,3,38,19,0,148,
+        140,1,0,0,0,148,143,1,0,0,0,148,144,1,0,0,0,148,145,1,0,0,0,148,
+        146,1,0,0,0,148,147,1,0,0,0,149,161,1,0,0,0,150,151,10,9,0,0,151,
+        152,5,18,0,0,152,160,3,8,4,10,153,154,10,8,0,0,154,155,5,19,0,0,
+        155,160,3,8,4,9,156,157,10,7,0,0,157,158,5,20,0,0,158,160,3,8,4,
+        8,159,150,1,0,0,0,159,153,1,0,0,0,159,156,1,0,0,0,160,163,1,0,0,
+        0,161,159,1,0,0,0,161,162,1,0,0,0,162,9,1,0,0,0,163,161,1,0,0,0,
+        164,165,3,4,2,0,165,166,5,22,0,0,166,167,3,4,2,0,167,189,1,0,0,0,
+        168,169,3,4,2,0,169,170,5,23,0,0,170,171,3,4,2,0,171,189,1,0,0,0,
+        172,173,3,4,2,0,173,174,5,24,0,0,174,175,3,4,2,0,175,189,1,0,0,0,
+        176,177,3,4,2,0,177,178,5,25,0,0,178,179,3,4,2,0,179,189,1,0,0,0,
+        180,181,3,4,2,0,181,182,5,26,0,0,182,183,3,4,2,0,183,189,1,0,0,0,
+        184,185,3,4,2,0,185,186,5,27,0,0,186,187,3,4,2,0,187,189,1,0,0,0,
+        188,164,1,0,0,0,188,168,1,0,0,0,188,172,1,0,0,0,188,176,1,0,0,0,
+        188,180,1,0,0,0,188,184,1,0,0,0,189,11,1,0,0,0,190,191,5,28,0,0,
+        191,192,5,45,0,0,192,193,5,29,0,0,193,194,3,14,7,0,194,195,5,30,
+        0,0,195,13,1,0,0,0,196,198,3,16,8,0,197,196,1,0,0,0,198,201,1,0,
+        0,0,199,197,1,0,0,0,199,200,1,0,0,0,200,15,1,0,0,0,201,199,1,0,0,
+        0,202,203,3,18,9,0,203,204,3,42,21,0,204,205,5,45,0,0,205,208,1,
+        0,0,0,206,208,3,32,16,0,207,202,1,0,0,0,207,206,1,0,0,0,208,17,1,
+        0,0,0,209,210,7,0,0,0,210,19,1,0,0,0,211,212,5,33,0,0,212,213,5,
+        45,0,0,213,214,5,29,0,0,214,215,3,22,11,0,215,216,5,30,0,0,216,21,
+        1,0,0,0,217,218,3,42,21,0,218,219,5,45,0,0,219,221,1,0,0,0,220,217,
+        1,0,0,0,221,222,1,0,0,0,222,220,1,0,0,0,222,223,1,0,0,0,223,23,1,
+        0,0,0,224,225,5,45,0,0,225,226,5,34,0,0,226,227,5,45,0,0,227,25,
+        1,0,0,0,228,229,5,35,0,0,229,230,3,8,4,0,230,231,5,29,0,0,231,235,
+        3,30,15,0,232,233,5,36,0,0,233,234,5,29,0,0,234,236,3,30,15,0,235,
+        232,1,0,0,0,235,236,1,0,0,0,236,237,1,0,0,0,237,238,5,30,0,0,238,
+        27,1,0,0,0,239,240,5,37,0,0,240,241,3,8,4,0,241,242,5,29,0,0,242,
+        243,3,30,15,0,243,244,5,30,0,0,244,29,1,0,0,0,245,247,3,2,1,0,246,
+        245,1,0,0,0,247,248,1,0,0,0,248,246,1,0,0,0,248,249,1,0,0,0,249,
+        31,1,0,0,0,250,251,5,38,0,0,251,252,3,42,21,0,252,253,5,45,0,0,253,
+        255,5,13,0,0,254,256,3,34,17,0,255,254,1,0,0,0,255,256,1,0,0,0,256,
+        257,1,0,0,0,257,258,5,14,0,0,258,259,5,29,0,0,259,260,3,30,15,0,
+        260,261,5,30,0,0,261,33,1,0,0,0,262,267,3,36,18,0,263,264,5,16,0,
+        0,264,266,3,36,18,0,265,263,1,0,0,0,266,269,1,0,0,0,267,265,1,0,
+        0,0,267,268,1,0,0,0,268,35,1,0,0,0,269,267,1,0,0,0,270,271,3,42,
+        21,0,271,272,5,45,0,0,272,37,1,0,0,0,273,274,5,45,0,0,274,276,5,
+        13,0,0,275,277,3,40,20,0,276,275,1,0,0,0,276,277,1,0,0,0,277,278,
+        1,0,0,0,278,279,5,14,0,0,279,39,1,0,0,0,280,285,3,4,2,0,281,282,
+        5,16,0,0,282,284,3,4,2,0,283,281,1,0,0,0,284,287,1,0,0,0,285,283,
+        1,0,0,0,285,286,1,0,0,0,286,41,1,0,0,0,287,285,1,0,0,0,288,289,7,
+        1,0,0,289,43,1,0,0,0,21,48,50,82,93,110,124,126,135,148,159,161,
+        188,199,207,222,235,248,255,267,276,285
     ]
 
 class GeraltParser ( Parser ):
@@ -131,7 +133,7 @@ class GeraltParser ( Parser ):
                      "'publiczne'", "'prywatne'", "'struktura'", "'.'", 
                      "'je\\u017Celi'", "'w_przeciwnym_wypadku'", "'dop\\u00F3ki'", 
                      "'zakl\\u0119cie'", "'Wilk'", "'Kot'", "'Gryf'", "'Nied\\u017Awied\\u017A'", 
-                     "'Mantikora'" ]
+                     "'Mantikora'", "'auto'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -144,7 +146,8 @@ class GeraltParser ( Parser ):
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "ID", "INT", "FLOAT", "COMMENT", "WHITE_SPACE", "STRING" ]
+                      "<INVALID>", "ID", "INT", "FLOAT", "COMMENT", "WHITE_SPACE", 
+                      "STRING" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -153,25 +156,28 @@ class GeraltParser ( Parser ):
     RULE_booleanExpr = 4
     RULE_comparisonExpr = 5
     RULE_classDecl = 6
-    RULE_classField = 7
-    RULE_structDecl = 8
-    RULE_structFields = 9
-    RULE_structAccess = 10
-    RULE_jezeliBlock = 11
-    RULE_dopokiBlock = 12
-    RULE_block = 13
-    RULE_functionDecl = 14
-    RULE_parameters = 15
-    RULE_parameter = 16
-    RULE_functionCall = 17
-    RULE_arguments = 18
-    RULE_type = 19
+    RULE_classBody = 7
+    RULE_classMember = 8
+    RULE_visibility = 9
+    RULE_structDecl = 10
+    RULE_structFields = 11
+    RULE_structAccess = 12
+    RULE_jezeliBlock = 13
+    RULE_dopokiBlock = 14
+    RULE_block = 15
+    RULE_functionDecl = 16
+    RULE_parameters = 17
+    RULE_parameter = 18
+    RULE_functionCall = 19
+    RULE_arguments = 20
+    RULE_type = 21
 
     ruleNames =  [ "program", "statement", "expr", "indexes", "booleanExpr", 
-                   "comparisonExpr", "classDecl", "classField", "structDecl", 
-                   "structFields", "structAccess", "jezeliBlock", "dopokiBlock", 
-                   "block", "functionDecl", "parameters", "parameter", "functionCall", 
-                   "arguments", "type" ]
+                   "comparisonExpr", "classDecl", "classBody", "classMember", 
+                   "visibility", "structDecl", "structFields", "structAccess", 
+                   "jezeliBlock", "dopokiBlock", "block", "functionDecl", 
+                   "parameters", "parameter", "functionCall", "arguments", 
+                   "type" ]
 
     EOF = Token.EOF
     T__0=1
@@ -217,12 +223,13 @@ class GeraltParser ( Parser ):
     T__40=41
     T__41=42
     T__42=43
-    ID=44
-    INT=45
-    FLOAT=46
-    COMMENT=47
-    WHITE_SPACE=48
-    STRING=49
+    T__43=44
+    ID=45
+    INT=46
+    FLOAT=47
+    COMMENT=48
+    WHITE_SPACE=49
+    STRING=50
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -295,33 +302,33 @@ class GeraltParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 44 
+            self.state = 48 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 44
+                self.state = 48
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [33]:
-                    self.state = 40
+                    self.state = 44
                     self.structDecl()
                     pass
                 elif token in [28]:
-                    self.state = 41
+                    self.state = 45
                     self.classDecl()
                     pass
                 elif token in [38]:
-                    self.state = 42
+                    self.state = 46
                     self.functionDecl()
                     pass
                 elif token in [1, 2, 4, 5, 6, 35, 37]:
-                    self.state = 43
+                    self.state = 47
                     self.statement()
                     pass
                 else:
                     raise NoViableAltException(self)
 
-                self.state = 46 
+                self.state = 50 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 455534968950) != 0)):
@@ -703,109 +710,109 @@ class GeraltParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_statement)
         self._la = 0 # Token type
         try:
-            self.state = 89
+            self.state = 93
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,3,self._ctx)
             if la_ == 1:
                 localctx = GeraltParser.ArrayDeclarationContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 48
+                self.state = 52
                 self.match(GeraltParser.T__0)
-                self.state = 49
+                self.state = 53
                 self.type_()
-                self.state = 50
+                self.state = 54
                 self.match(GeraltParser.ID)
-                self.state = 51
+                self.state = 55
                 self.indexes()
                 pass
 
             elif la_ == 2:
                 localctx = GeraltParser.DeclarationContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 53
+                self.state = 57
                 self.match(GeraltParser.T__0)
-                self.state = 54
+                self.state = 58
                 self.type_()
-                self.state = 55
+                self.state = 59
                 self.match(GeraltParser.ID)
                 pass
 
             elif la_ == 3:
                 localctx = GeraltParser.ArrayAssignContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 57
-                self.match(GeraltParser.T__1)
-                self.state = 58
-                self.match(GeraltParser.ID)
-                self.state = 59
-                self.indexes()
-                self.state = 60
-                self.match(GeraltParser.T__2)
                 self.state = 61
+                self.match(GeraltParser.T__1)
+                self.state = 62
+                self.match(GeraltParser.ID)
+                self.state = 63
+                self.indexes()
+                self.state = 64
+                self.match(GeraltParser.T__2)
+                self.state = 65
                 self.expr(0)
                 pass
 
             elif la_ == 4:
                 localctx = GeraltParser.AssignContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 63
+                self.state = 67
                 self.match(GeraltParser.T__1)
-                self.state = 64
+                self.state = 68
                 self.match(GeraltParser.ID)
-                self.state = 65
+                self.state = 69
                 self.match(GeraltParser.T__2)
-                self.state = 66
+                self.state = 70
                 self.expr(0)
                 pass
 
             elif la_ == 5:
                 localctx = GeraltParser.ArrayInputContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 67
+                self.state = 71
                 self.match(GeraltParser.T__3)
-                self.state = 68
+                self.state = 72
                 self.match(GeraltParser.ID)
-                self.state = 69
+                self.state = 73
                 self.indexes()
                 pass
 
             elif la_ == 6:
                 localctx = GeraltParser.InputContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
-                self.state = 70
+                self.state = 74
                 self.match(GeraltParser.T__3)
-                self.state = 71
+                self.state = 75
                 self.match(GeraltParser.ID)
                 pass
 
             elif la_ == 7:
                 localctx = GeraltParser.OutputContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
-                self.state = 72
+                self.state = 76
                 self.match(GeraltParser.T__4)
-                self.state = 73
+                self.state = 77
                 self.expr(0)
                 pass
 
             elif la_ == 8:
                 localctx = GeraltParser.OutputBoolContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
-                self.state = 74
+                self.state = 78
                 self.match(GeraltParser.T__4)
-                self.state = 75
+                self.state = 79
                 self.booleanExpr(0)
                 pass
 
             elif la_ == 9:
                 localctx = GeraltParser.ReturnStatementContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
-                self.state = 76
+                self.state = 80
                 self.match(GeraltParser.T__5)
-                self.state = 78
+                self.state = 82
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 686095255746560) != 0):
-                    self.state = 77
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 1372190511478784) != 0):
+                    self.state = 81
                     self.expr(0)
 
 
@@ -814,36 +821,36 @@ class GeraltParser ( Parser ):
             elif la_ == 10:
                 localctx = GeraltParser.IfStatementContext(self, localctx)
                 self.enterOuterAlt(localctx, 10)
-                self.state = 80
+                self.state = 84
                 self.jezeliBlock()
                 pass
 
             elif la_ == 11:
                 localctx = GeraltParser.WhileStatementContext(self, localctx)
                 self.enterOuterAlt(localctx, 11)
-                self.state = 81
+                self.state = 85
                 self.dopokiBlock()
                 pass
 
             elif la_ == 12:
                 localctx = GeraltParser.StructAsignContext(self, localctx)
                 self.enterOuterAlt(localctx, 12)
-                self.state = 82
+                self.state = 86
                 self.match(GeraltParser.T__1)
-                self.state = 83
+                self.state = 87
                 self.structAccess()
-                self.state = 84
+                self.state = 88
                 self.match(GeraltParser.T__2)
-                self.state = 85
+                self.state = 89
                 self.expr(0)
                 pass
 
             elif la_ == 13:
                 localctx = GeraltParser.StructFieldPrintContext(self, localctx)
                 self.enterOuterAlt(localctx, 13)
-                self.state = 87
+                self.state = 91
                 self.match(GeraltParser.T__4)
-                self.state = 88
+                self.state = 92
                 self.structAccess()
                 pass
 
@@ -1237,7 +1244,7 @@ class GeraltParser ( Parser ):
         self.enterRecursionRule(localctx, 4, self.RULE_expr, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 106
+            self.state = 110
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,4,self._ctx)
             if la_ == 1:
@@ -1245,7 +1252,7 @@ class GeraltParser ( Parser ):
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 92
+                self.state = 96
                 self.match(GeraltParser.INT)
                 pass
 
@@ -1253,7 +1260,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.FloatContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 93
+                self.state = 97
                 self.match(GeraltParser.FLOAT)
                 pass
 
@@ -1261,9 +1268,9 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.ArrayAccessContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 94
+                self.state = 98
                 self.match(GeraltParser.ID)
-                self.state = 95
+                self.state = 99
                 self.indexes()
                 pass
 
@@ -1271,7 +1278,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.VarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 96
+                self.state = 100
                 self.match(GeraltParser.ID)
                 pass
 
@@ -1279,7 +1286,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.StringContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 97
+                self.state = 101
                 self.match(GeraltParser.STRING)
                 pass
 
@@ -1287,7 +1294,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.FunctionCallNumContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 98
+                self.state = 102
                 self.functionCall()
                 pass
 
@@ -1295,7 +1302,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.ExprTrueContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 99
+                self.state = 103
                 self.match(GeraltParser.T__10)
                 pass
 
@@ -1303,7 +1310,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.ExprFalseContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 100
+                self.state = 104
                 self.match(GeraltParser.T__11)
                 pass
 
@@ -1311,11 +1318,11 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.ParenthesisContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 101
+                self.state = 105
                 self.match(GeraltParser.T__12)
-                self.state = 102
+                self.state = 106
                 self.expr(0)
-                self.state = 103
+                self.state = 107
                 self.match(GeraltParser.T__13)
                 pass
 
@@ -1323,13 +1330,13 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.StructAccessExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 105
+                self.state = 109
                 self.structAccess()
                 pass
 
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 122
+            self.state = 126
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,6,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1337,63 +1344,63 @@ class GeraltParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 120
+                    self.state = 124
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
                     if la_ == 1:
                         localctx = GeraltParser.SubtractionContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 108
+                        self.state = 112
                         if not self.precpred(self._ctx, 14):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 14)")
-                        self.state = 109
+                        self.state = 113
                         self.match(GeraltParser.T__6)
-                        self.state = 110
+                        self.state = 114
                         self.expr(15)
                         pass
 
                     elif la_ == 2:
                         localctx = GeraltParser.AdditionContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 111
+                        self.state = 115
                         if not self.precpred(self._ctx, 13):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 13)")
-                        self.state = 112
+                        self.state = 116
                         self.match(GeraltParser.T__7)
-                        self.state = 113
+                        self.state = 117
                         self.expr(14)
                         pass
 
                     elif la_ == 3:
                         localctx = GeraltParser.MultiplicationContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 114
+                        self.state = 118
                         if not self.precpred(self._ctx, 12):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 12)")
-                        self.state = 115
+                        self.state = 119
                         self.match(GeraltParser.T__8)
-                        self.state = 116
+                        self.state = 120
                         self.expr(13)
                         pass
 
                     elif la_ == 4:
                         localctx = GeraltParser.DividingContext(self, GeraltParser.ExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 117
+                        self.state = 121
                         if not self.precpred(self._ctx, 11):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 11)")
-                        self.state = 118
+                        self.state = 122
                         self.match(GeraltParser.T__9)
-                        self.state = 119
+                        self.state = 123
                         self.expr(12)
                         pass
 
              
-                self.state = 124
+                self.state = 128
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,6,self._ctx)
 
@@ -1447,23 +1454,23 @@ class GeraltParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 125
+            self.state = 129
             self.match(GeraltParser.T__14)
-            self.state = 126
+            self.state = 130
             self.expr(0)
-            self.state = 131
+            self.state = 135
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==16:
-                self.state = 127
+                self.state = 131
                 self.match(GeraltParser.T__15)
-                self.state = 128
+                self.state = 132
                 self.expr(0)
-                self.state = 133
+                self.state = 137
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 134
+            self.state = 138
             self.match(GeraltParser.T__16)
         except RecognitionException as re:
             localctx.exception = re
@@ -1727,7 +1734,7 @@ class GeraltParser ( Parser ):
         self.enterRecursionRule(localctx, 8, self.RULE_booleanExpr, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 144
+            self.state = 148
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,8,self._ctx)
             if la_ == 1:
@@ -1735,9 +1742,9 @@ class GeraltParser ( Parser ):
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 137
+                self.state = 141
                 self.match(GeraltParser.T__20)
-                self.state = 138
+                self.state = 142
                 self.booleanExpr(6)
                 pass
 
@@ -1745,7 +1752,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.CompareContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 139
+                self.state = 143
                 self.comparisonExpr()
                 pass
 
@@ -1753,7 +1760,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.TrueContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 140
+                self.state = 144
                 self.match(GeraltParser.T__10)
                 pass
 
@@ -1761,7 +1768,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.FalseContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 141
+                self.state = 145
                 self.match(GeraltParser.T__11)
                 pass
 
@@ -1769,7 +1776,7 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.BoolvarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 142
+                self.state = 146
                 self.match(GeraltParser.ID)
                 pass
 
@@ -1777,13 +1784,13 @@ class GeraltParser ( Parser ):
                 localctx = GeraltParser.FunctionCallBoolContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 143
+                self.state = 147
                 self.functionCall()
                 pass
 
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 157
+            self.state = 161
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1791,50 +1798,50 @@ class GeraltParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 155
+                    self.state = 159
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
                     if la_ == 1:
                         localctx = GeraltParser.AndContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 146
+                        self.state = 150
                         if not self.precpred(self._ctx, 9):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
-                        self.state = 147
+                        self.state = 151
                         self.match(GeraltParser.T__17)
-                        self.state = 148
+                        self.state = 152
                         self.booleanExpr(10)
                         pass
 
                     elif la_ == 2:
                         localctx = GeraltParser.OrContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 149
+                        self.state = 153
                         if not self.precpred(self._ctx, 8):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
-                        self.state = 150
+                        self.state = 154
                         self.match(GeraltParser.T__18)
-                        self.state = 151
+                        self.state = 155
                         self.booleanExpr(9)
                         pass
 
                     elif la_ == 3:
                         localctx = GeraltParser.XorContext(self, GeraltParser.BooleanExprContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_booleanExpr)
-                        self.state = 152
+                        self.state = 156
                         if not self.precpred(self._ctx, 7):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
-                        self.state = 153
+                        self.state = 157
                         self.match(GeraltParser.T__19)
-                        self.state = 154
+                        self.state = 158
                         self.booleanExpr(8)
                         pass
 
              
-                self.state = 159
+                self.state = 163
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
 
@@ -2038,72 +2045,72 @@ class GeraltParser ( Parser ):
         localctx = GeraltParser.ComparisonExprContext(self, self._ctx, self.state)
         self.enterRule(localctx, 10, self.RULE_comparisonExpr)
         try:
-            self.state = 184
+            self.state = 188
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,11,self._ctx)
             if la_ == 1:
                 localctx = GeraltParser.LessThanContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 160
+                self.state = 164
                 self.expr(0)
-                self.state = 161
+                self.state = 165
                 self.match(GeraltParser.T__21)
-                self.state = 162
+                self.state = 166
                 self.expr(0)
                 pass
 
             elif la_ == 2:
                 localctx = GeraltParser.LessEqualContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 164
+                self.state = 168
                 self.expr(0)
-                self.state = 165
+                self.state = 169
                 self.match(GeraltParser.T__22)
-                self.state = 166
+                self.state = 170
                 self.expr(0)
                 pass
 
             elif la_ == 3:
                 localctx = GeraltParser.GreaterThanContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 168
+                self.state = 172
                 self.expr(0)
-                self.state = 169
+                self.state = 173
                 self.match(GeraltParser.T__23)
-                self.state = 170
+                self.state = 174
                 self.expr(0)
                 pass
 
             elif la_ == 4:
                 localctx = GeraltParser.GreaterEqualContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 172
+                self.state = 176
                 self.expr(0)
-                self.state = 173
+                self.state = 177
                 self.match(GeraltParser.T__24)
-                self.state = 174
+                self.state = 178
                 self.expr(0)
                 pass
 
             elif la_ == 5:
                 localctx = GeraltParser.EqualContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 176
+                self.state = 180
                 self.expr(0)
-                self.state = 177
+                self.state = 181
                 self.match(GeraltParser.T__25)
-                self.state = 178
+                self.state = 182
                 self.expr(0)
                 pass
 
             elif la_ == 6:
                 localctx = GeraltParser.NotEqualContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
-                self.state = 180
+                self.state = 184
                 self.expr(0)
-                self.state = 181
+                self.state = 185
                 self.match(GeraltParser.T__26)
-                self.state = 182
+                self.state = 186
                 self.expr(0)
                 pass
 
@@ -2127,11 +2134,8 @@ class GeraltParser ( Parser ):
         def ID(self):
             return self.getToken(GeraltParser.ID, 0)
 
-        def classField(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(GeraltParser.ClassFieldContext)
-            else:
-                return self.getTypedRuleContext(GeraltParser.ClassFieldContext,i)
+        def classBody(self):
+            return self.getTypedRuleContext(GeraltParser.ClassBodyContext,0)
 
 
         def getRuleIndex(self):
@@ -2158,27 +2162,16 @@ class GeraltParser ( Parser ):
 
         localctx = GeraltParser.ClassDeclContext(self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_classDecl)
-        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 186
+            self.state = 190
             self.match(GeraltParser.T__27)
-            self.state = 187
+            self.state = 191
             self.match(GeraltParser.ID)
-            self.state = 188
+            self.state = 192
             self.match(GeraltParser.T__28)
-            self.state = 190 
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while True:
-                self.state = 189
-                self.classField()
-                self.state = 192 
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                if not (_la==31 or _la==32):
-                    break
-
+            self.state = 193
+            self.classBody()
             self.state = 194
             self.match(GeraltParser.T__29)
         except RecognitionException as re:
@@ -2190,7 +2183,143 @@ class GeraltParser ( Parser ):
         return localctx
 
 
-    class ClassFieldContext(ParserRuleContext):
+    class ClassBodyContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def classMember(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(GeraltParser.ClassMemberContext)
+            else:
+                return self.getTypedRuleContext(GeraltParser.ClassMemberContext,i)
+
+
+        def getRuleIndex(self):
+            return GeraltParser.RULE_classBody
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterClassBody" ):
+                listener.enterClassBody(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitClassBody" ):
+                listener.exitClassBody(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassBody" ):
+                return visitor.visitClassBody(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def classBody(self):
+
+        localctx = GeraltParser.ClassBodyContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 14, self.RULE_classBody)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 199
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 281320357888) != 0):
+                self.state = 196
+                self.classMember()
+                self.state = 201
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ClassMemberContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def visibility(self):
+            return self.getTypedRuleContext(GeraltParser.VisibilityContext,0)
+
+
+        def type_(self):
+            return self.getTypedRuleContext(GeraltParser.TypeContext,0)
+
+
+        def ID(self):
+            return self.getToken(GeraltParser.ID, 0)
+
+        def functionDecl(self):
+            return self.getTypedRuleContext(GeraltParser.FunctionDeclContext,0)
+
+
+        def getRuleIndex(self):
+            return GeraltParser.RULE_classMember
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterClassMember" ):
+                listener.enterClassMember(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitClassMember" ):
+                listener.exitClassMember(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassMember" ):
+                return visitor.visitClassMember(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def classMember(self):
+
+        localctx = GeraltParser.ClassMemberContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 16, self.RULE_classMember)
+        try:
+            self.state = 207
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [31, 32]:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 202
+                self.visibility()
+                self.state = 203
+                self.type_()
+                self.state = 204
+                self.match(GeraltParser.ID)
+                pass
+            elif token in [38]:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 206
+                self.functionDecl()
+                pass
+            else:
+                raise NoViableAltException(self)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class VisibilityContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -2199,100 +2328,39 @@ class GeraltParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return GeraltParser.RULE_classField
-
-     
-        def copyFrom(self, ctx:ParserRuleContext):
-            super().copyFrom(ctx)
-
-
-
-    class PrivateFieldContext(ClassFieldContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a GeraltParser.ClassFieldContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def type_(self):
-            return self.getTypedRuleContext(GeraltParser.TypeContext,0)
-
-        def ID(self):
-            return self.getToken(GeraltParser.ID, 0)
+            return GeraltParser.RULE_visibility
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrivateField" ):
-                listener.enterPrivateField(self)
+            if hasattr( listener, "enterVisibility" ):
+                listener.enterVisibility(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrivateField" ):
-                listener.exitPrivateField(self)
+            if hasattr( listener, "exitVisibility" ):
+                listener.exitVisibility(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitPrivateField" ):
-                return visitor.visitPrivateField(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-    class PublicFieldContext(ClassFieldContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a GeraltParser.ClassFieldContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def type_(self):
-            return self.getTypedRuleContext(GeraltParser.TypeContext,0)
-
-        def ID(self):
-            return self.getToken(GeraltParser.ID, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPublicField" ):
-                listener.enterPublicField(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPublicField" ):
-                listener.exitPublicField(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitPublicField" ):
-                return visitor.visitPublicField(self)
+            if hasattr( visitor, "visitVisibility" ):
+                return visitor.visitVisibility(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
-    def classField(self):
 
-        localctx = GeraltParser.ClassFieldContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_classField)
+    def visibility(self):
+
+        localctx = GeraltParser.VisibilityContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 18, self.RULE_visibility)
+        self._la = 0 # Token type
         try:
-            self.state = 204
-            self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [31]:
-                localctx = GeraltParser.PublicFieldContext(self, localctx)
-                self.enterOuterAlt(localctx, 1)
-                self.state = 196
-                self.match(GeraltParser.T__30)
-                self.state = 197
-                self.type_()
-                self.state = 198
-                self.match(GeraltParser.ID)
-                pass
-            elif token in [32]:
-                localctx = GeraltParser.PrivateFieldContext(self, localctx)
-                self.enterOuterAlt(localctx, 2)
-                self.state = 200
-                self.match(GeraltParser.T__31)
-                self.state = 201
-                self.type_()
-                self.state = 202
-                self.match(GeraltParser.ID)
-                pass
+            self.enterOuterAlt(localctx, 1)
+            self.state = 209
+            _la = self._input.LA(1)
+            if not(_la==31 or _la==32):
+                self._errHandler.recoverInline(self)
             else:
-                raise NoViableAltException(self)
-
+                self._errHandler.reportMatch(self)
+                self.consume()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2339,18 +2407,18 @@ class GeraltParser ( Parser ):
     def structDecl(self):
 
         localctx = GeraltParser.StructDeclContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_structDecl)
+        self.enterRule(localctx, 20, self.RULE_structDecl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 206
+            self.state = 211
             self.match(GeraltParser.T__32)
-            self.state = 207
+            self.state = 212
             self.match(GeraltParser.ID)
-            self.state = 208
+            self.state = 213
             self.match(GeraltParser.T__28)
-            self.state = 209
+            self.state = 214
             self.structFields()
-            self.state = 210
+            self.state = 215
             self.match(GeraltParser.T__29)
         except RecognitionException as re:
             localctx.exception = re
@@ -2404,22 +2472,22 @@ class GeraltParser ( Parser ):
     def structFields(self):
 
         localctx = GeraltParser.StructFieldsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_structFields)
+        self.enterRule(localctx, 22, self.RULE_structFields)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 215 
+            self.state = 220 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 212
+                self.state = 217
                 self.type_()
-                self.state = 213
+                self.state = 218
                 self.match(GeraltParser.ID)
-                self.state = 217 
+                self.state = 222 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 34634616274944) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 69818988363776) != 0)):
                     break
 
         except RecognitionException as re:
@@ -2479,15 +2547,15 @@ class GeraltParser ( Parser ):
     def structAccess(self):
 
         localctx = GeraltParser.StructAccessContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 20, self.RULE_structAccess)
+        self.enterRule(localctx, 24, self.RULE_structAccess)
         try:
             localctx = GeraltParser.StructFieldAccessContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 219
+            self.state = 224
             self.match(GeraltParser.ID)
-            self.state = 220
+            self.state = 225
             self.match(GeraltParser.T__33)
-            self.state = 221
+            self.state = 226
             self.match(GeraltParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -2539,31 +2607,31 @@ class GeraltParser ( Parser ):
     def jezeliBlock(self):
 
         localctx = GeraltParser.JezeliBlockContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 22, self.RULE_jezeliBlock)
+        self.enterRule(localctx, 26, self.RULE_jezeliBlock)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 223
+            self.state = 228
             self.match(GeraltParser.T__34)
-            self.state = 224
+            self.state = 229
             self.booleanExpr(0)
-            self.state = 225
-            self.match(GeraltParser.T__28)
-            self.state = 226
-            self.block()
             self.state = 230
+            self.match(GeraltParser.T__28)
+            self.state = 231
+            self.block()
+            self.state = 235
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==36:
-                self.state = 227
+                self.state = 232
                 self.match(GeraltParser.T__35)
-                self.state = 228
+                self.state = 233
                 self.match(GeraltParser.T__28)
-                self.state = 229
+                self.state = 234
                 self.block()
 
 
-            self.state = 232
+            self.state = 237
             self.match(GeraltParser.T__29)
         except RecognitionException as re:
             localctx.exception = re
@@ -2612,18 +2680,18 @@ class GeraltParser ( Parser ):
     def dopokiBlock(self):
 
         localctx = GeraltParser.DopokiBlockContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 24, self.RULE_dopokiBlock)
+        self.enterRule(localctx, 28, self.RULE_dopokiBlock)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 234
+            self.state = 239
             self.match(GeraltParser.T__36)
-            self.state = 235
+            self.state = 240
             self.booleanExpr(0)
-            self.state = 236
+            self.state = 241
             self.match(GeraltParser.T__28)
-            self.state = 237
+            self.state = 242
             self.block()
-            self.state = 238
+            self.state = 243
             self.match(GeraltParser.T__29)
         except RecognitionException as re:
             localctx.exception = re
@@ -2671,17 +2739,17 @@ class GeraltParser ( Parser ):
     def block(self):
 
         localctx = GeraltParser.BlockContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_block)
+        self.enterRule(localctx, 30, self.RULE_block)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 241 
+            self.state = 246 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 240
+                self.state = 245
                 self.statement()
-                self.state = 243 
+                self.state = 248 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 171798691958) != 0)):
@@ -2741,33 +2809,33 @@ class GeraltParser ( Parser ):
     def functionDecl(self):
 
         localctx = GeraltParser.FunctionDeclContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 28, self.RULE_functionDecl)
+        self.enterRule(localctx, 32, self.RULE_functionDecl)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 245
-            self.match(GeraltParser.T__37)
-            self.state = 246
-            self.type_()
-            self.state = 247
-            self.match(GeraltParser.ID)
-            self.state = 248
-            self.match(GeraltParser.T__12)
             self.state = 250
+            self.match(GeraltParser.T__37)
+            self.state = 251
+            self.type_()
+            self.state = 252
+            self.match(GeraltParser.ID)
+            self.state = 253
+            self.match(GeraltParser.T__12)
+            self.state = 255
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 34634616274944) != 0):
-                self.state = 249
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 69818988363776) != 0):
+                self.state = 254
                 self.parameters()
 
 
-            self.state = 252
+            self.state = 257
             self.match(GeraltParser.T__13)
-            self.state = 253
+            self.state = 258
             self.match(GeraltParser.T__28)
-            self.state = 254
+            self.state = 259
             self.block()
-            self.state = 255
+            self.state = 260
             self.match(GeraltParser.T__29)
         except RecognitionException as re:
             localctx.exception = re
@@ -2815,21 +2883,21 @@ class GeraltParser ( Parser ):
     def parameters(self):
 
         localctx = GeraltParser.ParametersContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_parameters)
+        self.enterRule(localctx, 34, self.RULE_parameters)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 257
-            self.parameter()
             self.state = 262
+            self.parameter()
+            self.state = 267
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==16:
-                self.state = 258
+                self.state = 263
                 self.match(GeraltParser.T__15)
-                self.state = 259
-                self.parameter()
                 self.state = 264
+                self.parameter()
+                self.state = 269
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2879,12 +2947,12 @@ class GeraltParser ( Parser ):
     def parameter(self):
 
         localctx = GeraltParser.ParameterContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_parameter)
+        self.enterRule(localctx, 36, self.RULE_parameter)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 265
+            self.state = 270
             self.type_()
-            self.state = 266
+            self.state = 271
             self.match(GeraltParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -2932,23 +3000,23 @@ class GeraltParser ( Parser ):
     def functionCall(self):
 
         localctx = GeraltParser.FunctionCallContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 34, self.RULE_functionCall)
+        self.enterRule(localctx, 38, self.RULE_functionCall)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 268
+            self.state = 273
             self.match(GeraltParser.ID)
-            self.state = 269
+            self.state = 274
             self.match(GeraltParser.T__12)
-            self.state = 271
+            self.state = 276
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 686095255746560) != 0):
-                self.state = 270
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 1372190511478784) != 0):
+                self.state = 275
                 self.arguments()
 
 
-            self.state = 273
+            self.state = 278
             self.match(GeraltParser.T__13)
         except RecognitionException as re:
             localctx.exception = re
@@ -2996,21 +3064,21 @@ class GeraltParser ( Parser ):
     def arguments(self):
 
         localctx = GeraltParser.ArgumentsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 36, self.RULE_arguments)
+        self.enterRule(localctx, 40, self.RULE_arguments)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 275
-            self.expr(0)
             self.state = 280
+            self.expr(0)
+            self.state = 285
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==16:
-                self.state = 276
+                self.state = 281
                 self.match(GeraltParser.T__15)
-                self.state = 277
-                self.expr(0)
                 self.state = 282
+                self.expr(0)
+                self.state = 287
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -3056,13 +3124,13 @@ class GeraltParser ( Parser ):
     def type_(self):
 
         localctx = GeraltParser.TypeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 38, self.RULE_type)
+        self.enterRule(localctx, 42, self.RULE_type)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 283
+            self.state = 288
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 34634616274944) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 69818988363776) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
